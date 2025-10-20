@@ -5,28 +5,6 @@
 
 ---
 
-## 📁 Структура репозиторію
-
-odoo_school/
-│
-├── hr_hospital/
-│ ├── models/
-│ ├── views/
-│ ├── data/
-│ ├── demo/
-│ ├── security/
-│ └── manifest.py
-│
-├── temp/
-│ ├── ...
-│ └── ...
-│
-└── README.md
-
-yaml
-Копіювати код
-
----
 
 ## 🏥 hr_hospital
 Перша курсова робота — модуль для автоматизації лікарні.
