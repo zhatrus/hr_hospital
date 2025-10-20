@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Disease 1: Influenza -->
+        <record id="disease_influenza" model="hr.hospital.disease">
+            <field name="name">Influenza</field>
+            <field name="code">J11</field>
+            <field name="description">Influenza, commonly known as the flu, is an infectious disease caused by influenza viruses.</field>
+        </record>
+
+        <!-- Disease 2: Hypertension -->
+        <record id="disease_hypertension" model="hr.hospital.disease">
+            <field name="name">Hypertension</field>
+            <field name="code">I10</field>
+            <field name="description">Hypertension, also known as high blood pressure, is a long-term medical condition.</field>
+        </record>
+
+        <!-- Disease 3: Diabetes Type 2 -->
+        <record id="disease_diabetes_type2" model="hr.hospital.disease">
+            <field name="name">Diabetes Type 2</field>
+            <field name="code">E11</field>
+            <field name="description">Type 2 diabetes is a chronic condition that affects the way the body processes blood sugar.</field>
+        </record>
+    </data>
+</odoo>

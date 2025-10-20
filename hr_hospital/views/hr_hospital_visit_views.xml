@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Visit Tree View -->
+    <record id="hr_hospital_visit_view_tree" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.view.tree</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="visit_date"/>
+                <field name="disease_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Visit Form View -->
+    <record id="hr_hospital_visit_view_form" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.view.form</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="doctor_id"/>
+                        </group>
+                        <group>
+                            <field name="visit_date"/>
+                            <field name="disease_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="diagnosis"/>
+                    </group>
+                    <group>
+                        <field name="prescription"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Visit Action -->
+    <record id="hr_hospital_visit_action" model="ir.actions.act_window">
+        <field name="name">Visits</field>
+        <field name="res_model">hr.hospital.visit</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
