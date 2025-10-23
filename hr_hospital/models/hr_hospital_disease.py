@@ -22,6 +22,7 @@ class HrHospitalDisease(models.Model):
         string='Visits',
     )
 
+
 class HrHospitalDisease(models.Model):
     _name = 'hr.hospital.disease'
     _description = 'Hospital Disease'
