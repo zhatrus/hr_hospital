@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
         <!-- Doctor 1: Senior Doctor (Mentor) -->
         <record id="doctor_demo_1" model="hr.hospital.doctor">
             <field name="name">Dr. John Smith</field>
@@ -28,5 +27,4 @@
             <field name="is_intern" eval="True"/>
             <field name="mentor_id" ref="doctor_demo_1"/>
         </record>
-    </data>
 </odoo>

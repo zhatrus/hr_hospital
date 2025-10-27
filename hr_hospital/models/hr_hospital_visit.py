@@ -20,16 +20,16 @@ class HrHospitalVisit(models.Model):
         string='Disease',
     )
     visit_date = fields.Datetime(
-        string='Visit Date',
+        string='Date Visit',
         default=fields.Datetime.now,
         required=True,
     )
     notes = fields.Text(
-        string='Notes',
+        string='Notes Visit',
     )
     diagnosis = fields.Text(
-        string='Diagnosis',
+        string='Diagnosis Visit',
     )
     prescription = fields.Text(
-        string='Prescription',
+        string='Prescription Visit',
     )

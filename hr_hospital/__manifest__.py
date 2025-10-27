@@ -3,7 +3,6 @@
     'version': '17.0.1.0.0',
     'category': 'Healthcare',
     'summary': 'Hospital management system for doctors and patients',
-    'description': 'A simple hospital management system.',
     'author': 'Khatrus Zakhar',
     'website': 'https://github.com/zhatrus/hr_hospital',
     'license': 'LGPL-3',

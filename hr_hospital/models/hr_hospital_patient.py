@@ -13,7 +13,7 @@ class HrHospitalPatient(models.Model):
         string='Date of Birth',
     )
     age = fields.Integer(
-        string='Age',
+        string='Age Patient',
         compute='_compute_age',
         store=True,
     )
@@ -23,16 +23,16 @@ class HrHospitalPatient(models.Model):
             ('female', 'Female'),
             ('other', 'Other'),
         ],
-        string='Gender',
+        string='Gender Patient',
     )
     phone = fields.Char(
-        string='Phone',
+        string='Phone Patient',
     )
     email = fields.Char(
-        string='Email',
+        string='Email Patient',
     )
     address = fields.Text(
-        string='Address',
+        string='Address Patient',
     )
     doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',

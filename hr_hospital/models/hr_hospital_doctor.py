@@ -10,16 +10,16 @@ class HrHospitalDoctor(models.Model):
         required=True,
     )
     specialization = fields.Char(
-        string='Specialization',
+        string='Specialization Doctor',
     )
     phone = fields.Char(
-        string='Phone',
+        string='Phone Doctor',
     )
     email = fields.Char(
-        string='Email',
+        string='Email Doctor',
     )
     is_intern = fields.Boolean(
-        string='Is Intern',
+        string='Is Intern Doctor',
         default=False,
     )
     mentor_id = fields.Many2one(

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
         <!-- Patient 1 -->
         <record id="patient_demo_1" model="hr.hospital.patient">
             <field name="name">Alice Williams</field>
@@ -33,5 +32,4 @@
             <field name="address">789 Pine Road, Odesa, Ukraine</field>
             <field name="doctor_id" ref="doctor_demo_1"/>
         </record>
-    </data>
 </odoo>
