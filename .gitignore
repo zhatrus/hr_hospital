@@ -102,3 +102,4 @@ probe/
 *.orig
 media/
 probe/
+.odoo-agent
