@@ -66,7 +66,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__message_needaction
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Потрібна дія"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_contact_person__active
@@ -97,19 +97,19 @@ msgstr "Активності"
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__activity_exception_decoration
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Оформлення винятку активності"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__activity_state
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Стан активності"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__activity_type_icon
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Іконка типу активності"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__actual_date
@@ -231,7 +231,7 @@ msgstr "Затверджено"
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_diagnosis__approved_by_id
 msgid "Approved By"
-msgstr ""
+msgstr "Затверджено"
 
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_contact_person_view_search
@@ -415,7 +415,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:hr.hospital.doctor.specialization,name:hr_hospital.specialization_cardiology
 msgid "Cardiology"
-msgstr ""
+msgstr "Кардіологія"
 
 #. module: hr_hospital
 #: model:hr.hospital.disease,name:hr_hospital.disease_cardiovascular
@@ -448,12 +448,12 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_contact_person__relationship__child
 msgid "Child"
-msgstr ""
+msgstr "Дитина"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_disease__child_ids
 msgid "Child Diseases"
-msgstr ""
+msgstr "Дочірні хвороби"
 
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.patient_card_export_wizard_view_form
@@ -513,7 +513,7 @@ msgstr "Налаштування"
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_doctor_view_form
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
 msgid "Contact Information"
-msgstr ""
+msgstr "Контактна інформація"
 
 #. module: hr_hospital
 #: model:ir.actions.act_window,name:hr_hospital.hr_hospital_contact_person_action
@@ -549,7 +549,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_disease_report_wizard__country_ids
 msgid "Countries"
-msgstr ""
+msgstr "Країни"
 
 #. module: hr_hospital
 #: model:ir.model.fields,help:hr_hospital.field_hr_hospital_disease__region_ids
@@ -560,7 +560,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_doctor_view_search_extended
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_search_extended
 msgid "Country"
-msgstr ""
+msgstr "Країна"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_abstract_person__country_id
@@ -664,7 +664,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_reschedule_visit_wizard__current_doctor_id
 msgid "Current Doctor"
-msgstr ""
+msgstr "Поточний лікар"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_reschedule_visit_wizard__visit_id
@@ -702,7 +702,7 @@ msgstr "Рівень небезпеки"
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_search_extended
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_disease_report_wizard__date_from
@@ -912,7 +912,7 @@ msgstr ""
 #: model:ir.ui.menu,name:hr_hospital.menu_disease_report_wizard
 #: model_terms:ir.ui.view,arch_db:hr_hospital.disease_report_wizard_view_form
 msgid "Disease Report"
-msgstr ""
+msgstr "Звіт про хвороби"
 
 #. module: hr_hospital
 #: model:ir.model,name:hr_hospital.model_disease_report_wizard
@@ -974,7 +974,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_patient_card_export_wizard__display_name
 #: model:ir.model.fields,field_description:hr_hospital.field_reschedule_visit_wizard__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Назва"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__doctor_id
@@ -1017,7 +1017,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model,name:hr_hospital.model_hr_hospital_doctor_specialization
 msgid "Doctor Specialization"
-msgstr ""
+msgstr "Спеціалізація лікаря"
 
 #. module: hr_hospital
 #: model:ir.model,name:hr_hospital.model_hr_hospital_doctor_schedule
@@ -1261,7 +1261,7 @@ msgstr ""
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.disease_report_wizard_view_form
 msgid "Filters"
-msgstr ""
+msgstr "Фільтри"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_abstract_person__first_name
@@ -1298,12 +1298,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__friday
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_doctor_schedule__day_of_week__4
 msgid "Friday"
-msgstr ""
+msgstr "П'ятниця"
 
 #. module: hr_hospital
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_contact_person__relationship__friend
 msgid "Friend"
-msgstr ""
+msgstr "Друг"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_abstract_person__full_name
@@ -1325,7 +1325,7 @@ msgstr "Стать"
 #. module: hr_hospital
 #: model:hr.hospital.doctor.specialization,name:hr_hospital.specialization_general
 msgid "General Practice"
-msgstr ""
+msgstr "Загальна практика"
 
 #. module: hr_hospital
 #: model:ir.actions.act_window,name:hr_hospital.doctor_schedule_wizard_action
@@ -1342,7 +1342,7 @@ msgstr "Створити звіт"
 #: model:ir.ui.menu,name:hr_hospital.menu_doctor_schedule_wizard
 #: model_terms:ir.ui.view,arch_db:hr_hospital.doctor_schedule_wizard_view_form
 msgid "Generate Schedule"
-msgstr ""
+msgstr "Генерувати розклад"
 
 #. module: hr_hospital
 #: model:ir.model.fields,help:hr_hospital.field_doctor_schedule_wizard__friday
@@ -1411,7 +1411,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__has_message
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Має повідомлення"
 
 #. module: hr_hospital
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_disease__danger_level__high
@@ -1498,7 +1498,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_patient_card_export_wizard__id
 #: model:ir.model.fields,field_description:hr_hospital.field_reschedule_visit_wizard__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__activity_exception_icon
@@ -1645,7 +1645,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__message_is_follower
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Є підписником"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_doctor__is_intern
@@ -1816,7 +1816,7 @@ msgstr ""
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
 msgid "Medical Information"
-msgstr ""
+msgstr "Медична інформація"
 
 #. module: hr_hospital
 #: model:hr.hospital.doctor.specialization,description:hr_hospital.specialization_pediatrics
@@ -1899,7 +1899,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__monday
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_doctor_schedule__day_of_week__0
 msgid "Monday"
-msgstr ""
+msgstr "Понеділок"
 
 #. module: hr_hospital
 #: model:hr.hospital.contact.person,notes:hr_hospital.contact_person_demo_2
@@ -1930,7 +1930,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:hr.hospital.doctor.specialization,name:hr_hospital.specialization_neurology
 msgid "Neurology"
-msgstr ""
+msgstr "Неврологія"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_reschedule_visit_wizard__new_date
@@ -2162,13 +2162,13 @@ msgstr "Інша"
 #. module: hr_hospital
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_contact_person__relationship__parent
 msgid "Parent"
-msgstr ""
+msgstr "Батько/Мати"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_disease__parent_id
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_disease_view_search
 msgid "Parent Disease"
-msgstr ""
+msgstr "Батьківська хвороба"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_disease__parent_path
@@ -2288,7 +2288,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:hr.hospital.doctor.specialization,name:hr_hospital.specialization_pediatrics
 msgid "Pediatrics"
-msgstr ""
+msgstr "Педіатрія"
 
 #. module: hr_hospital
 #: model:hr.hospital.patient,allergies:hr_hospital.patient_demo_1
@@ -2310,7 +2310,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_doctor_view_form
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
 msgid "Personal Information"
-msgstr ""
+msgstr "Особиста інформація"
 
 #. module: hr_hospital
 #. odoo-python
@@ -2479,7 +2479,7 @@ msgstr "Рекомендації"
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_disease__region_ids
 msgid "Regions"
-msgstr ""
+msgstr "Регіони"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_contact_person__patient_id
@@ -2515,7 +2515,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_disease_report_wizard__report_type
 msgid "Report Type"
-msgstr ""
+msgstr "Тип звіту"
 
 #. module: hr_hospital
 #: model:ir.ui.menu,name:hr_hospital.hr_hospital_menu_reports
@@ -2547,7 +2547,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__activity_user_id
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Відповідальний користувач"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__message_has_sms_error
@@ -2559,7 +2559,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__saturday
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_doctor_schedule__day_of_week__5
 msgid "Saturday"
-msgstr ""
+msgstr "Субота"
 
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_form
@@ -2640,7 +2640,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_contact_person__relationship__sibling
 msgid "Sibling"
-msgstr ""
+msgstr "Брат/Сестра"
 
 #. module: hr_hospital
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_doctor_schedule__schedule_type__sick_leave
@@ -2700,7 +2700,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_contact_person__relationship__spouse
 msgid "Spouse"
-msgstr ""
+msgstr "Дружина/Чоловік"
 
 #. module: hr_hospital
 #: model:ir.model.fields.selection,name:hr_hospital.selection__doctor_schedule_wizard__schedule_type__standard
@@ -2777,12 +2777,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__sunday
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_doctor_schedule__day_of_week__6
 msgid "Sunday"
-msgstr ""
+msgstr "Неділя"
 
 #. module: hr_hospital
 #: model:hr.hospital.doctor.specialization,name:hr_hospital.specialization_surgery
 msgid "Surgery"
-msgstr ""
+msgstr "Хірургія"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_disease__symptoms
@@ -2803,7 +2803,7 @@ msgstr ""
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_search_extended
 msgid "This Week"
-msgstr ""
+msgstr "Цього тижня"
 
 #. module: hr_hospital
 #. odoo-python
@@ -2830,7 +2830,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__thursday
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_doctor_schedule__day_of_week__3
 msgid "Thursday"
-msgstr ""
+msgstr "Четвер"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__time_from
@@ -2852,7 +2852,7 @@ msgstr ""
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_search_extended
 msgid "Today"
-msgstr ""
+msgstr "Сьогодні"
 
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_disease_view_search
@@ -2868,7 +2868,7 @@ msgstr "Лікування"
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__tuesday
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_doctor_schedule__day_of_week__1
 msgid "Tuesday"
-msgstr ""
+msgstr "Вівторок"
 
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_diagnosis_view_search
@@ -3018,12 +3018,12 @@ msgstr "Візити"
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__wednesday
 #: model:ir.model.fields.selection,name:hr_hospital.selection__hr_hospital_doctor_schedule__day_of_week__2
 msgid "Wednesday"
-msgstr ""
+msgstr "Середа"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__week_start
 msgid "Week Start"
-msgstr ""
+msgstr "Початок тижня"
 
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_search_extended
@@ -3146,7 +3146,7 @@ msgstr ""
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.doctor_schedule_wizard_view_form
 msgid "Working Hours"
-msgstr ""
+msgstr "Робочі години"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_doctor__years_of_experience
