@@ -21,6 +21,7 @@ class HrHospitalVisit(models.Model):
         string='Doctor',
         required=True,
         index=True,
+        domain="[('license_number', '!=', False)]",
     )
 
     # Статус візиту

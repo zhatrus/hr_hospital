@@ -15,11 +15,14 @@ class HrHospitalDiagnosis(models.Model):
         required=True,
         ondelete='cascade',
         index=True,
+        domain="[('status', '=', 'completed')]",
     )
     disease_id = fields.Many2one(
         comodel_name='hr.hospital.disease',
         string='Disease',
         required=True,
+        domain="[('is_contagious', '=', True), "
+               "('danger_level', 'in', ['high', 'critical'])]",
         help='Diagnosed disease',
     )
     diagnosis_type = fields.Selection(

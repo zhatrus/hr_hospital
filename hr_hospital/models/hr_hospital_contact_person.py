@@ -41,6 +41,7 @@ class HrHospitalContactPerson(models.Model):
         comodel_name='hr.hospital.patient',
         string='Related Patient',
         ondelete='cascade',
+        domain="[('allergies', '!=', False)]",
         help='Patient this contact person is related to',
     )
     active = fields.Boolean(
