@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Doctor Schedule Wizard Form View -->
+    <record id="doctor_schedule_wizard_view_form" model="ir.ui.view">
+        <field name="name">doctor.schedule.wizard.form</field>
+        <field name="model">doctor.schedule.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Doctor Schedule">
+                <group>
+                    <group string="Doctor and Period">
+                        <field name="doctor_id"/>
+                        <field name="week_start"/>
+                        <field name="weeks_count"/>
+                        <field name="schedule_type"/>
+                    </group>
+                    <group string="Working Hours">
+                        <field name="time_from" widget="float_time"/>
+                        <field name="time_to" widget="float_time"/>
+                        <field name="break_from" widget="float_time"/>
+                        <field name="break_to" widget="float_time"/>
+                    </group>
+                </group>
+                <group string="Working Days">
+                    <group>
+                        <field name="monday"/>
+                        <field name="tuesday"/>
+                        <field name="wednesday"/>
+                        <field name="thursday"/>
+                    </group>
+                    <group>
+                        <field name="friday"/>
+                        <field name="saturday"/>
+                        <field name="sunday"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_schedule" 
+                            string="Generate Schedule" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button string="Cancel" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Doctor Schedule Wizard Action -->
+    <record id="doctor_schedule_wizard_action" model="ir.actions.act_window">
+        <field name="name">Generate Doctor Schedule</field>
+        <field name="res_model">doctor.schedule.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_doctor_schedule_wizard"
+              name="Generate Schedule"
+              parent="hr_hospital_menu_configuration"
+              action="doctor_schedule_wizard_action"
+              sequence="30"/>
+</odoo>

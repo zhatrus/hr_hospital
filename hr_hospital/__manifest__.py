@@ -1,6 +1,6 @@
 {
     'name': 'Hospital Management',
-    'version': '17.0.2.1.1',
+    'version': '17.0.2.3.1',
     'category': 'Healthcare',
     'summary': 'Hospital management system for doctors and patients',
     'author': 'Khatrus Zakhar',
@@ -29,6 +29,7 @@
         'wizard/mass_reassign_doctor_wizard_views.xml',
         'wizard/disease_report_wizard_views.xml',
         'wizard/reschedule_visit_wizard_views.xml',
+        'wizard/doctor_schedule_wizard_views.xml',
     ],
     'demo': [
         'demo/hr_hospital_doctor_specialization_demo.xml',
