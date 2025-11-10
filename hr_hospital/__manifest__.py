@@ -1,6 +1,6 @@
 {
     'name': 'Hospital Management',
-    'version': '17.0.2.3.1',
+    'version': '17.0.3.0.1',
     'category': 'Healthcare',
     'summary': 'Hospital management system for doctors and patients',
     'author': 'Khatrus Zakhar',
