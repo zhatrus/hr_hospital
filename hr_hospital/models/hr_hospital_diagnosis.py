@@ -1,5 +1,5 @@
-from odoo import _, fields, models
-from odoo.exceptions import UserError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 
 class HrHospitalDiagnosis(models.Model):
@@ -77,6 +77,17 @@ class HrHospitalDiagnosis(models.Model):
     active = fields.Boolean(
         default=True,
     )
+
+    @api.constrains('approval_date', 'visit_id')
+    def _check_approval_date(self):
+        """Валідація дати затвердження діагнозу"""
+        for record in self:
+            if record.approval_date and record.visit_id:
+                visit_date = record.visit_id.scheduled_date
+                if visit_date and record.approval_date < visit_date:
+                    raise ValidationError(
+                        _('Approval date cannot be earlier than visit date!')
+                    )
 
     def action_approve(self):
         """Затверджує діагноз поточним лікарем"""

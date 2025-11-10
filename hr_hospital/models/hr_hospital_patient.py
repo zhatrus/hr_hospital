@@ -98,6 +98,21 @@ class HrHospitalPatient(models.Model):
                         _('Passport data cannot exceed 10 characters!')
                     )
 
+    @api.constrains('date_of_birth')
+    def _check_date_of_birth(self):
+        """Валідація віку пацієнта"""
+        for record in self:
+            if record.date_of_birth:
+                if record.date_of_birth > fields.Date.today():
+                    raise ValidationError(
+                        _('Date of birth cannot be in the future!')
+                    )
+                # Перевіряємо що вік більше 0 (народився мінімум вчора)
+                if record.date_of_birth == fields.Date.today():
+                    raise ValidationError(
+                        _('Patient age must be greater than 0!')
+                    )
+
     @api.onchange('doctor_id')
     def _onchange_doctor_id(self):
         """При зміні лікаря, попереджуємо про необхідність

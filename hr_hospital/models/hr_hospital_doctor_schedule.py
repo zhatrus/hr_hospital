@@ -60,6 +60,13 @@ class HrHospitalDoctorSchedule(models.Model):
         default=True,
     )
 
+    # SQL Constraints
+    _sql_constraints = [
+        ('time_check',
+         'CHECK(time_to > time_from)',
+         'End time must be later than start time!'),
+    ]
+
     @api.constrains('date', 'day_of_week')
     def _check_date_or_day(self):
         """Валідація: має бути або date, або day_of_week"""

@@ -1,5 +1,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from dateutil.relativedelta import relativedelta
 
 
 class HrHospitalVisit(models.Model):
@@ -144,3 +145,66 @@ class HrHospitalVisit(models.Model):
                 raise ValidationError(
                     _('Completed visit must have actual date!')
                 )
+
+    @api.constrains('patient_id', 'doctor_id', 'scheduled_date')
+    def _check_duplicate_visit(self):
+        """
+        Заборона запису одного пацієнта до одного лікаря
+        більше разу на день
+        """
+        for record in self:
+            if (record.patient_id and record.doctor_id and
+                    record.scheduled_date):
+                # Отримуємо дату (без часу)
+                visit_date = fields.Date.to_date(record.scheduled_date)
+
+                # Шукаємо інші візити цього пацієнта до цього лікаря в цей день
+                domain = [
+                    ('id', '!=', record.id),
+                    ('patient_id', '=', record.patient_id.id),
+                    ('doctor_id', '=', record.doctor_id.id),
+                    ('scheduled_date', '>=', fields.Datetime.to_string(
+                        fields.Datetime.from_string(visit_date))),
+                    ('scheduled_date', '<', fields.Datetime.to_string(
+                        fields.Datetime.from_string(visit_date) +
+                        relativedelta(days=1))),
+                    ('status', '!=', 'cancelled'),
+                ]
+
+                duplicate = self.search(domain, limit=1)
+                if duplicate:
+                    raise ValidationError(
+                        _('Patient %(patient)s already has a visit '
+                          'scheduled with doctor %(doctor)s on %(date)s!') % {
+                            'patient': record.patient_id.full_name,
+                            'doctor': record.doctor_id.full_name,
+                            'date': visit_date,
+                        }
+                    )
+
+    def write(self, vals):
+        """
+        Заборона зміни лікаря/дати/часу для візитів
+        що вже відбулись
+        """
+        for record in self:
+            if record.status == 'completed':
+                protected_fields = [
+                    'doctor_id', 'scheduled_date', 'patient_id'
+                ]
+                if any(field in vals for field in protected_fields):
+                    raise ValidationError(
+                        _('Cannot change doctor, date or patient '
+                          'for completed visits!')
+                    )
+        return super().write(vals)
+
+    def unlink(self):
+        """Заборона видалення візитів з діагнозами"""
+        for record in self:
+            if record.diagnosis_ids:
+                raise ValidationError(
+                    _('Cannot delete visit with diagnoses! '
+                      'Please remove diagnoses first.')
+                )
+        return super().unlink()

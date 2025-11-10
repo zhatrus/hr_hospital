@@ -94,6 +94,16 @@ class HrHospitalDoctor(models.Model):
         string='Work Schedule',
     )
 
+    # SQL Constraints
+    _sql_constraints = [
+        ('license_number_unique',
+         'UNIQUE(license_number)',
+         'License number must be unique!'),
+        ('rating_check',
+         'CHECK(rating >= 0.00 AND rating <= 5.00)',
+         'Rating must be between 0.00 and 5.00!'),
+    ]
+
     @api.depends('license_issue_date')
     def _compute_years_of_experience(self):
         """Обчислює досвід роботи від дати видачі ліцензії"""
@@ -105,16 +115,6 @@ class HrHospitalDoctor(models.Model):
             else:
                 record.years_of_experience = 0
 
-    @api.constrains('rating')
-    def _check_rating(self):
-        """Валідація рейтингу (0.00 - 5.00)"""
-        for record in self:
-            if record.rating:
-                if record.rating < 0.00 or record.rating > 5.00:
-                    raise ValidationError(
-                        _('Rating must be between 0.00 and 5.00!')
-                    )
-
     @api.constrains('license_issue_date')
     def _check_license_issue_date(self):
         """Валідація дати видачі ліцензії"""
@@ -123,4 +123,34 @@ class HrHospitalDoctor(models.Model):
                 if record.license_issue_date > fields.Date.today():
                     raise ValidationError(
                         _('License issue date cannot be in the future!')
+                    )
+
+    @api.constrains('mentor_id', 'is_intern')
+    def _check_mentor(self):
+        """Валідація вибору ментора"""
+        for record in self:
+            # Інтерн не може бути ментором
+            if record.mentor_id and record.mentor_id.is_intern:
+                raise ValidationError(
+                    _('An intern cannot be a mentor!')
+                )
+            # Лікар не може бути ментором сам собі
+            if record.mentor_id and record.mentor_id.id == record.id:
+                raise ValidationError(
+                    _('A doctor cannot be their own mentor!')
+                )
+
+    @api.constrains('active')
+    def _check_archive_with_active_visits(self):
+        """Заборона архівування лікарів з активними візитами"""
+        for record in self:
+            if not record.active:
+                active_visits = self.env['hr.hospital.visit'].search([
+                    ('doctor_id', '=', record.id),
+                    ('scheduled_date', '>=', fields.Date.today()),
+                ], limit=1)
+                if active_visits:
+                    raise ValidationError(
+                        _('Cannot archive doctor with active visits! '
+                          'Please reassign or cancel visits first.')
                     )
