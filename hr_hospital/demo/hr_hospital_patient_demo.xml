@@ -9,6 +9,10 @@
             <field name="phone">+380671234567</field>
             <field name="email">alice.williams@example.com</field>
             <field name="address">123 Main Street, Kyiv, Ukraine</field>
+            <field name="passport_data">AB1234567</field>
+            <field name="blood_type">a_positive</field>
+            <field name="allergies">Penicillin, Peanuts</field>
+            <field name="insurance_policy_number">INS-2023-001</field>
             <field name="doctor_id" ref="doctor_demo_1"/>
         </record>
 
@@ -21,6 +25,10 @@
             <field name="phone">+380672345678</field>
             <field name="email">robert.davis@example.com</field>
             <field name="address">456 Oak Avenue, Lviv, Ukraine</field>
+            <field name="passport_data">CD9876543</field>
+            <field name="blood_type">o_positive</field>
+            <field name="allergies">None known</field>
+            <field name="insurance_policy_number">INS-2023-002</field>
             <field name="doctor_id" ref="doctor_demo_2"/>
         </record>
 
@@ -33,6 +41,10 @@
             <field name="phone">+380673456789</field>
             <field name="email">emily.martinez@example.com</field>
             <field name="address">789 Pine Road, Odesa, Ukraine</field>
+            <field name="passport_data">EF4567890</field>
+            <field name="blood_type">b_negative</field>
+            <field name="allergies">Lactose, Shellfish</field>
+            <field name="insurance_policy_number">INS-2023-003</field>
             <field name="doctor_id" ref="doctor_demo_1"/>
         </record>
 </odoo>

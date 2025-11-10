@@ -37,19 +37,30 @@
                             <field name="gender"/>
                             <field name="date_of_birth"/>
                             <field name="age" readonly="1"/>
+                            <field name="passport_data"/>
                         </group>
                         <group string="Contact Information">
                             <field name="phone"/>
                             <field name="email"/>
                             <field name="country_id"/>
                             <field name="lang_id"/>
+                            <field name="primary_contact_id"/>
                         </group>
                         <group string="Medical Information">
                             <field name="doctor_id"/>
+                            <field name="blood_type"/>
+                        </group>
+                        <group string="Insurance">
+                            <field name="insurance_company_id"/>
+                            <field name="insurance_policy_number"/>
                         </group>
                     </group>
-                    <group>
-                        <field name="address"/>
+                    <group string="Address">
+                        <field name="address" nolabel="1"/>
+                    </group>
+                    <group string="Allergies">
+                        <field name="allergies" nolabel="1" 
+                               placeholder="List all known allergies..."/>
                     </group>
                     <notebook>
                         <page string="Visits">
@@ -70,6 +81,17 @@
                                     <field name="phone"/>
                                     <field name="email"/>
                                     <field name="is_emergency_contact"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Doctor History">
+                            <field name="doctor_history_ids">
+                                <tree decoration-success="is_current == True">
+                                    <field name="doctor_id"/>
+                                    <field name="assignment_date"/>
+                                    <field name="end_date"/>
+                                    <field name="is_current" invisible="1"/>
+                                    <field name="notes"/>
                                 </tree>
                             </field>
                         </page>
