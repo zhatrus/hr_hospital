@@ -124,10 +124,13 @@ class HrHospitalPatient(models.Model):
                     'hr.hospital.patient.doctor.history'
                 ].search([
                     ('patient_id', '=', record.id),
-                    ('is_current', '=', True),
+                    ('is_active', '=', True),
                 ], limit=1)
                 if current_assignment:
-                    current_assignment.end_date = fields.Date.today()
+                    current_assignment.write({
+                        'change_date': fields.Date.today(),
+                        'is_active': False,
+                    })
 
                 # Створюємо нове призначення якщо є лікар
                 if vals['doctor_id']:
@@ -135,5 +138,6 @@ class HrHospitalPatient(models.Model):
                         'patient_id': record.id,
                         'doctor_id': vals['doctor_id'],
                         'assignment_date': fields.Date.today(),
+                        'is_active': True,
                     })
         return result

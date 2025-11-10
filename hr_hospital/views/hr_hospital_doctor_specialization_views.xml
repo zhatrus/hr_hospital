@@ -6,6 +6,7 @@
         <field name="model">hr.hospital.doctor.specialization</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="code"/>
                 <field name="name"/>
                 <field name="doctor_count"/>
                 <field name="active"/>
@@ -28,8 +29,13 @@
                         </button>
                     </div>
                     <group>
-                        <field name="name"/>
-                        <field name="doctor_count"/>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="doctor_count"/>
+                        </group>
                     </group>
                     <group>
                         <field name="description" placeholder="Description of specialization..."/>

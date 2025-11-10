@@ -90,10 +90,13 @@
                         </page>
                         <page string="Work Schedule">
                             <field name="schedule_ids">
-                                <tree editable="bottom">
+                                <tree editable="bottom" decoration-muted="schedule_type != 'working_day'">
+                                    <field name="date"/>
                                     <field name="day_of_week"/>
+                                    <field name="schedule_type"/>
                                     <field name="time_from" widget="float_time"/>
                                     <field name="time_to" widget="float_time"/>
+                                    <field name="notes"/>
                                     <field name="active"/>
                                 </tree>
                             </field>

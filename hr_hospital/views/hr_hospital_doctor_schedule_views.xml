@@ -5,11 +5,14 @@
         <field name="name">hr.hospital.doctor.schedule.tree</field>
         <field name="model">hr.hospital.doctor.schedule</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-muted="schedule_type != 'working_day'">
                 <field name="doctor_id"/>
+                <field name="date"/>
                 <field name="day_of_week"/>
+                <field name="schedule_type"/>
                 <field name="time_from" widget="float_time"/>
                 <field name="time_to" widget="float_time"/>
+                <field name="notes"/>
                 <field name="active"/>
             </tree>
         </field>
@@ -25,11 +28,14 @@
                     <group>
                         <group>
                             <field name="doctor_id"/>
+                            <field name="schedule_type"/>
+                            <field name="date"/>
                             <field name="day_of_week"/>
                         </group>
                         <group>
                             <field name="time_from" widget="float_time"/>
                             <field name="time_to" widget="float_time"/>
+                            <field name="notes"/>
                             <field name="active"/>
                         </group>
                     </group>

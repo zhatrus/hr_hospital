@@ -25,33 +25,70 @@ class HrHospitalPatientDoctorHistory(models.Model):
         required=True,
         default=fields.Date.context_today,
         index=True,
+        help='Date when doctor was assigned to patient',
     )
+    change_date = fields.Date(
+        help='Date when doctor was changed',
+    )
+    change_reason = fields.Text(
+        help='Reason for changing the doctor',
+    )
+    is_active = fields.Boolean(
+        string='Active',
+        default=True,
+        help='Whether this assignment is currently active',
+    )
+
+    # Backward compatibility
     end_date = fields.Date(
-        help='Date when this doctor assignment ended',
+        compute='_compute_end_date',
+        store=True,
+        help='Date when this doctor assignment ended (computed)',
     )
     is_current = fields.Boolean(
         string='Current Assignment',
         compute='_compute_is_current',
         store=True,
+        help='Whether this is the current assignment (computed)',
     )
     notes = fields.Text(
+        compute='_compute_notes',
+        inverse='_inverse_notes',
+        store=True,
         help='Reason for doctor change or additional notes',
     )
 
-    @api.depends('end_date')
+    @api.depends('change_date')
+    def _compute_end_date(self):
+        """Обчислює end_date з change_date для зворотної сумісності"""
+        for record in self:
+            record.end_date = record.change_date
+
+    @api.depends('is_active', 'change_date')
     def _compute_is_current(self):
         """Визначає чи є призначення поточним"""
         for record in self:
-            record.is_current = not record.end_date
+            record.is_current = record.is_active and not record.change_date
 
-    @api.constrains('assignment_date', 'end_date')
+    @api.depends('change_reason')
+    def _compute_notes(self):
+        """Обчислює notes з change_reason для зворотної сумісності"""
+        for record in self:
+            record.notes = record.change_reason
+
+    def _inverse_notes(self):
+        """Зворотня функція для notes"""
+        for record in self:
+            record.change_reason = record.notes
+
+    @api.constrains('assignment_date', 'change_date')
     def _check_dates(self):
         """Перевірка коректності дат"""
         for record in self:
-            if record.end_date and record.assignment_date:
-                if record.end_date < record.assignment_date:
+            if record.change_date and record.assignment_date:
+                if record.change_date < record.assignment_date:
                     raise ValidationError(
-                        _('End date cannot be earlier than '
+                        _('Change date cannot be earlier than '
                           'assignment date!')
                     )
 
