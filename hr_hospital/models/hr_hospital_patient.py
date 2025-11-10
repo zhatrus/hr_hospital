@@ -17,7 +17,6 @@ class HrHospitalPatient(models.Model):
 
     # Специфічні поля для пацієнта
     address = fields.Text(
-        string='Address',
     )
     doctor_id = fields.Many2one(
         comodel_name='hr.hospital.doctor',

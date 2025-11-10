@@ -17,7 +17,6 @@ class HrHospitalDoctor(models.Model):
 
     # Специфічні поля для лікаря
     specialization = fields.Char(
-        string='Specialization',
     )
     is_intern = fields.Boolean(
         string='Is Intern Doctor',

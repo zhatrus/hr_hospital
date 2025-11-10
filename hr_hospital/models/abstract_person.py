@@ -1,7 +1,8 @@
-from datetime import date
-from odoo import api, fields, models
-from odoo.exceptions import ValidationError
 import re
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class AbstractPerson(models.AbstractModel):
@@ -12,26 +13,21 @@ class AbstractPerson(models.AbstractModel):
 
     # ПІБ (окремі поля)
     last_name = fields.Char(
-        string='Last Name',
         required=True,
         index=True,
     )
     first_name = fields.Char(
-        string='First Name',
         required=True,
         index=True,
     )
     middle_name = fields.Char(
-        string='Middle Name',
     )
 
     # Контактна інформація
     phone = fields.Char(
-        string='Phone',
         help='Phone number in international format',
     )
     email = fields.Char(
-        string='Email',
     )
 
     # Особиста інформація
@@ -41,21 +37,17 @@ class AbstractPerson(models.AbstractModel):
             ('female', 'Female'),
             ('other', 'Other'),
         ],
-        string='Gender',
     )
     date_of_birth = fields.Date(
-        string='Date of Birth',
     )
 
     # Обчислювальні поля
     age = fields.Integer(
-        string='Age',
         compute='_compute_age',
         store=True,
         help='Age calculated from date of birth',
     )
     full_name = fields.Char(
-        string='Full Name',
         compute='_compute_full_name',
         store=True,
         index=True,
@@ -106,8 +98,8 @@ class AbstractPerson(models.AbstractModel):
                 phone_pattern = r'^(\+?\d{1,3})?[\s.-]?\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}$'
                 if not re.match(phone_pattern, record.phone):
                     raise ValidationError(
-                        'Phone number format is invalid. '
-                        'Please use international format like +380123456789 or (123) 456-7890'
+                        _('Phone number format is invalid. '
+                          'Please use international format like +380123456789 or (123) 456-7890')
                     )
 
     @api.constrains('email')
@@ -118,8 +110,8 @@ class AbstractPerson(models.AbstractModel):
                 email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
                 if not re.match(email_pattern, record.email):
                     raise ValidationError(
-                        'Email format is invalid. '
-                        'Please use format like example@domain.com'
+                        _('Email format is invalid. '
+                          'Please use format like example@domain.com')
                     )
 
     @api.constrains('date_of_birth')
@@ -128,8 +120,8 @@ class AbstractPerson(models.AbstractModel):
         for record in self:
             if record.date_of_birth:
                 if record.date_of_birth > date.today():
-                    raise ValidationError('Date of birth cannot be in the future!')
+                    raise ValidationError(_('Date of birth cannot be in the future!'))
                 # Перевірка мінімального віку (наприклад, не менше 0 років)
                 age = (date.today() - record.date_of_birth).days / 365.25
                 if age > 150:
-                    raise ValidationError('Age cannot be more than 150 years!')
+                    raise ValidationError(_('Age cannot be more than 150 years!'))
