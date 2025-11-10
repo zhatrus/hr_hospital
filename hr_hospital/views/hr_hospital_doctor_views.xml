@@ -50,7 +50,7 @@
                             <field name="mentor_id" invisible="not is_intern"/>
                             <field name="rating"/>
                         </group>
-                        <group string="License & Experience">
+                        <group string="License &amp; Experience">
                             <field name="license_number"/>
                             <field name="license_issue_date"/>
                             <field name="years_of_experience" readonly="1"/>
