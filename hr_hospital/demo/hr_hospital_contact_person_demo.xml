@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- Contact Person 1 - Emergency Contact for Patient 1 -->
+        <record id="contact_person_demo_1" model="hr.hospital.contact.person">
+            <field name="last_name">Williams</field>
+            <field name="first_name">Robert</field>
+            <field name="relationship">spouse</field>
+            <field name="phone">+380671234568</field>
+            <field name="email">robert.williams@example.com</field>
+            <field name="gender">male</field>
+            <field name="date_of_birth">1983-08-20</field>
+            <field name="is_emergency_contact" eval="True"/>
+            <field name="patient_id" ref="patient_demo_1"/>
+            <field name="notes">Primary emergency contact. Available 24/7.</field>
+        </record>
+
+        <!-- Contact Person 2 - Parent for Patient 1 -->
+        <record id="contact_person_demo_2" model="hr.hospital.contact.person">
+            <field name="last_name">Williams</field>
+            <field name="first_name">Margaret</field>
+            <field name="relationship">parent</field>
+            <field name="phone">+380671234569</field>
+            <field name="email">margaret.williams@example.com</field>
+            <field name="gender">female</field>
+            <field name="date_of_birth">1955-04-12</field>
+            <field name="is_emergency_contact" eval="False"/>
+            <field name="patient_id" ref="patient_demo_1"/>
+            <field name="notes">Mother. Can be contacted during business hours.</field>
+        </record>
+
+        <!-- Contact Person 3 - Sibling for Patient 2 -->
+        <record id="contact_person_demo_3" model="hr.hospital.contact.person">
+            <field name="last_name">Davis</field>
+            <field name="first_name">Jennifer</field>
+            <field name="relationship">sibling</field>
+            <field name="phone">+380672345679</field>
+            <field name="email">jennifer.davis@example.com</field>
+            <field name="gender">female</field>
+            <field name="date_of_birth">1980-03-15</field>
+            <field name="is_emergency_contact" eval="True"/>
+            <field name="patient_id" ref="patient_demo_2"/>
+            <field name="notes">Sister. Emergency contact.</field>
+        </record>
+
+        <!-- Contact Person 4 - Friend for Patient 3 -->
+        <record id="contact_person_demo_4" model="hr.hospital.contact.person">
+            <field name="last_name">Brown</field>
+            <field name="first_name">Sarah</field>
+            <field name="relationship">friend</field>
+            <field name="phone">+380673456790</field>
+            <field name="email">sarah.brown@example.com</field>
+            <field name="gender">female</field>
+            <field name="date_of_birth">1991-06-22</field>
+            <field name="is_emergency_contact" eval="False"/>
+            <field name="patient_id" ref="patient_demo_3"/>
+            <field name="notes">Close friend. Can help with transportation.</field>
+        </record>
+
+        <!-- Contact Person 5 - Spouse for Patient 3 -->
+        <record id="contact_person_demo_5" model="hr.hospital.contact.person">
+            <field name="last_name">Martinez</field>
+            <field name="first_name">Carlos</field>
+            <field name="relationship">spouse</field>
+            <field name="phone">+380673456791</field>
+            <field name="email">carlos.martinez@example.com</field>
+            <field name="gender">male</field>
+            <field name="date_of_birth">1990-01-10</field>
+            <field name="is_emergency_contact" eval="True"/>
+            <field name="patient_id" ref="patient_demo_3"/>
+            <field name="notes">Husband. Primary emergency contact.</field>
+        </record>
+</odoo>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Contact Person Tree View -->
+    <record id="hr_hospital_contact_person_view_tree" model="ir.ui.view">
+        <field name="name">hr.hospital.contact.person.view.tree</field>
+        <field name="model">hr.hospital.contact.person</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="full_name"/>
+                <field name="relationship"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="is_emergency_contact"/>
+                <field name="patient_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Contact Person Form View -->
+    <record id="hr_hospital_contact_person_view_form" model="ir.ui.view">
+        <field name="name">hr.hospital.contact.person.view.form</field>
+        <field name="model">hr.hospital.contact.person</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="full_name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Personal Information">
+                            <field name="last_name"/>
+                            <field name="first_name"/>
+                            <field name="middle_name"/>
+                            <field name="gender"/>
+                            <field name="date_of_birth"/>
+                            <field name="age" readonly="1"/>
+                        </group>
+                        <group string="Contact Information">
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="country_id"/>
+                            <field name="lang_id"/>
+                        </group>
+                        <group string="Relationship Information">
+                            <field name="patient_id"/>
+                            <field name="relationship"/>
+                            <field name="is_emergency_contact"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Additional notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Contact Person Search View -->
+    <record id="hr_hospital_contact_person_view_search" model="ir.ui.view">
+        <field name="name">hr.hospital.contact.person.view.search</field>
+        <field name="model">hr.hospital.contact.person</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="full_name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="patient_id"/>
+                <separator/>
+                <filter string="Emergency Contacts" name="emergency_contacts"
+                        domain="[('is_emergency_contact', '=', True)]"/>
+                <filter string="Active" name="active"
+                        domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive"
+                        domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Relationship" name="group_relationship"
+                            context="{'group_by': 'relationship'}"/>
+                    <filter string="Patient" name="group_patient"
+                            context="{'group_by': 'patient_id'}"/>
+                    <filter string="Emergency Contact" name="group_emergency"
+                            context="{'group_by': 'is_emergency_contact'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Contact Person Action -->
+    <record id="hr_hospital_contact_person_action" model="ir.actions.act_window">
+        <field name="name">Contact Persons</field>
+        <field name="res_model">hr.hospital.contact.person</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Contact Person
+            </p>
+            <p>
+                Contact persons can be relatives, friends, or emergency contacts for patients.
+            </p>
+        </field>
+    </record>
+</odoo>

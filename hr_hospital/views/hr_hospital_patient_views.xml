@@ -62,6 +62,17 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Contact Persons">
+                            <field name="contact_person_ids">
+                                <tree>
+                                    <field name="full_name"/>
+                                    <field name="relationship"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="is_emergency_contact"/>
+                                </tree>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
