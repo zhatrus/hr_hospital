@@ -12,9 +12,11 @@ class HrHospitalDisease(models.Model):
     name = fields.Char(
         string='Disease Name',
         required=True,
+        translate=True,
     )
     description = fields.Text(
         string='Description Disease',
+        translate=True,
     )
 
     # Ієрархічна структура
@@ -60,6 +62,7 @@ class HrHospitalDisease(models.Model):
     )
     symptoms = fields.Text(
         help='Common symptoms of the disease',
+        translate=True,
     )
 
     # Географія

@@ -78,13 +78,16 @@ class HrHospitalVisit(models.Model):
     )
     notes = fields.Text(
         string='Notes Visit',
+        translate=True,
     )
     diagnosis = fields.Text(
         string='Diagnosis Visit',
         help='Deprecated: use diagnosis_ids instead',
+        translate=True,
     )
     prescription = fields.Text(
         string='Prescription Visit',
+        translate=True,
     )
 
     # Нові поля
@@ -95,6 +98,7 @@ class HrHospitalVisit(models.Model):
     )
     recommendations = fields.Html(
         help='Medical recommendations for the patient',
+        translate=True,
     )
 
     # Поля для динамічних доменів

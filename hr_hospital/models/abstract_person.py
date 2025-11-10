@@ -98,13 +98,13 @@ class AbstractPerson(models.AbstractModel):
                 # Видаляємо всі пробіли, дефіси та дужки для перевірки
                 phone_clean = re.sub(r'[\s\-\(\)]', '', record.phone)
 
-                # Дозволені коди українських мобільних операторів
+                # Дозволені коди українських мобільних операторів (2 цифри)
                 mobile_codes = (
-                    r'(020|039|050|063|066|067|068|073|075|077|089|'
-                    r'091|092|093|094|095|096|097|098|099)'
+                    r'(39|50|63|66|67|68|73|75|77|89|'
+                    r'91|92|93|94|95|96|97|98|99)'
                 )
 
-                # Формати: +380XXXXXXXXX або 0XXXXXXXXX
+                # Формати: +380XXXXXXXXX або 0XXXXXXXXX (2 цифри код + 7 цифр)
                 phone_pattern = (
                     rf'^(\+380{mobile_codes}|0{mobile_codes})\d{{7}}$'
                 )
@@ -114,9 +114,9 @@ class AbstractPerson(models.AbstractModel):
                         _('Phone number format is invalid. '
                           'Please use Ukrainian mobile number format: '
                           '+380XX XXX XX XX or 0XX XXX XX XX. '
-                          'Allowed codes: 020, 039, 050, 063, 066, 067, '
-                          '068, 073, 075, 077, 089, 091, 092, 093, 094, '
-                          '095, 096, 097, 098, 099')
+                          'Allowed codes: 39, 50, 63, 66, 67, '
+                          '68, 73, 75, 77, 89, 91, 92, 93, 94, '
+                          '95, 96, 97, 98, 99')
                     )
 
     @api.constrains('email')

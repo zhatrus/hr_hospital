@@ -36,6 +36,7 @@ class HrHospitalContactPerson(models.Model):
     )
     notes = fields.Text(
         help='Additional information about the contact person',
+        translate=True,
     )
     patient_id = fields.Many2one(
         comodel_name='hr.hospital.patient',

@@ -94,6 +94,12 @@ class HrHospitalDoctor(models.Model):
         string='Work Schedule',
     )
 
+    # Архівація
+    active = fields.Boolean(
+        default=True,
+        help='Uncheck to archive the doctor',
+    )
+
     # SQL Constraints
     _sql_constraints = [
         ('license_number_unique',

@@ -12,7 +12,7 @@
             <field name="license_number">MD-2000-001</field>
             <field name="license_issue_date">2000-06-15</field>
             <field name="rating">4.85</field>
-            <field name="education_country_id" ref="base.us"/>
+            <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="False"/>
         </record>
 
@@ -28,7 +28,7 @@
             <field name="license_number">MD-2005-042</field>
             <field name="license_issue_date">2005-07-20</field>
             <field name="rating">4.92</field>
-            <field name="education_country_id" ref="base.gb"/>
+            <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="False"/>
         </record>
 

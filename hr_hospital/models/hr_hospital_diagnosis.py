@@ -43,10 +43,12 @@ class HrHospitalDiagnosis(models.Model):
     description = fields.Text(
         string='Diagnosis Description',
         help='Additional details about the diagnosis',
+        translate=True,
     )
     treatment = fields.Html(
         string='Prescribed Treatment',
         help='Detailed treatment plan',
+        translate=True,
     )
 
     # Затвердження

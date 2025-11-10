@@ -18,6 +18,7 @@ class HrHospitalPatient(models.Model):
 
     # Базові поля
     address = fields.Text(
+        translate=True,
     )
 
     # Лікарі
@@ -58,6 +59,7 @@ class HrHospitalPatient(models.Model):
     )
     allergies = fields.Text(
         help='List of known allergies',
+        translate=True,
     )
 
     # Страхування

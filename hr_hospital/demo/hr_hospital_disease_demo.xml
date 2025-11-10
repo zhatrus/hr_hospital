@@ -9,7 +9,6 @@
         <field name="icd_code">J00-J99</field>
         <field name="danger_level">medium</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.europe'), ref('base.asia')])]"/>
     </record>
 
     <record id="disease_infectious" model="hr.hospital.disease">
@@ -18,7 +17,6 @@
         <field name="icd_code">A00-B99</field>
         <field name="danger_level">high</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
     </record>
 
     <record id="disease_cardiovascular" model="hr.hospital.disease">
@@ -27,7 +25,6 @@
         <field name="icd_code">I00-I99</field>
         <field name="danger_level">critical</field>
         <field name="is_contagious" eval="False"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.north_america'), ref('base.europe')])]"/>
     </record>
 
     <!-- Level 2: Subcategories (Respiratory) -->
@@ -38,7 +35,6 @@
         <field name="icd_code">J11</field>
         <field name="danger_level">medium</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.europe'), ref('base.asia')])]"/>
     </record>
 
     <record id="disease_pneumonia" model="hr.hospital.disease">
@@ -48,7 +44,6 @@
         <field name="icd_code">J18</field>
         <field name="danger_level">high</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.europe')])]"/>
     </record>
 
     <record id="disease_bronchitis" model="hr.hospital.disease">
@@ -58,7 +53,6 @@
         <field name="icd_code">J20</field>
         <field name="danger_level">low</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.europe'), ref('base.asia')])]"/>
     </record>
 
     <!-- Level 2: Subcategories (Infectious) -->
@@ -69,7 +63,6 @@
         <field name="icd_code">U07.1</field>
         <field name="danger_level">critical</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
     </record>
 
     <record id="disease_tuberculosis" model="hr.hospital.disease">
@@ -79,7 +72,6 @@
         <field name="icd_code">A15</field>
         <field name="danger_level">high</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.asia'), ref('base.africa')])]"/>
     </record>
 
     <!-- Level 2: Subcategories (Cardiovascular) -->
@@ -90,7 +82,6 @@
         <field name="icd_code">I10</field>
         <field name="danger_level">medium</field>
         <field name="is_contagious" eval="False"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.north_america')])]"/>
     </record>
 
     <record id="disease_heart_attack" model="hr.hospital.disease">
@@ -100,7 +91,6 @@
         <field name="icd_code">I21</field>
         <field name="danger_level">critical</field>
         <field name="is_contagious" eval="False"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.north_america'), ref('base.europe')])]"/>
     </record>
 
     <!-- Level 3: Specific Variants -->
@@ -111,7 +101,6 @@
         <field name="icd_code">J11.0</field>
         <field name="danger_level">medium</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.europe')])]"/>
     </record>
 
     <record id="disease_covid_delta" model="hr.hospital.disease">
@@ -121,7 +110,6 @@
         <field name="icd_code">U07.1</field>
         <field name="danger_level">critical</field>
         <field name="is_contagious" eval="True"/>
-        <field name="region_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
     </record>
 
 </odoo>
