@@ -5,12 +5,17 @@
         <field name="name">hr.hospital.diagnosis.tree</field>
         <field name="model">hr.hospital.diagnosis</field>
         <field name="arch" type="xml">
-            <tree editable="bottom">
+            <tree decoration-success="is_approved == True"
+                  decoration-warning="severity in ['moderate', 'severe']"
+                  decoration-danger="severity == 'critical'">
                 <field name="sequence" widget="handle"/>
                 <field name="disease_id"/>
                 <field name="diagnosis_type"/>
+                <field name="severity"/>
+                <field name="is_approved" widget="boolean_toggle"/>
+                <field name="approved_by_id" optional="hide"/>
                 <field name="description"/>
-                <field name="active"/>
+                <field name="active" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -21,21 +26,47 @@
         <field name="model">hr.hospital.diagnosis</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_approve" string="Approve" 
+                            type="object" class="oe_highlight"
+                            invisible="is_approved"/>
+                    <button name="action_unapprove" string="Unapprove" 
+                            type="object"
+                            invisible="not is_approved"/>
+                    <field name="is_approved" widget="statusbar" 
+                           statusbar_visible="False,True"/>
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" 
+                                name="toggle_active" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
                     <group>
-                        <group>
+                        <group string="Diagnosis Information">
                             <field name="visit_id"/>
                             <field name="disease_id"/>
                             <field name="diagnosis_type"/>
-                        </group>
-                        <group>
+                            <field name="severity"/>
                             <field name="sequence"/>
-                            <field name="active"/>
+                        </group>
+                        <group string="Approval">
+                            <field name="approved_by_id"/>
+                            <field name="approval_date"/>
                         </group>
                     </group>
-                    <group>
-                        <field name="description" placeholder="Additional diagnosis details..."/>
-                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" 
+                                   placeholder="Detailed diagnosis description..."/>
+                        </page>
+                        <page string="Treatment">
+                            <field name="treatment" 
+                                   placeholder="Prescribed treatment plan..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -49,11 +80,29 @@
             <search>
                 <field name="visit_id"/>
                 <field name="disease_id"/>
+                <field name="approved_by_id"/>
+                <separator/>
+                <filter string="Approved" name="approved" 
+                        domain="[('is_approved', '=', True)]"/>
+                <filter string="Not Approved" name="not_approved" 
+                        domain="[('is_approved', '=', False)]"/>
+                <separator/>
                 <filter string="Primary" name="primary" 
                         domain="[('diagnosis_type', '=', 'primary')]"/>
                 <filter string="Secondary" name="secondary" 
                         domain="[('diagnosis_type', '=', 'secondary')]"/>
-                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <separator/>
+                <filter string="Critical" name="critical" 
+                        domain="[('severity', '=', 'critical')]"/>
+                <filter string="Severe" name="severe" 
+                        domain="[('severity', '=', 'severe')]"/>
+                <filter string="Moderate" name="moderate" 
+                        domain="[('severity', '=', 'moderate')]"/>
+                <filter string="Mild" name="mild" 
+                        domain="[('severity', '=', 'mild')]"/>
+                <separator/>
+                <filter string="Active" name="active" 
+                        domain="[('active', '=', True)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Visit" name="group_visit" 
                             context="{'group_by': 'visit_id'}"/>
@@ -61,6 +110,10 @@
                             context="{'group_by': 'disease_id'}"/>
                     <filter string="Type" name="group_type" 
                             context="{'group_by': 'diagnosis_type'}"/>
+                    <filter string="Severity" name="group_severity" 
+                            context="{'group_by': 'severity'}"/>
+                    <filter string="Approval Status" name="group_approved" 
+                            context="{'group_by': 'is_approved'}"/>
                 </group>
             </search>
         </field>

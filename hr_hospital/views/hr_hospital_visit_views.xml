@@ -50,15 +50,20 @@
                     <notebook>
                         <page string="Diagnoses">
                             <field name="diagnosis_ids">
-                                <tree editable="bottom">
+                                <tree editable="bottom"
+                                      decoration-success="is_approved == True"
+                                      decoration-warning="severity in ['moderate', 'severe']"
+                                      decoration-danger="severity == 'critical'">
                                     <field name="sequence" widget="handle"/>
                                     <field name="disease_id"/>
                                     <field name="diagnosis_type"/>
+                                    <field name="severity"/>
+                                    <field name="is_approved" widget="boolean_toggle"/>
+                                    <field name="approved_by_id" optional="hide"/>
                                     <field name="description"/>
                                 </tree>
                             </field>
-                        </page>
-                        <page string="Recommendations">
+                        </page>                        <page string="Recommendations">
                             <field name="recommendations" 
                                    placeholder="Medical recommendations..."/>
                         </page>
