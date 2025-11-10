@@ -6,7 +6,7 @@ from dateutil.relativedelta import relativedelta
 class HrHospitalVisit(models.Model):
     _name = 'hr.hospital.visit'
     _description = 'Hospital Visit'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'scheduled_date desc, id desc'
 
     # Базові поля

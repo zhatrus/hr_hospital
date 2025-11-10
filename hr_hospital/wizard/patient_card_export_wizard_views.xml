@@ -21,7 +21,7 @@
                 </group>
                 
                 <group string="Export Result" 
-                       attrs="{'invisible': [('export_file', '=', False)]}">
+                       invisible="not export_file">
                     <field name="export_file" filename="export_filename" 
                            invisible="1"/>
                     <field name="export_filename" invisible="1"/>
@@ -37,7 +37,7 @@
                             string="Export" 
                             type="object" 
                             class="btn-primary"
-                            attrs="{'invisible': [('export_file', '!=', False)]}"/>
+                            invisible="export_file"/>
                     <button string="Close" 
                             class="btn-secondary" 
                             special="cancel"/>

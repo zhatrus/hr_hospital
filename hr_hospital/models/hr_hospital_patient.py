@@ -5,7 +5,7 @@ from odoo.exceptions import ValidationError
 class HrHospitalPatient(models.Model):
     _name = 'hr.hospital.patient'
     _description = 'Hospital Patient'
-    _inherit = ['abstract.person', 'mail.thread']
+    _inherit = ['abstract.person', 'mail.thread', 'mail.activity.mixin']
     _rec_name = 'full_name'
 
     # Успадковані поля з abstract.person:
