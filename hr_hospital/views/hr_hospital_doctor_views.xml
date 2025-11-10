@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="full_name"/>
-                <field name="specialization"/>
+                <field name="specialization_id"/>
                 <field name="phone"/>
                 <field name="email"/>
                 <field name="is_intern"/>
@@ -65,7 +65,7 @@
                             <field name="intern_ids">
                                 <tree>
                                     <field name="full_name"/>
-                                    <field name="specialization"/>
+                                    <field name="specialization_id"/>
                                     <field name="phone"/>
                                 </tree>
                             </field>
