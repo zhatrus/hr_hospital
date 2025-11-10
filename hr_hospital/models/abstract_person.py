@@ -1,0 +1,135 @@
+from datetime import date
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+import re
+
+
+class AbstractPerson(models.AbstractModel):
+    """Абстрактна модель "Особа" для зберігання спільних даних про людей"""
+    _name = 'abstract.person'
+    _description = 'Abstract Person Model'
+    _inherit = ['image.mixin']
+
+    # ПІБ (окремі поля)
+    last_name = fields.Char(
+        string='Last Name',
+        required=True,
+        index=True,
+    )
+    first_name = fields.Char(
+        string='First Name',
+        required=True,
+        index=True,
+    )
+    middle_name = fields.Char(
+        string='Middle Name',
+    )
+
+    # Контактна інформація
+    phone = fields.Char(
+        string='Phone',
+        help='Phone number in international format',
+    )
+    email = fields.Char(
+        string='Email',
+    )
+
+    # Особиста інформація
+    gender = fields.Selection(
+        selection=[
+            ('male', 'Male'),
+            ('female', 'Female'),
+            ('other', 'Other'),
+        ],
+        string='Gender',
+    )
+    date_of_birth = fields.Date(
+        string='Date of Birth',
+    )
+
+    # Обчислювальні поля
+    age = fields.Integer(
+        string='Age',
+        compute='_compute_age',
+        store=True,
+        help='Age calculated from date of birth',
+    )
+    full_name = fields.Char(
+        string='Full Name',
+        compute='_compute_full_name',
+        store=True,
+        index=True,
+    )
+
+    # Додаткова інформація
+    country_id = fields.Many2one(
+        comodel_name='res.country',
+        string='Country of Citizenship',
+    )
+    lang_id = fields.Many2one(
+        comodel_name='res.lang',
+        string='Preferred Language',
+    )
+
+    @api.depends('date_of_birth')
+    def _compute_age(self):
+        """Обчислення віку від дати народження"""
+        for record in self:
+            if record.date_of_birth:
+                today = date.today()
+                birth_date = record.date_of_birth
+                record.age = today.year - birth_date.year - (
+                    (today.month, today.day) < (birth_date.month, birth_date.day)
+                )
+            else:
+                record.age = 0
+
+    @api.depends('last_name', 'first_name', 'middle_name')
+    def _compute_full_name(self):
+        """Обчислення повного імені"""
+        for record in self:
+            name_parts = []
+            if record.last_name:
+                name_parts.append(record.last_name)
+            if record.first_name:
+                name_parts.append(record.first_name)
+            if record.middle_name:
+                name_parts.append(record.middle_name)
+            record.full_name = ' '.join(name_parts)
+
+    @api.constrains('phone')
+    def _check_phone(self):
+        """Валідація формату телефону"""
+        for record in self:
+            if record.phone:
+                # Дозволяємо міжнародний формат: +380XXXXXXXXX або (XXX) XXX-XXXX
+                phone_pattern = r'^(\+?\d{1,3})?[\s.-]?\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}$'
+                if not re.match(phone_pattern, record.phone):
+                    raise ValidationError(
+                        'Phone number format is invalid. '
+                        'Please use international format like +380123456789 or (123) 456-7890'
+                    )
+
+    @api.constrains('email')
+    def _check_email(self):
+        """Валідація формату email"""
+        for record in self:
+            if record.email:
+                email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+                if not re.match(email_pattern, record.email):
+                    raise ValidationError(
+                        'Email format is invalid. '
+                        'Please use format like example@domain.com'
+                    )
+
+    @api.constrains('date_of_birth')
+    def _check_date_of_birth(self):
+        """Валідація дати народження"""
+        for record in self:
+            if record.date_of_birth:
+                if record.date_of_birth > date.today():
+                    raise ValidationError('Date of birth cannot be in the future!')
+                # Перевірка мінімального віку (наприклад, не менше 0 років)
+                age = (date.today() - record.date_of_birth).days / 365.25
+                if age > 150:
+                    raise ValidationError('Age cannot be more than 150 years!')

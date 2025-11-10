@@ -4,19 +4,20 @@ from odoo import fields, models
 class HrHospitalDoctor(models.Model):
     _name = 'hr.hospital.doctor'
     _description = 'Hospital Doctor'
+    _inherit = ['abstract.person']
+    _rec_name = 'full_name'
 
-    name = fields.Char(
-        string='Full Name',
-        required=True,
-    )
+    # Успадковані поля з abstract.person:
+    # - last_name, first_name, middle_name
+    # - phone, email
+    # - gender, date_of_birth
+    # - age (computed), full_name (computed)
+    # - country_id, lang_id
+    # - image fields (з image.mixin)
+
+    # Специфічні поля для лікаря
     specialization = fields.Char(
-        string='Specialization Doctor',
-    )
-    phone = fields.Char(
-        string='Phone Doctor',
-    )
-    email = fields.Char(
-        string='Email Doctor',
+        string='Specialization',
     )
     is_intern = fields.Boolean(
         string='Is Intern Doctor',

@@ -6,7 +6,7 @@
         <field name="model">hr.hospital.patient</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
+                <field name="full_name"/>
                 <field name="date_of_birth"/>
                 <field name="age"/>
                 <field name="gender"/>
@@ -23,16 +23,28 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="full_name" readonly="1"/>
+                        </h1>
+                    </div>
                     <group>
-                        <group>
-                            <field name="name"/>
-                            <field name="date_of_birth"/>
-                            <field name="age"/>
+                        <group string="Personal Information">
+                            <field name="last_name"/>
+                            <field name="first_name"/>
+                            <field name="middle_name"/>
                             <field name="gender"/>
+                            <field name="date_of_birth"/>
+                            <field name="age" readonly="1"/>
                         </group>
-                        <group>
+                        <group string="Contact Information">
                             <field name="phone"/>
                             <field name="email"/>
+                            <field name="country_id"/>
+                            <field name="lang_id"/>
+                        </group>
+                        <group string="Medical Information">
                             <field name="doctor_id"/>
                         </group>
                     </group>
