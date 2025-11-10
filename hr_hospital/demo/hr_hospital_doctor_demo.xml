@@ -4,11 +4,15 @@
         <record id="doctor_demo_1" model="hr.hospital.doctor">
             <field name="last_name">Smith</field>
             <field name="first_name">John</field>
-            <field name="specialization">Cardiology</field>
+            <field name="specialization_id" ref="specialization_cardiology"/>
             <field name="phone">+380501234567</field>
             <field name="email">john.smith@hospital.com</field>
             <field name="gender">male</field>
             <field name="date_of_birth">1975-05-10</field>
+            <field name="license_number">MD-2000-001</field>
+            <field name="license_issue_date">2000-06-15</field>
+            <field name="rating">4.85</field>
+            <field name="education_country_id" ref="base.us"/>
             <field name="is_intern" eval="False"/>
         </record>
 
@@ -16,11 +20,15 @@
         <record id="doctor_demo_2" model="hr.hospital.doctor">
             <field name="last_name">Johnson</field>
             <field name="first_name">Sarah</field>
-            <field name="specialization">Neurology</field>
+            <field name="specialization_id" ref="specialization_neurology"/>
             <field name="phone">+380502345678</field>
             <field name="email">sarah.johnson@hospital.com</field>
             <field name="gender">female</field>
             <field name="date_of_birth">1980-08-22</field>
+            <field name="license_number">MD-2005-042</field>
+            <field name="license_issue_date">2005-07-20</field>
+            <field name="rating">4.92</field>
+            <field name="education_country_id" ref="base.gb"/>
             <field name="is_intern" eval="False"/>
         </record>
 
@@ -28,11 +36,15 @@
         <record id="doctor_demo_3" model="hr.hospital.doctor">
             <field name="last_name">Brown</field>
             <field name="first_name">Michael</field>
-            <field name="specialization">General Practice</field>
+            <field name="specialization_id" ref="specialization_general"/>
             <field name="phone">+380503456789</field>
             <field name="email">michael.brown@hospital.com</field>
             <field name="gender">male</field>
             <field name="date_of_birth">1995-03-15</field>
+            <field name="license_number">MD-2023-156</field>
+            <field name="license_issue_date">2023-09-01</field>
+            <field name="rating">4.10</field>
+            <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="True"/>
             <field name="mentor_id" ref="doctor_demo_1"/>
         </record>

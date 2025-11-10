@@ -45,9 +45,19 @@
                             <field name="lang_id"/>
                         </group>
                         <group string="Professional Information">
-                            <field name="specialization"/>
+                            <field name="specialization_id"/>
                             <field name="is_intern"/>
                             <field name="mentor_id" invisible="not is_intern"/>
+                            <field name="rating"/>
+                        </group>
+                        <group string="License & Experience">
+                            <field name="license_number"/>
+                            <field name="license_issue_date"/>
+                            <field name="years_of_experience" readonly="1"/>
+                            <field name="education_country_id"/>
+                        </group>
+                        <group string="System Access">
+                            <field name="user_id"/>
                         </group>
                     </group>
                     <notebook>
@@ -75,6 +85,16 @@
                                     <field name="patient_id"/>
                                     <field name="visit_date"/>
                                     <field name="disease_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Work Schedule">
+                            <field name="schedule_ids">
+                                <tree editable="bottom">
+                                    <field name="day_of_week"/>
+                                    <field name="time_from" widget="float_time"/>
+                                    <field name="time_to" widget="float_time"/>
+                                    <field name="active"/>
                                 </tree>
                             </field>
                         </page>

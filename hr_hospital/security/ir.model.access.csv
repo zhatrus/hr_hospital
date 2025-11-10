@@ -1,7 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_hospital_doctor_user,access.hr.hospital.doctor.user,model_hr_hospital_doctor,base.group_user,1,1,1,1
+access_hr_hospital_doctor_specialization_user,access.hr.hospital.doctor.specialization.user,model_hr_hospital_doctor_specialization,base.group_user,1,1,1,1
+access_hr_hospital_doctor_schedule_user,access.hr.hospital.doctor.schedule.user,model_hr_hospital_doctor_schedule,base.group_user,1,1,1,1
 access_hr_hospital_patient_user,access.hr.hospital.patient.user,model_hr_hospital_patient,base.group_user,1,1,1,1
 access_hr_hospital_patient_doctor_history_user,access.hr.hospital.patient.doctor.history.user,model_hr_hospital_patient_doctor_history,base.group_user,1,1,1,1
 access_hr_hospital_contact_person_user,access.hr.hospital.contact.person.user,model_hr_hospital_contact_person,base.group_user,1,1,1,1
 access_hr_hospital_disease_user,access.hr.hospital.disease.user,model_hr_hospital_disease,base.group_user,1,1,1,1
 access_hr_hospital_visit_user,access.hr.hospital.visit.user,model_hr_hospital_visit,base.group_user,1,1,1,1
+access_hr_hospital_diagnosis_user,access.hr.hospital.diagnosis.user,model_hr_hospital_diagnosis,base.group_user,1,1,1,1

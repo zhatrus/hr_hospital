@@ -5,11 +5,17 @@
         <field name="name">hr.hospital.visit.view.tree</field>
         <field name="model">hr.hospital.visit</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-info="status == 'scheduled'" 
+                  decoration-success="status == 'completed'"
+                  decoration-danger="status == 'cancelled'"
+                  decoration-muted="status == 'no_show'">
                 <field name="patient_id"/>
                 <field name="doctor_id"/>
-                <field name="visit_date"/>
-                <field name="disease_id"/>
+                <field name="scheduled_date"/>
+                <field name="actual_date"/>
+                <field name="visit_type"/>
+                <field name="status"/>
+                <field name="cost" optional="hide"/>
             </tree>
         </field>
     </record>
@@ -20,26 +26,51 @@
         <field name="model">hr.hospital.visit</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="status" widget="statusbar" 
+                           statusbar_visible="scheduled,completed"/>
+                </header>
                 <sheet>
                     <group>
-                        <group>
+                        <group string="Visit Information">
                             <field name="patient_id"/>
                             <field name="doctor_id"/>
+                            <field name="visit_type"/>
                         </group>
-                        <group>
-                            <field name="visit_date"/>
-                            <field name="disease_id"/>
+                        <group string="Schedule">
+                            <field name="scheduled_date"/>
+                            <field name="actual_date" 
+                                   readonly="status != 'completed'"/>
+                        </group>
+                        <group string="Payment">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="cost"/>
                         </group>
                     </group>
-                    <group>
-                        <field name="diagnosis"/>
-                    </group>
-                    <group>
-                        <field name="prescription"/>
-                    </group>
-                    <group>
-                        <field name="notes"/>
-                    </group>
+                    <notebook>
+                        <page string="Diagnoses">
+                            <field name="diagnosis_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="disease_id"/>
+                                    <field name="diagnosis_type"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Recommendations">
+                            <field name="recommendations" 
+                                   placeholder="Medical recommendations..."/>
+                        </page>
+                        <page string="Legacy Data" groups="base.group_no_one">
+                            <group>
+                                <field name="disease_id"/>
+                                <field name="diagnosis"/>
+                                <field name="prescription"/>
+                                <field name="notes"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

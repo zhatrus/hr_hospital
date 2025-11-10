@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Diagnosis Tree View -->
+    <record id="hr_hospital_diagnosis_view_tree" model="ir.ui.view">
+        <field name="name">hr.hospital.diagnosis.tree</field>
+        <field name="model">hr.hospital.diagnosis</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="disease_id"/>
+                <field name="diagnosis_type"/>
+                <field name="description"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Diagnosis Form View -->
+    <record id="hr_hospital_diagnosis_view_form" model="ir.ui.view">
+        <field name="name">hr.hospital.diagnosis.form</field>
+        <field name="model">hr.hospital.diagnosis</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="visit_id"/>
+                            <field name="disease_id"/>
+                            <field name="diagnosis_type"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Additional diagnosis details..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Diagnosis Search View -->
+    <record id="hr_hospital_diagnosis_view_search" model="ir.ui.view">
+        <field name="name">hr.hospital.diagnosis.search</field>
+        <field name="model">hr.hospital.diagnosis</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="visit_id"/>
+                <field name="disease_id"/>
+                <filter string="Primary" name="primary" 
+                        domain="[('diagnosis_type', '=', 'primary')]"/>
+                <filter string="Secondary" name="secondary" 
+                        domain="[('diagnosis_type', '=', 'secondary')]"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Visit" name="group_visit" 
+                            context="{'group_by': 'visit_id'}"/>
+                    <filter string="Disease" name="group_disease" 
+                            context="{'group_by': 'disease_id'}"/>
+                    <filter string="Type" name="group_type" 
+                            context="{'group_by': 'diagnosis_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Diagnosis Action -->
+    <record id="hr_hospital_diagnosis_action" model="ir.actions.act_window">
+        <field name="name">Diagnoses</field>
+        <field name="res_model">hr.hospital.diagnosis</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+</odoo>
