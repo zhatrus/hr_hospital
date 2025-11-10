@@ -30,6 +30,7 @@
         'wizard/disease_report_wizard_views.xml',
         'wizard/reschedule_visit_wizard_views.xml',
         'wizard/doctor_schedule_wizard_views.xml',
+        'wizard/patient_card_export_wizard_views.xml',
     ],
     'demo': [
         'demo/hr_hospital_doctor_specialization_demo.xml',

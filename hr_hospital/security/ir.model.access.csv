@@ -12,3 +12,4 @@ access_mass_reassign_doctor_wizard_user,access.mass.reassign.doctor.wizard.user,
 access_disease_report_wizard_user,access.disease.report.wizard.user,model_disease_report_wizard,base.group_user,1,1,1,1
 access_reschedule_visit_wizard_user,access.reschedule.visit.wizard.user,model_reschedule_visit_wizard,base.group_user,1,1,1,1
 access_doctor_schedule_wizard_user,access.doctor.schedule.wizard.user,model_doctor_schedule_wizard,base.group_user,1,1,1,1
+access_patient_card_export_wizard_user,access.patient.card.export.wizard.user,model_patient_card_export_wizard,base.group_user,1,1,1,1
