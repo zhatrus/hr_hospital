@@ -25,6 +25,8 @@
         'views/hr_hospital_diagnosis_views.xml',
         'views/hr_hospital_visit_views.xml',
         'views/hr_hospital_menu.xml',
+
+        'wizard/mass_reassign_doctor_wizard_views.xml',
     ],
     'demo': [
         'demo/hr_hospital_doctor_specialization_demo.xml',

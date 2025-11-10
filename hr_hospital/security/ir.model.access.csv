@@ -8,3 +8,4 @@ access_hr_hospital_contact_person_user,access.hr.hospital.contact.person.user,mo
 access_hr_hospital_disease_user,access.hr.hospital.disease.user,model_hr_hospital_disease,base.group_user,1,1,1,1
 access_hr_hospital_visit_user,access.hr.hospital.visit.user,model_hr_hospital_visit,base.group_user,1,1,1,1
 access_hr_hospital_diagnosis_user,access.hr.hospital.diagnosis.user,model_hr_hospital_diagnosis,base.group_user,1,1,1,1
+access_mass_reassign_doctor_wizard_user,access.mass.reassign.doctor.wizard.user,model_mass_reassign_doctor_wizard,base.group_user,1,1,1,1
