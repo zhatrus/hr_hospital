@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Doctor Search View with Dynamic Filters -->
+    <record id="hr_hospital_doctor_view_search_extended" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.search.extended</field>
+        <field name="model">hr.hospital.doctor</field>
+        <field name="arch" type="xml">
+            <search string="Doctors">
+                <field name="full_name"/>
+                <field name="specialization_id"/>
+                <field name="license_number"/>
+                
+                <!-- Фільтр за країною навчання -->
+                <filter string="Ukraine" name="filter_ukraine"
+                        domain="[('country_id.code', '=', 'UA')]"/>
+                <filter string="USA" name="filter_usa"
+                        domain="[('country_id.code', '=', 'US')]"/>
+                <filter string="Germany" name="filter_germany"
+                        domain="[('country_id.code', '=', 'DE')]"/>
+                
+                <separator/>
+                
+                <!-- Фільтр за спеціальністю -->
+                <filter string="With Specialization" name="filter_with_spec"
+                        domain="[('specialization_id', '!=', False)]"/>
+                <filter string="With License" name="filter_with_license"
+                        domain="[('license_number', '!=', False)]"/>
+                <filter string="Not Interns" name="filter_not_intern"
+                        domain="[('is_intern', '=', False)]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Specialization" name="group_specialization"
+                            context="{'group_by': 'specialization_id'}"/>
+                    <filter string="Country" name="group_country"
+                            context="{'group_by': 'country_id'}"/>
+                    <filter string="Is Intern" name="group_intern"
+                            context="{'group_by': 'is_intern'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Patient Search View with Dynamic Filters -->
+    <record id="hr_hospital_patient_view_search_extended" model="ir.ui.view">
+        <field name="name">hr.hospital.patient.search.extended</field>
+        <field name="model">hr.hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="full_name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="doctor_id"/>
+                
+                <!-- Фільтр за мовою спілкування -->
+                <filter string="Ukrainian Speakers" name="filter_lang_uk"
+                        domain="[('lang_id.code', '=', 'uk_UA')]"/>
+                <filter string="English Speakers" name="filter_lang_en"
+                        domain="[('lang_id.code', '=', 'en_US')]"/>
+                
+                <separator/>
+                
+                <!-- Фільтр за країною громадянства -->
+                <filter string="Ukraine Citizens" name="filter_country_ua"
+                        domain="[('country_id.code', '=', 'UA')]"/>
+                <filter string="USA Citizens" name="filter_country_us"
+                        domain="[('country_id.code', '=', 'US')]"/>
+                
+                <separator/>
+                
+                <!-- Інші фільтри -->
+                <filter string="With Allergies" name="filter_with_allergies"
+                        domain="[('allergies', '!=', False)]"/>
+                <filter string="With Doctor" name="filter_with_doctor"
+                        domain="[('doctor_id', '!=', False)]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Doctor" name="group_doctor"
+                            context="{'group_by': 'doctor_id'}"/>
+                    <filter string="Country" name="group_country"
+                            context="{'group_by': 'country_id'}"/>
+                    <filter string="Language" name="group_language"
+                            context="{'group_by': 'lang_id'}"/>
+                    <filter string="Gender" name="group_gender"
+                            context="{'group_by': 'gender'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Visit Search View with Date Filters -->
+    <record id="hr_hospital_visit_view_search_extended" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.search.extended</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <search string="Visits">
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="scheduled_date"/>
+                <field name="status"/>
+                
+                <!-- Фільтри за датою -->
+                <filter string="Today" name="filter_today"
+                        domain="[('scheduled_date', '&gt;=', context_today()),
+                                 ('scheduled_date', '&lt;', 
+                                  (context_today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                <filter string="This Week" name="filter_week"
+                        domain="[('scheduled_date', '&gt;=', 
+                                  (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
+                                 ('scheduled_date', '&lt;', 
+                                  (context_today() + datetime.timedelta(days=7-context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                <filter string="Last 30 Days" name="filter_last_30"
+                        domain="[('scheduled_date', '&gt;=', 
+                                  (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                
+                <separator/>
+                
+                <!-- Фільтри за статусом -->
+                <filter string="Scheduled" name="filter_scheduled"
+                        domain="[('status', '=', 'scheduled')]"/>
+                <filter string="Completed" name="filter_completed"
+                        domain="[('status', '=', 'completed')]"/>
+                <filter string="Cancelled" name="filter_cancelled"
+                        domain="[('status', '=', 'cancelled')]"/>
+                
+                <separator/>
+                
+                <!-- Виключення вихідних (субота та неділя) -->
+                <filter string="Weekdays Only" name="filter_weekdays"
+                        domain="[('scheduled_date', 'not in', 
+                                  ['Saturday', 'Sunday'])]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Doctor" name="group_doctor"
+                            context="{'group_by': 'doctor_id'}"/>
+                    <filter string="Patient" name="group_patient"
+                            context="{'group_by': 'patient_id'}"/>
+                    <filter string="Status" name="group_status"
+                            context="{'group_by': 'status'}"/>
+                    <filter string="Visit Type" name="group_type"
+                            context="{'group_by': 'visit_type'}"/>
+                    <filter string="Date" name="group_date"
+                            context="{'group_by': 'scheduled_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

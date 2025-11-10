@@ -97,6 +97,17 @@ class HrHospitalVisit(models.Model):
         help='Medical recommendations for the patient',
     )
 
+    # Поля для динамічних доменів
+    specialization_filter_id = fields.Many2one(
+        comodel_name='hr.hospital.doctor.specialization',
+        string='Filter by Specialization',
+        help='Filter available doctors by specialization',
+    )
+    available_date_filter = fields.Date(
+        string='Filter Available Date',
+        help='Filter doctors with available schedule on this date',
+    )
+
     # Вартість
     cost = fields.Monetary(
         string='Visit Cost',
@@ -200,6 +211,32 @@ class HrHospitalVisit(models.Model):
                           'for completed visits!')
                     )
         return super().write(vals)
+
+    @api.onchange('specialization_filter_id', 'available_date_filter')
+    def _onchange_doctor_filters(self):
+        """Динамічний domain для doctor_id за спеціальністю та розкладом"""
+        domain = [('license_number', '!=', False)]
+
+        # Фільтр за спеціальністю
+        if self.specialization_filter_id:
+            domain.append(
+                ('specialization_id', '=', self.specialization_filter_id.id)
+            )
+
+        # Фільтр за наявністю розкладу на дату
+        if self.available_date_filter:
+            doctors_with_schedule = self.env[
+                'hr.hospital.doctor.schedule'
+            ].search([
+                ('date', '=', self.available_date_filter)
+            ]).mapped('doctor_id')
+            if doctors_with_schedule:
+                domain.append(('id', 'in', doctors_with_schedule.ids))
+            else:
+                # Якщо немає розкладу - показуємо всіх
+                pass
+
+        return {'domain': {'doctor_id': domain}}
 
     def unlink(self):
         """Заборона видалення візитів з діагнозами"""
