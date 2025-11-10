@@ -91,15 +91,24 @@ class AbstractPerson(models.AbstractModel):
 
     @api.constrains('phone')
     def _check_phone(self):
-        """Валідація формату телефону"""
+        """Валідація українських мобільних номерів"""
         for record in self:
             if record.phone:
-                # Дозволяємо міжнародний формат: +380XXXXXXXXX або (XXX) XXX-XXXX
-                phone_pattern = r'^(\+?\d{1,3})?[\s.-]?\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,9}$'
-                if not re.match(phone_pattern, record.phone):
+                # Видаляємо всі пробіли, дефіси та дужки для перевірки
+                phone_clean = re.sub(r'[\s\-\(\)]', '', record.phone)
+                
+                # Дозволені коди українських мобільних операторів
+                mobile_codes = r'(020|039|050|063|066|067|068|073|075|077|089|091|092|093|094|095|096|097|098|099)'
+                
+                # Формати: +380XXXXXXXXX або 0XXXXXXXXX
+                phone_pattern = rf'^(\+380{mobile_codes}|0{mobile_codes})\d{{7}}$'
+                
+                if not re.match(phone_pattern, phone_clean):
                     raise ValidationError(
                         _('Phone number format is invalid. '
-                          'Please use international format like +380123456789 or (123) 456-7890')
+                          'Please use Ukrainian mobile number format: '
+                          '+380XX XXX XX XX or 0XX XXX XX XX. '
+                          'Allowed codes: 039, 050, 063, 066, 067, 068, 091, 092, 093, 094, 095, 096, 097, 098, 099')
                     )
 
     @api.constrains('email')
