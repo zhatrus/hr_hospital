@@ -10,3 +10,4 @@ access_hr_hospital_visit_user,access.hr.hospital.visit.user,model_hr_hospital_vi
 access_hr_hospital_diagnosis_user,access.hr.hospital.diagnosis.user,model_hr_hospital_diagnosis,base.group_user,1,1,1,1
 access_mass_reassign_doctor_wizard_user,access.mass.reassign.doctor.wizard.user,model_mass_reassign_doctor_wizard,base.group_user,1,1,1,1
 access_disease_report_wizard_user,access.disease.report.wizard.user,model_disease_report_wizard,base.group_user,1,1,1,1
+access_reschedule_visit_wizard_user,access.reschedule.visit.wizard.user,model_reschedule_visit_wizard,base.group_user,1,1,1,1
