@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Data: 25 Visits with Different Statuses -->
+    
+    <!-- Completed Visits (Past) -->
+    <record id="visit_01" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_01"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d 09:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d 09:15:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">primary</field>
+        <field name="recommendations">&lt;p&gt;Regular checkup completed. All vital signs normal.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_02" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_02"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=9)).strftime('%Y-%m-%d 10:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=9)).strftime('%Y-%m-%d 10:10:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">emergency</field>
+        <field name="recommendations">&lt;p&gt;Emergency treatment provided. Follow-up required.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_03" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_03"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d 11:05:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">followup</field>
+        <field name="recommendations">&lt;p&gt;Recovery progressing well.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_04" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_04"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d 14:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d 14:20:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">preventive</field>
+        <field name="recommendations">&lt;p&gt;Annual checkup. Healthy condition.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_05" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_05"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=6)).strftime('%Y-%m-%d 15:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=6)).strftime('%Y-%m-%d 15:10:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">primary</field>
+        <field name="recommendations">&lt;p&gt;Symptoms improving with medication.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_06" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_06"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_07"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d 09:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d 09:30:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">primary</field>
+        <field name="recommendations">&lt;p&gt;Intern consultation. To be reviewed by mentor.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_07" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_07"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_08"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=4)).strftime('%Y-%m-%d 10:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=4)).strftime('%Y-%m-%d 10:15:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">followup</field>
+        <field name="recommendations">&lt;p&gt;Intern follow-up. Patient responding well.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_08" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_08"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d 11:10:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">primary</field>
+        <field name="recommendations">&lt;p&gt;Chronic condition management.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_09" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_09"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d 12:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d 12:05:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">emergency</field>
+        <field name="recommendations">&lt;p&gt;Emergency stabilized. Observation required.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_10" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_10"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d 13:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d 13:15:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">preventive</field>
+        <field name="recommendations">&lt;p&gt;Preventive care provided.&lt;/p&gt;</field>
+    </record>
+
+    <!-- Scheduled Visits (Future) -->
+    <record id="visit_11" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_11"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 09:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">primary</field>
+    </record>
+
+    <record id="visit_12" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_12"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d 10:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">followup</field>
+    </record>
+
+    <record id="visit_13" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_13"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">primary</field>
+    </record>
+
+    <record id="visit_14" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_14"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d 14:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">preventive</field>
+    </record>
+
+    <record id="visit_15" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_15"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=3)).strftime('%Y-%m-%d 15:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">primary</field>
+    </record>
+
+    <record id="visit_16" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_01"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_06"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=4)).strftime('%Y-%m-%d 09:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">followup</field>
+    </record>
+
+    <record id="visit_17" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_02"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_07"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=5)).strftime('%Y-%m-%d 10:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">primary</field>
+    </record>
+
+    <record id="visit_18" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_03"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_08"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=6)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">primary</field>
+    </record>
+
+    <!-- Cancelled Visits -->
+    <record id="visit_19" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_04"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d 16:00:00')"/>
+        <field name="status">cancelled</field>
+        <field name="visit_type">primary</field>
+        <field name="recommendations">&lt;p&gt;Patient requested cancellation.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_20" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_05"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=4)).strftime('%Y-%m-%d 16:00:00')"/>
+        <field name="status">cancelled</field>
+        <field name="visit_type">followup</field>
+        <field name="recommendations">&lt;p&gt;Doctor unavailable.&lt;/p&gt;</field>
+    </record>
+
+    <!-- No Show Visits -->
+    <record id="visit_21" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_06"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d 16:00:00')"/>
+        <field name="status">no_show</field>
+        <field name="visit_type">primary</field>
+        <field name="recommendations">&lt;p&gt;Patient did not show up.&lt;/p&gt;</field>
+    </record>
+
+    <record id="visit_22" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_07"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d 16:00:00')"/>
+        <field name="status">no_show</field>
+        <field name="visit_type">followup</field>
+        <field name="recommendations">&lt;p&gt;Patient missed appointment.&lt;/p&gt;</field>
+    </record>
+
+    <!-- Additional Scheduled Visits -->
+    <record id="visit_23" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_08"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d 09:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">preventive</field>
+    </record>
+
+    <record id="visit_24" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_09"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_06"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=8)).strftime('%Y-%m-%d 10:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">primary</field>
+    </record>
+
+    <record id="visit_25" model="hr.hospital.visit">
+        <field name="patient_id" ref="hr_hospital_patient_10"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=9)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">emergency</field>
+    </record>
+
+</odoo>

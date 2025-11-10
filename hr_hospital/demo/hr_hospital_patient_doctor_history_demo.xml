@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Data: Patient Doctor Assignment History -->
+    
+    <!-- Patient 1: Multiple doctor changes -->
+    <record id="history_p1_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_01"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=180)).strftime('%Y-%m-%d')"/>
+        <field name="unassigned_date" eval="(datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Doctor transferred to another department</field>
+    </record>
+
+    <record id="history_p1_d2" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_01"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=90)).strftime('%Y-%m-%d')"/>
+        <field name="reason">New doctor assigned after transfer</field>
+    </record>
+
+    <!-- Patient 2: Single doctor assignment -->
+    <record id="history_p2_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_02"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=150)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Initial doctor assignment</field>
+    </record>
+
+    <!-- Patient 3: Changed doctors due to specialization -->
+    <record id="history_p3_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_03"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=200)).strftime('%Y-%m-%d')"/>
+        <field name="unassigned_date" eval="(datetime.now() - timedelta(days=120)).strftime('%Y-%m-%d')"/>
+        <field name="reason">General practitioner - initial consultation</field>
+    </record>
+
+    <record id="history_p3_d2" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_03"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=120)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Referred to pediatric specialist</field>
+    </record>
+
+    <!-- Patient 4: Recent assignment -->
+    <record id="history_p4_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_04"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')"/>
+        <field name="reason">New patient registration</field>
+    </record>
+
+    <!-- Patient 5: Long-term with one doctor -->
+    <record id="history_p5_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_05"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=365)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Long-term neurological treatment</field>
+    </record>
+
+    <!-- Patient 6: Multiple changes -->
+    <record id="history_p6_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_06"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=160)).strftime('%Y-%m-%d')"/>
+        <field name="unassigned_date" eval="(datetime.now() - timedelta(days=100)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Orthopedic treatment completed</field>
+    </record>
+
+    <record id="history_p6_d2" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_06"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_06"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=100)).strftime('%Y-%m-%d')"/>
+        <field name="unassigned_date" eval="(datetime.now() - timedelta(days=60)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Dermatology consultation</field>
+    </record>
+
+    <record id="history_p6_d3" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_06"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_07"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=60)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Follow-up with intern (supervised)</field>
+    </record>
+
+    <!-- Patient 7: Intern assignment -->
+    <record id="history_p7_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_07"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_08"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=45)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Assigned to intern for routine care</field>
+    </record>
+
+    <!-- Patient 8: Specialist referral -->
+    <record id="history_p8_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_08"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=140)).strftime('%Y-%m-%d')"/>
+        <field name="unassigned_date" eval="(datetime.now() - timedelta(days=80)).strftime('%Y-%m-%d')"/>
+        <field name="reason">General consultation</field>
+    </record>
+
+    <record id="history_p8_d2" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_08"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=80)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Chronic condition management</field>
+    </record>
+
+    <!-- Patient 9: Emergency to regular care -->
+    <record id="history_p9_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_09"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=70)).strftime('%Y-%m-%d')"/>
+        <field name="unassigned_date" eval="(datetime.now() - timedelta(days=50)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Emergency treatment</field>
+    </record>
+
+    <record id="history_p9_d2" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_09"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=50)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Post-emergency follow-up care</field>
+    </record>
+
+    <!-- Patient 10: Recent registration -->
+    <record id="history_p10_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_10"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=20)).strftime('%Y-%m-%d')"/>
+        <field name="reason">New patient - general practice</field>
+    </record>
+
+    <!-- Patient 11: Seasonal care -->
+    <record id="history_p11_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_11"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=110)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Cardiovascular monitoring</field>
+    </record>
+
+    <!-- Patient 12: Dermatology specialty -->
+    <record id="history_p12_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_12"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_06"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=95)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Skin condition treatment</field>
+    </record>
+
+    <!-- Patient 13: Neurological care -->
+    <record id="history_p13_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_13"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=130)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Neurological assessment</field>
+    </record>
+
+    <!-- Patient 14: Pediatric care -->
+    <record id="history_p14_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_14"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=85)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Pediatric routine checkups</field>
+    </record>
+
+    <!-- Patient 15: Orthopedic treatment -->
+    <record id="history_p15_d1" model="hr.hospital.patient.doctor.history">
+        <field name="patient_id" ref="hr_hospital_patient_15"/>
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="assigned_date" eval="(datetime.now() - timedelta(days=55)).strftime('%Y-%m-%d')"/>
+        <field name="reason">Orthopedic surgery follow-up</field>
+    </record>
+
+</odoo>

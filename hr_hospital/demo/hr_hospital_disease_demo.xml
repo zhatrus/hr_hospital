@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Data: Diseases with Hierarchy (3 levels) -->
+    
+    <!-- Level 1: Main Categories -->
+    <record id="disease_respiratory" model="hr.hospital.disease">
+        <field name="name">Respiratory Diseases</field>
+        <field name="description">Diseases affecting the respiratory system</field>
+        <field name="icd_code">J00-J99</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.europe'), ref('base.asia')])]"/>
+    </record>
+
+    <record id="disease_infectious" model="hr.hospital.disease">
+        <field name="name">Infectious Diseases</field>
+        <field name="description">Diseases caused by pathogenic microorganisms</field>
+        <field name="icd_code">A00-B99</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+    </record>
+
+    <record id="disease_cardiovascular" model="hr.hospital.disease">
+        <field name="name">Cardiovascular Diseases</field>
+        <field name="description">Diseases of the heart and blood vessels</field>
+        <field name="icd_code">I00-I99</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.north_america'), ref('base.europe')])]"/>
+    </record>
+
+    <!-- Level 2: Subcategories (Respiratory) -->
+    <record id="disease_flu" model="hr.hospital.disease">
+        <field name="name">Influenza</field>
+        <field name="parent_id" ref="disease_respiratory"/>
+        <field name="description">Viral infection of the respiratory tract</field>
+        <field name="icd_code">J11</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.europe'), ref('base.asia')])]"/>
+    </record>
+
+    <record id="disease_pneumonia" model="hr.hospital.disease">
+        <field name="name">Pneumonia</field>
+        <field name="parent_id" ref="disease_respiratory"/>
+        <field name="description">Inflammation of the lungs</field>
+        <field name="icd_code">J18</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.europe')])]"/>
+    </record>
+
+    <record id="disease_bronchitis" model="hr.hospital.disease">
+        <field name="name">Bronchitis</field>
+        <field name="parent_id" ref="disease_respiratory"/>
+        <field name="description">Inflammation of the bronchial tubes</field>
+        <field name="icd_code">J20</field>
+        <field name="danger_level">low</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.europe'), ref('base.asia')])]"/>
+    </record>
+
+    <!-- Level 2: Subcategories (Infectious) -->
+    <record id="disease_covid" model="hr.hospital.disease">
+        <field name="name">COVID-19</field>
+        <field name="parent_id" ref="disease_infectious"/>
+        <field name="description">Coronavirus disease 2019</field>
+        <field name="icd_code">U07.1</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+    </record>
+
+    <record id="disease_tuberculosis" model="hr.hospital.disease">
+        <field name="name">Tuberculosis</field>
+        <field name="parent_id" ref="disease_infectious"/>
+        <field name="description">Bacterial infection primarily affecting the lungs</field>
+        <field name="icd_code">A15</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.asia'), ref('base.africa')])]"/>
+    </record>
+
+    <!-- Level 2: Subcategories (Cardiovascular) -->
+    <record id="disease_hypertension" model="hr.hospital.disease">
+        <field name="name">Hypertension</field>
+        <field name="parent_id" ref="disease_cardiovascular"/>
+        <field name="description">High blood pressure</field>
+        <field name="icd_code">I10</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.north_america')])]"/>
+    </record>
+
+    <record id="disease_heart_attack" model="hr.hospital.disease">
+        <field name="name">Myocardial Infarction</field>
+        <field name="parent_id" ref="disease_cardiovascular"/>
+        <field name="description">Heart attack</field>
+        <field name="icd_code">I21</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.north_america'), ref('base.europe')])]"/>
+    </record>
+
+    <!-- Level 3: Specific Variants -->
+    <record id="disease_flu_a" model="hr.hospital.disease">
+        <field name="name">Influenza Type A</field>
+        <field name="parent_id" ref="disease_flu"/>
+        <field name="description">Most common type of seasonal flu</field>
+        <field name="icd_code">J11.0</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.europe')])]"/>
+    </record>
+
+    <record id="disease_covid_delta" model="hr.hospital.disease">
+        <field name="name">COVID-19 Delta Variant</field>
+        <field name="parent_id" ref="disease_covid"/>
+        <field name="description">Delta variant of coronavirus</field>
+        <field name="icd_code">U07.1</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="region_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+    </record>
+
+</odoo>

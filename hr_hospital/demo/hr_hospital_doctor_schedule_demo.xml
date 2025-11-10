@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Data: Doctor Schedule for Current Week (All Doctors) -->
+    
+    <!-- Helper: Calculate current week's Monday -->
+    <!-- Schedule for Doctor 1: Cardiology -->
+    <record id="schedule_d1_mon" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from" eval="9.0"/>
+        <field name="time_to" eval="17.0"/>
+        <field name="notes">Cardiology consultations</field>
+    </record>
+
+    <record id="schedule_d1_tue" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-1)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from" eval="9.0"/>
+        <field name="time_to" eval="17.0"/>
+    </record>
+
+    <record id="schedule_d1_wed" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-2)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from" eval="9.0"/>
+        <field name="time_to" eval="17.0"/>
+    </record>
+
+    <record id="schedule_d1_thu" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-3)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from" eval="9.0"/>
+        <field name="time_to" eval="17.0"/>
+    </record>
+
+    <record id="schedule_d1_fri" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_01"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-4)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from" eval="9.0"/>
+        <field name="time_to" eval="17.0"/>
+    </record>
+
+    <!-- Schedule for Doctor 2: Neurology -->
+    <record id="schedule_d2_mon" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="18.0"/>
+        <field name="notes">Neurology consultations</field>
+    </record>
+
+    <record id="schedule_d2_tue" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-1)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="18.0"/>
+    </record>
+
+    <record id="schedule_d2_wed" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-2)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="18.0"/>
+    </record>
+
+    <record id="schedule_d2_thu" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-3)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="18.0"/>
+    </record>
+
+    <record id="schedule_d2_fri" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_02"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-4)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="18.0"/>
+    </record>
+
+    <!-- Schedule for Doctor 3: Pediatrics -->
+    <record id="schedule_d3_mon" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from" eval="8.0"/>
+        <field name="time_to" eval="16.0"/>
+        <field name="notes">Pediatrics - morning shift</field>
+    </record>
+
+    <record id="schedule_d3_tue" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-1)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from" eval="8.0"/>
+        <field name="time_to" eval="16.0"/>
+    </record>
+
+    <record id="schedule_d3_wed" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-2)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from" eval="8.0"/>
+        <field name="time_to" eval="16.0"/>
+    </record>
+
+    <record id="schedule_d3_thu" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-3)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from" eval="8.0"/>
+        <field name="time_to" eval="16.0"/>
+    </record>
+
+    <record id="schedule_d3_fri" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_03"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-4)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from" eval="8.0"/>
+        <field name="time_to" eval="16.0"/>
+    </record>
+
+    <!-- Schedule for Doctor 4: Orthopedics (includes Saturday) -->
+    <record id="schedule_d4_mon" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from" eval="9.0"/>
+        <field name="time_to" eval="18.0"/>
+        <field name="notes">Orthopedics consultations</field>
+    </record>
+
+    <record id="schedule_d4_wed" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-2)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from" eval="9.0"/>
+        <field name="time_to" eval="18.0"/>
+    </record>
+
+    <record id="schedule_d4_fri" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-4)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from" eval="9.0"/>
+        <field name="time_to" eval="18.0"/>
+    </record>
+
+    <record id="schedule_d4_sat" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_04"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-5)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">5</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="14.0"/>
+        <field name="notes">Saturday emergency duty</field>
+    </record>
+
+    <!-- Schedule for Doctor 5: General Practice -->
+    <record id="schedule_d5_mon" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from" eval="8.0"/>
+        <field name="time_to" eval="20.0"/>
+        <field name="notes">Extended hours - General Practice</field>
+    </record>
+
+    <record id="schedule_d5_tue" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-1)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from" eval="8.0"/>
+        <field name="time_to" eval="20.0"/>
+    </record>
+
+    <record id="schedule_d5_thu" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_05"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-3)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from" eval="8.0"/>
+        <field name="time_to" eval="20.0"/>
+    </record>
+
+    <!-- Schedule for Doctor 6: Dermatology -->
+    <record id="schedule_d6_tue" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_06"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-1)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from" eval="13.0"/>
+        <field name="time_to" eval="19.0"/>
+        <field name="notes">Afternoon dermatology clinic</field>
+    </record>
+
+    <record id="schedule_d6_wed" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_06"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-2)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from" eval="13.0"/>
+        <field name="time_to" eval="19.0"/>
+    </record>
+
+    <record id="schedule_d6_thu" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_06"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-3)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from" eval="13.0"/>
+        <field name="time_to" eval="19.0"/>
+    </record>
+
+    <!-- Schedule for Intern 1 (Doctor 7) - supervised hours -->
+    <record id="schedule_d7_mon" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_07"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday())).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">0</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="16.0"/>
+        <field name="notes">Intern - supervised by mentor</field>
+    </record>
+
+    <record id="schedule_d7_wed" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_07"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-2)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">2</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="16.0"/>
+        <field name="notes">Intern - supervised by mentor</field>
+    </record>
+
+    <record id="schedule_d7_fri" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_07"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-4)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from" eval="10.0"/>
+        <field name="time_to" eval="16.0"/>
+        <field name="notes">Intern - supervised by mentor</field>
+    </record>
+
+    <!-- Schedule for Intern 2 (Doctor 8) - supervised hours -->
+    <record id="schedule_d8_tue" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_08"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-1)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">1</field>
+        <field name="time_from" eval="11.0"/>
+        <field name="time_to" eval="17.0"/>
+        <field name="notes">Intern - supervised by mentor</field>
+    </record>
+
+    <record id="schedule_d8_thu" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_08"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-3)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">3</field>
+        <field name="time_from" eval="11.0"/>
+        <field name="time_to" eval="17.0"/>
+        <field name="notes">Intern - supervised by mentor</field>
+    </record>
+
+    <record id="schedule_d8_fri" model="hr.hospital.doctor.schedule">
+        <field name="doctor_id" ref="hr_hospital_doctor_08"/>
+        <field name="date" eval="(datetime.now() - timedelta(days=datetime.now().weekday()-4)).strftime('%Y-%m-%d')"/>
+        <field name="day_of_week">4</field>
+        <field name="time_from" eval="11.0"/>
+        <field name="time_to" eval="17.0"/>
+        <field name="notes">Intern - supervised by mentor</field>
+    </record>
+
+</odoo>
