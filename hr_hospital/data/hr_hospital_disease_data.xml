@@ -1,23 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <!-- Disease 1: Influenza -->
-        <record id="disease_influenza" model="hr.hospital.disease">
-            <field name="name">Influenza</field>
-            <field name="code">J11</field>
-            <field name="description">Influenza, commonly known as the flu, is an infectious disease caused by influenza viruses.</field>
-        </record>
+    <!-- Top Level: Respiratory Diseases -->
+    <record id="disease_respiratory" model="hr.hospital.disease">
+        <field name="name">Respiratory Diseases</field>
+        <field name="icd_code">J00-J99</field>
+        <field name="description">Diseases of the respiratory system</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="False"/>
+    </record>
 
-        <!-- Disease 2: Hypertension -->
-        <record id="disease_hypertension" model="hr.hospital.disease">
-            <field name="name">Hypertension</field>
-            <field name="code">I10</field>
-            <field name="description">Hypertension, also known as high blood pressure, is a long-term medical condition.</field>
-        </record>
+    <!-- Sub-disease: Influenza -->
+    <record id="disease_influenza" model="hr.hospital.disease">
+        <field name="name">Influenza</field>
+        <field name="icd_code">J11</field>
+        <field name="parent_id" ref="disease_respiratory"/>
+        <field name="description">Influenza, commonly known as the flu, is an infectious disease caused by influenza viruses.</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Fever, cough, sore throat, runny nose, muscle aches, headaches, fatigue</field>
+        <field name="region_ids" eval="[(6, 0, [ref('base.us'), ref('base.ua'), ref('base.uk')])]"/>
+    </record>
 
-        <!-- Disease 3: Diabetes Type 2 -->
-        <record id="disease_diabetes_type2" model="hr.hospital.disease">
-            <field name="name">Diabetes Type 2</field>
-            <field name="code">E11</field>
-            <field name="description">Type 2 diabetes is a chronic condition that affects the way the body processes blood sugar.</field>
-        </record>
+    <!-- Top Level: Cardiovascular Diseases -->
+    <record id="disease_cardiovascular" model="hr.hospital.disease">
+        <field name="name">Cardiovascular Diseases</field>
+        <field name="icd_code">I00-I99</field>
+        <field name="description">Diseases of the circulatory system</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="False"/>
+    </record>
+
+    <!-- Sub-disease: Hypertension -->
+    <record id="disease_hypertension" model="hr.hospital.disease">
+        <field name="name">Hypertension</field>
+        <field name="icd_code">I10</field>
+        <field name="parent_id" ref="disease_cardiovascular"/>
+        <field name="description">Hypertension, also known as high blood pressure, is a long-term medical condition.</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="symptoms">Often asymptomatic, headaches, shortness of breath, nosebleeds in severe cases</field>
+        <field name="region_ids" eval="[(6, 0, [ref('base.us'), ref('base.ua'), ref('base.uk'), ref('base.de'), ref('base.fr')])]"/>
+    </record>
+
+    <!-- Top Level: Endocrine Diseases -->
+    <record id="disease_endocrine" model="hr.hospital.disease">
+        <field name="name">Endocrine, Nutritional and Metabolic Diseases</field>
+        <field name="icd_code">E00-E90</field>
+        <field name="description">Diseases related to hormones and metabolism</field>
+        <field name="danger_level">medium</field>
+        <field name="is_contagious" eval="False"/>
+    </record>
+
+    <!-- Sub-disease: Diabetes Mellitus -->
+    <record id="disease_diabetes" model="hr.hospital.disease">
+        <field name="name">Diabetes Mellitus</field>
+        <field name="icd_code">E10-E14</field>
+        <field name="parent_id" ref="disease_endocrine"/>
+        <field name="description">Diabetes is a chronic condition affecting blood sugar regulation</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="False"/>
+    </record>
+
+    <!-- Sub-sub-disease: Diabetes Type 2 -->
+    <record id="disease_diabetes_type2" model="hr.hospital.disease">
+        <field name="name">Type 2 Diabetes Mellitus</field>
+        <field name="icd_code">E11</field>
+        <field name="parent_id" ref="disease_diabetes"/>
+        <field name="description">Type 2 diabetes is a chronic condition that affects the way the body processes blood sugar.</field>
+        <field name="danger_level">high</field>
+        <field name="is_contagious" eval="False"/>
+        <field name="symptoms">Increased thirst, frequent urination, hunger, fatigue, blurred vision, slow-healing sores</field>
+        <field name="region_ids" eval="[(6, 0, [ref('base.us'), ref('base.ua'), ref('base.in'), ref('base.cn')])]"/>
+    </record>
+
+    <!-- Top Level: Infectious Diseases -->
+    <record id="disease_infectious" model="hr.hospital.disease">
+        <field name="name">Infectious and Parasitic Diseases</field>
+        <field name="icd_code">A00-B99</field>
+        <field name="description">Diseases caused by pathogens</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="True"/>
+    </record>
+
+    <!-- Sub-disease: COVID-19 -->
+    <record id="disease_covid19" model="hr.hospital.disease">
+        <field name="name">COVID-19</field>
+        <field name="icd_code">U07.1</field>
+        <field name="parent_id" ref="disease_infectious"/>
+        <field name="description">Coronavirus disease caused by SARS-CoV-2 virus</field>
+        <field name="danger_level">critical</field>
+        <field name="is_contagious" eval="True"/>
+        <field name="symptoms">Fever, cough, fatigue, loss of taste or smell, difficulty breathing, chest pain</field>
+        <field name="region_ids" eval="[(6, 0, [ref('base.us'), ref('base.ua'), ref('base.uk'), ref('base.de'), ref('base.fr'), ref('base.it'), ref('base.es'), ref('base.in'), ref('base.cn'), ref('base.jp')])]"/>
+    </record>
 </odoo>
