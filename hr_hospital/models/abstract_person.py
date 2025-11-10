@@ -71,7 +71,8 @@ class AbstractPerson(models.AbstractModel):
                 today = date.today()
                 birth_date = record.date_of_birth
                 record.age = today.year - birth_date.year - (
-                    (today.month, today.day) < (birth_date.month, birth_date.day)
+                    (today.month, today.day) <
+                    (birth_date.month, birth_date.day)
                 )
             else:
                 record.age = 0
@@ -96,19 +97,26 @@ class AbstractPerson(models.AbstractModel):
             if record.phone:
                 # Видаляємо всі пробіли, дефіси та дужки для перевірки
                 phone_clean = re.sub(r'[\s\-\(\)]', '', record.phone)
-                
+
                 # Дозволені коди українських мобільних операторів
-                mobile_codes = r'(020|039|050|063|066|067|068|073|075|077|089|091|092|093|094|095|096|097|098|099)'
-                
+                mobile_codes = (
+                    r'(020|039|050|063|066|067|068|073|075|077|089|'
+                    r'091|092|093|094|095|096|097|098|099)'
+                )
+
                 # Формати: +380XXXXXXXXX або 0XXXXXXXXX
-                phone_pattern = rf'^(\+380{mobile_codes}|0{mobile_codes})\d{{7}}$'
-                
+                phone_pattern = (
+                    rf'^(\+380{mobile_codes}|0{mobile_codes})\d{{7}}$'
+                )
+
                 if not re.match(phone_pattern, phone_clean):
                     raise ValidationError(
                         _('Phone number format is invalid. '
                           'Please use Ukrainian mobile number format: '
                           '+380XX XXX XX XX or 0XX XXX XX XX. '
-                          'Allowed codes: 039, 050, 063, 066, 067, 068, 091, 092, 093, 094, 095, 096, 097, 098, 099')
+                          'Allowed codes: 020, 039, 050, 063, 066, 067, '
+                          '068, 073, 075, 077, 089, 091, 092, 093, 094, '
+                          '095, 096, 097, 098, 099')
                     )
 
     @api.constrains('email')
@@ -116,7 +124,9 @@ class AbstractPerson(models.AbstractModel):
         """Валідація формату email"""
         for record in self:
             if record.email:
-                email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+                email_pattern = (
+                    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+                )
                 if not re.match(email_pattern, record.email):
                     raise ValidationError(
                         _('Email format is invalid. '
@@ -129,8 +139,12 @@ class AbstractPerson(models.AbstractModel):
         for record in self:
             if record.date_of_birth:
                 if record.date_of_birth > date.today():
-                    raise ValidationError(_('Date of birth cannot be in the future!'))
+                    raise ValidationError(
+                        _('Date of birth cannot be in the future!')
+                    )
                 # Перевірка мінімального віку (наприклад, не менше 0 років)
                 age = (date.today() - record.date_of_birth).days / 365.25
                 if age > 150:
-                    raise ValidationError(_('Age cannot be more than 150 years!'))
+                    raise ValidationError(
+                        _('Age cannot be more than 150 years!')
+                    )
