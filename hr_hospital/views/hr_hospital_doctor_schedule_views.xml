@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Schedule Tree View -->
+    <record id="hr_hospital_doctor_schedule_view_tree" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.schedule.tree</field>
+        <field name="model">hr.hospital.doctor.schedule</field>
+        <field name="arch" type="xml">
+            <tree decoration-muted="schedule_type != 'working_day'">
+                <field name="doctor_id"/>
+                <field name="date"/>
+                <field name="day_of_week"/>
+                <field name="schedule_type"/>
+                <field name="time_from" widget="float_time"/>
+                <field name="time_to" widget="float_time"/>
+                <field name="notes"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Schedule Form View -->
+    <record id="hr_hospital_doctor_schedule_view_form" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.schedule.form</field>
+        <field name="model">hr.hospital.doctor.schedule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="doctor_id"/>
+                            <field name="schedule_type"/>
+                            <field name="date"/>
+                            <field name="day_of_week"/>
+                        </group>
+                        <group>
+                            <field name="time_from" widget="float_time"/>
+                            <field name="time_to" widget="float_time"/>
+                            <field name="notes"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Schedule Search View -->
+    <record id="hr_hospital_doctor_schedule_view_search" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.schedule.search</field>
+        <field name="model">hr.hospital.doctor.schedule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="doctor_id"/>
+                <field name="day_of_week"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Doctor" name="group_doctor" context="{'group_by': 'doctor_id'}"/>
+                    <filter string="Day of Week" name="group_day" context="{'group_by': 'day_of_week'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Schedule Action -->
+    <record id="hr_hospital_doctor_schedule_action" model="ir.actions.act_window">
+        <field name="name">Doctor Schedules</field>
+        <field name="res_model">hr.hospital.doctor.schedule</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new doctor work schedule
+            </p>
+        </field>
+    </record>
+</odoo>

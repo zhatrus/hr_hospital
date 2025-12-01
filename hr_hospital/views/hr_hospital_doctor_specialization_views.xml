@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Specialization Tree View -->
+    <record id="hr_hospital_doctor_specialization_view_tree" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.specialization.tree</field>
+        <field name="model">hr.hospital.doctor.specialization</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="doctor_count"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Specialization Form View -->
+    <record id="hr_hospital_doctor_specialization_view_form" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.specialization.form</field>
+        <field name="model">hr.hospital.doctor.specialization</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" 
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="doctor_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Description of specialization..."/>
+                    </group>
+                    <notebook>
+                        <page string="Doctors">
+                            <field name="doctor_ids">
+                                <tree>
+                                    <field name="full_name"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="is_intern"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Specialization Search View -->
+    <record id="hr_hospital_doctor_specialization_view_search" model="ir.ui.view">
+        <field name="name">hr.hospital.doctor.specialization.search</field>
+        <field name="model">hr.hospital.doctor.specialization</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Active Status" name="group_active" context="{'group_by': 'active'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Specialization Action -->
+    <record id="hr_hospital_doctor_specialization_action" model="ir.actions.act_window">
+        <field name="name">Specializations</field>
+        <field name="res_model">hr.hospital.doctor.specialization</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new doctor specialization
+            </p>
+        </field>
+    </record>
+</odoo>

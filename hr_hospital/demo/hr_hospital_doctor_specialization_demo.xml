@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="specialization_cardiology" model="hr.hospital.doctor.specialization">
+        <field name="code">CARD-01</field>
+        <field name="name">Cardiology</field>
+        <field name="description">Diagnosis and treatment of heart conditions</field>
+    </record>
+
+    <record id="specialization_neurology" model="hr.hospital.doctor.specialization">
+        <field name="code">NEUR-02</field>
+        <field name="name">Neurology</field>
+        <field name="description">Diagnosis and treatment of nervous system disorders</field>
+    </record>
+
+    <record id="specialization_pediatrics" model="hr.hospital.doctor.specialization">
+        <field name="code">PED-03</field>
+        <field name="name">Pediatrics</field>
+        <field name="description">Medical care for infants, children, and adolescents</field>
+    </record>
+
+    <record id="specialization_surgery" model="hr.hospital.doctor.specialization">
+        <field name="code">SURG-04</field>
+        <field name="name">Surgery</field>
+        <field name="description">Operative treatment of diseases and injuries</field>
+    </record>
+
+    <record id="specialization_general" model="hr.hospital.doctor.specialization">
+        <field name="code">GEN-05</field>
+        <field name="name">General Practice</field>
+        <field name="description">Primary healthcare and general medical services</field>
+    </record>
+</odoo>

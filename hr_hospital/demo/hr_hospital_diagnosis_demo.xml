@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Data: 20 Diagnoses (including unapproved from interns) -->
+    
+    <!-- Approved Diagnoses from Senior Doctors -->
+    <record id="diagnosis_01" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_01"/>
+        <field name="disease_id" ref="disease_flu"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_01"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d 09:30:00')"/>
+        <field name="notes">Patient responding well to antiviral medication.</field>
+        <field name="treatment">&lt;p&gt;Rest, fluids, antiviral medication&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_02" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_02"/>
+        <field name="disease_id" ref="disease_pneumonia"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">severe</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_02"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=9)).strftime('%Y-%m-%d 10:30:00')"/>
+        <field name="notes">Emergency admission required. X-ray confirmed.</field>
+        <field name="treatment">&lt;p&gt;Antibiotics IV, oxygen therapy, hospitalization&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_03" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_03"/>
+        <field name="disease_id" ref="disease_bronchitis"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_03"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d 11:20:00')"/>
+        <field name="notes">Follow-up shows improvement.</field>
+        <field name="treatment">&lt;p&gt;Continue bronchodilators, cough suppressant&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_04" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_04"/>
+        <field name="disease_id" ref="disease_hypertension"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_01"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d 14:40:00')"/>
+        <field name="notes">Blood pressure 145/95. Lifestyle changes recommended.</field>
+        <field name="treatment">&lt;p&gt;ACE inhibitor, low sodium diet, regular exercise&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_05" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_05"/>
+        <field name="disease_id" ref="disease_flu_a"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_02"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=6)).strftime('%Y-%m-%d 15:30:00')"/>
+        <field name="notes">Type A flu confirmed by rapid test.</field>
+        <field name="treatment">&lt;p&gt;Oseltamivir, rest, fluids&lt;/p&gt;</field>
+    </record>
+
+    <!-- Unapproved Diagnoses from Intern 1 (doctor_07) -->
+    <record id="diagnosis_06" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_06"/>
+        <field name="disease_id" ref="disease_flu"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="False"/>
+        <field name="notes">Intern diagnosis - awaiting mentor approval.</field>
+        <field name="treatment">&lt;p&gt;Symptomatic treatment recommended&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_07" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_06"/>
+        <field name="disease_id" ref="disease_bronchitis"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="False"/>
+        <field name="notes">Secondary complication observed.</field>
+        <field name="treatment">&lt;p&gt;Monitor for progression&lt;/p&gt;</field>
+    </record>
+
+    <!-- Unapproved Diagnoses from Intern 2 (doctor_08) -->
+    <record id="diagnosis_08" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_07"/>
+        <field name="disease_id" ref="disease_hypertension"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="False"/>
+        <field name="notes">Intern assessment - requires mentor review.</field>
+        <field name="treatment">&lt;p&gt;Lifestyle modifications suggested&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_09" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_07"/>
+        <field name="disease_id" ref="disease_cardiovascular"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="False"/>
+        <field name="notes">Family history of cardiovascular disease noted.</field>
+        <field name="treatment">&lt;p&gt;Further tests recommended&lt;/p&gt;</field>
+    </record>
+
+    <!-- More Approved Diagnoses -->
+    <record id="diagnosis_10" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_08"/>
+        <field name="disease_id" ref="disease_tuberculosis"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">severe</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_03"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d 11:30:00')"/>
+        <field name="notes">Positive TB test. Starting DOTS protocol.</field>
+        <field name="treatment">&lt;p&gt;6-month TB treatment regimen, isolation required&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_11" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_09"/>
+        <field name="disease_id" ref="disease_heart_attack"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">critical</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_04"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d 12:30:00')"/>
+        <field name="notes">STEMI confirmed. Emergency intervention performed.</field>
+        <field name="treatment">&lt;p&gt;PCI performed, dual antiplatelet therapy, cardiac rehabilitation&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_12" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_10"/>
+        <field name="disease_id" ref="disease_respiratory"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_05"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d 13:40:00')"/>
+        <field name="notes">Preventive screening shows early signs.</field>
+        <field name="treatment">&lt;p&gt;Monitoring, lifestyle changes&lt;/p&gt;</field>
+    </record>
+
+    <!-- Additional Approved Diagnoses -->
+    <record id="diagnosis_13" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_01"/>
+        <field name="disease_id" ref="disease_bronchitis"/>
+        <field name="diagnosis_type">complication</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_01"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d 09:45:00')"/>
+        <field name="notes">Developed as complication of flu.</field>
+        <field name="treatment">&lt;p&gt;Additional bronchodilator prescribed&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_14" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_02"/>
+        <field name="disease_id" ref="disease_infectious"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_02"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=9)).strftime('%Y-%m-%d 10:45:00')"/>
+        <field name="notes">Secondary infection detected.</field>
+        <field name="treatment">&lt;p&gt;Broad spectrum antibiotics added&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_15" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_03"/>
+        <field name="disease_id" ref="disease_respiratory"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_03"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d 11:30:00')"/>
+        <field name="notes">General respiratory system check.</field>
+        <field name="treatment">&lt;p&gt;Continue current treatment&lt;/p&gt;</field>
+    </record>
+
+    <!-- More Unapproved Diagnoses from Interns -->
+    <record id="diagnosis_16" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_06"/>
+        <field name="disease_id" ref="disease_pneumonia"/>
+        <field name="diagnosis_type">complication</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="False"/>
+        <field name="notes">Intern suspects pneumonia complication - needs X-ray confirmation.</field>
+        <field name="treatment">&lt;p&gt;Pending diagnostic imaging&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_17" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_07"/>
+        <field name="disease_id" ref="disease_heart_attack"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="False"/>
+        <field name="notes">Intern notes family history risk - ECG recommended.</field>
+        <field name="treatment">&lt;p&gt;Preventive screening recommended&lt;/p&gt;</field>
+    </record>
+
+    <!-- Final Approved Diagnoses -->
+    <record id="diagnosis_18" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_08"/>
+        <field name="disease_id" ref="disease_cardiovascular"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_03"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d 11:45:00')"/>
+        <field name="notes">Chronic cardiovascular condition monitoring.</field>
+        <field name="treatment">&lt;p&gt;Regular checkups, medication compliance&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_19" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_09"/>
+        <field name="disease_id" ref="disease_cardiovascular"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">severe</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_04"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d 12:45:00')"/>
+        <field name="notes">Pre-existing cardiovascular condition.</field>
+        <field name="treatment">&lt;p&gt;Ongoing cardiac care protocol&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_20" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_10"/>
+        <field name="disease_id" ref="disease_hypertension"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="hr_hospital_doctor_05"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d 13:50:00')"/>
+        <field name="notes">Preventive care - borderline hypertension detected.</field>
+        <field name="treatment">&lt;p&gt;Diet and exercise, monthly monitoring&lt;/p&gt;</field>
+    </record>
+
+</odoo>

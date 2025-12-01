@@ -19,6 +19,13 @@
               action="hr_hospital_doctor_action"
               sequence="20"/>
 
+    <!-- Contact Persons Menu -->
+    <menuitem id="hr_hospital_menu_contact_persons"
+              name="Contact Persons"
+              parent="hr_hospital_menu_root"
+              action="hr_hospital_contact_person_action"
+              sequence="30"/>
+
     <!-- Submenu for Configuration -->
     <menuitem id="hr_hospital_menu_configuration"
               name="Configuration"
@@ -38,4 +45,10 @@
               parent="hr_hospital_menu_configuration"
               action="hr_hospital_visit_action"
               sequence="20"/>
+
+    <!-- Submenu for Reports -->
+    <menuitem id="hr_hospital_menu_reports"
+              name="Reports"
+              parent="hr_hospital_menu_root"
+              sequence="90"/>
 </odoo>

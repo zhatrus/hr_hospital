@@ -6,7 +6,7 @@
         <field name="model">hr.hospital.patient</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
+                <field name="full_name"/>
                 <field name="date_of_birth"/>
                 <field name="age"/>
                 <field name="gender"/>
@@ -23,21 +23,44 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="full_name" readonly="1"/>
+                        </h1>
+                    </div>
                     <group>
-                        <group>
-                            <field name="name"/>
-                            <field name="date_of_birth"/>
-                            <field name="age"/>
+                        <group string="Personal Information">
+                            <field name="last_name"/>
+                            <field name="first_name"/>
+                            <field name="middle_name"/>
                             <field name="gender"/>
+                            <field name="date_of_birth"/>
+                            <field name="age" readonly="1"/>
+                            <field name="passport_data"/>
                         </group>
-                        <group>
+                        <group string="Contact Information">
                             <field name="phone"/>
                             <field name="email"/>
+                            <field name="country_id"/>
+                            <field name="lang_id"/>
+                            <field name="primary_contact_id"/>
+                        </group>
+                        <group string="Medical Information">
                             <field name="doctor_id"/>
+                            <field name="blood_type"/>
+                        </group>
+                        <group string="Insurance">
+                            <field name="insurance_company_id"/>
+                            <field name="insurance_policy_number"/>
                         </group>
                     </group>
-                    <group>
-                        <field name="address"/>
+                    <group string="Address">
+                        <field name="address" nolabel="1"/>
+                    </group>
+                    <group string="Allergies">
+                        <field name="allergies" nolabel="1" 
+                               placeholder="List all known allergies..."/>
                     </group>
                     <notebook>
                         <page string="Visits">
@@ -50,7 +73,34 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Contact Persons">
+                            <field name="contact_person_ids">
+                                <tree>
+                                    <field name="full_name"/>
+                                    <field name="relationship"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="is_emergency_contact"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Doctor History">
+                            <field name="doctor_history_ids">
+                                <tree decoration-success="is_current == True">
+                                    <field name="doctor_id"/>
+                                    <field name="assignment_date"/>
+                                    <field name="end_date"/>
+                                    <field name="is_current" invisible="1"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
                     </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </sheet>
             </form>
         </field>

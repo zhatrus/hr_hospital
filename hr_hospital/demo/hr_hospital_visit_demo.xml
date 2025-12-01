@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Completed Visit 1 -->
+    <record id="visit_demo_1" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_demo_1"/>
+        <field name="doctor_id" ref="doctor_demo_1"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d 09:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d 09:15:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">primary</field>
+    </record>
+
+    <!-- Completed Visit 2 -->
+    <record id="visit_demo_2" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_demo_2"/>
+        <field name="doctor_id" ref="doctor_demo_2"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d 10:00:00')"/>
+        <field name="actual_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d 10:10:00')"/>
+        <field name="status">completed</field>
+        <field name="visit_type">followup</field>
+    </record>
+
+    <!-- Scheduled Visit 3 -->
+    <record id="visit_demo_3" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_demo_3"/>
+        <field name="doctor_id" ref="doctor_demo_3"/>
+        <field name="scheduled_date" eval="(datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d 11:00:00')"/>
+        <field name="status">scheduled</field>
+        <field name="visit_type">primary</field>
+    </record>
+</odoo>

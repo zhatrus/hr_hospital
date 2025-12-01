@@ -6,8 +6,8 @@
         <field name="model">hr.hospital.doctor</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="specialization"/>
+                <field name="full_name"/>
+                <field name="specialization_id"/>
                 <field name="phone"/>
                 <field name="email"/>
                 <field name="is_intern"/>
@@ -23,24 +23,49 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="full_name" readonly="1"/>
+                        </h1>
+                    </div>
                     <group>
-                        <group>
-                            <field name="name"/>
-                            <field name="specialization"/>
-                            <field name="is_intern"/>
-                            <field name="mentor_id" invisible="not is_intern"/>
+                        <group string="Personal Information">
+                            <field name="last_name"/>
+                            <field name="first_name"/>
+                            <field name="middle_name"/>
+                            <field name="gender"/>
+                            <field name="date_of_birth"/>
+                            <field name="age" readonly="1"/>
                         </group>
-                        <group>
+                        <group string="Contact Information">
                             <field name="phone"/>
                             <field name="email"/>
+                            <field name="country_id"/>
+                            <field name="lang_id"/>
+                        </group>
+                        <group string="Professional Information">
+                            <field name="specialization_id"/>
+                            <field name="is_intern"/>
+                            <field name="mentor_id" invisible="not is_intern"/>
+                            <field name="rating"/>
+                        </group>
+                        <group string="License &amp; Experience">
+                            <field name="license_number"/>
+                            <field name="license_issue_date"/>
+                            <field name="years_of_experience" readonly="1"/>
+                            <field name="education_country_id"/>
+                        </group>
+                        <group string="System Access">
+                            <field name="user_id"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Interns" invisible="is_intern">
                             <field name="intern_ids">
                                 <tree>
-                                    <field name="name"/>
-                                    <field name="specialization"/>
+                                    <field name="full_name"/>
+                                    <field name="specialization_id"/>
                                     <field name="phone"/>
                                 </tree>
                             </field>
@@ -48,7 +73,7 @@
                         <page string="Patients">
                             <field name="patient_ids">
                                 <tree>
-                                    <field name="name"/>
+                                    <field name="full_name"/>
                                     <field name="phone"/>
                                     <field name="age"/>
                                 </tree>
@@ -60,6 +85,19 @@
                                     <field name="patient_id"/>
                                     <field name="visit_date"/>
                                     <field name="disease_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Work Schedule">
+                            <field name="schedule_ids">
+                                <tree editable="bottom" decoration-muted="schedule_type != 'working_day'">
+                                    <field name="date"/>
+                                    <field name="day_of_week"/>
+                                    <field name="schedule_type"/>
+                                    <field name="time_from" widget="float_time"/>
+                                    <field name="time_to" widget="float_time"/>
+                                    <field name="notes"/>
+                                    <field name="active"/>
                                 </tree>
                             </field>
                         </page>

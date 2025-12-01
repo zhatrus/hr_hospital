@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Disease Tree View -->
+    <!-- Disease Tree View with Hierarchy -->
     <record id="hr_hospital_disease_view_tree" model="ir.ui.view">
         <field name="name">hr.hospital.disease.view.tree</field>
         <field name="model">hr.hospital.disease</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-warning="danger_level == 'medium'"
+                  decoration-danger="danger_level in ['high', 'critical']"
+                  decoration-info="is_contagious == True">
                 <field name="name"/>
-                <field name="code"/>
+                <field name="icd_code"/>
+                <field name="parent_id"/>
+                <field name="danger_level"/>
+                <field name="is_contagious" widget="boolean_toggle"/>
                 <field name="description"/>
             </tree>
         </field>
@@ -21,14 +26,84 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="code"/>
+                        <group string="Basic Information">
+                            <field name="name"/>
+                            <field name="icd_code"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group string="Characteristics">
+                            <field name="danger_level"/>
+                            <field name="is_contagious"/>
+                        </group>
                     </group>
                     <group>
-                        <field name="description"/>
+                        <field name="description" 
+                               placeholder="Disease description..."/>
                     </group>
+                    <notebook>
+                        <page string="Symptoms">
+                            <field name="symptoms" 
+                                   placeholder="Common symptoms..."/>
+                        </page>
+                        <page string="Geography">
+                            <field name="region_ids" widget="many2many_tags">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Sub-Diseases">
+                            <field name="child_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="icd_code"/>
+                                    <field name="danger_level"/>
+                                    <field name="is_contagious"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- Disease Search View -->
+    <record id="hr_hospital_disease_view_search" model="ir.ui.view">
+        <field name="name">hr.hospital.disease.search</field>
+        <field name="model">hr.hospital.disease</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="icd_code"/>
+                <field name="parent_id"/>
+                <separator/>
+                <filter string="Contagious" name="contagious" 
+                        domain="[('is_contagious', '=', True)]"/>
+                <filter string="Non-Contagious" name="not_contagious" 
+                        domain="[('is_contagious', '=', False)]"/>
+                <separator/>
+                <filter string="Critical" name="critical" 
+                        domain="[('danger_level', '=', 'critical')]"/>
+                <filter string="High Danger" name="high" 
+                        domain="[('danger_level', '=', 'high')]"/>
+                <filter string="Medium Danger" name="medium" 
+                        domain="[('danger_level', '=', 'medium')]"/>
+                <filter string="Low Danger" name="low" 
+                        domain="[('danger_level', '=', 'low')]"/>
+                <separator/>
+                <filter string="Top Level" name="top_level" 
+                        domain="[('parent_id', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Parent Disease" name="group_parent" 
+                            context="{'group_by': 'parent_id'}"/>
+                    <filter string="Danger Level" name="group_danger" 
+                            context="{'group_by': 'danger_level'}"/>
+                    <filter string="Contagious" name="group_contagious" 
+                            context="{'group_by': 'is_contagious'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
@@ -37,5 +112,11 @@
         <field name="name">Diseases</field>
         <field name="res_model">hr.hospital.disease</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_top_level': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new disease
+            </p>
+        </field>
     </record>
 </odoo>

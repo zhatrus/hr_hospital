@@ -2,34 +2,49 @@
 <odoo>
         <!-- Patient 1 -->
         <record id="patient_demo_1" model="hr.hospital.patient">
-            <field name="name">Alice Williams</field>
+            <field name="last_name">Williams</field>
+            <field name="first_name">Alice</field>
             <field name="date_of_birth">1985-03-15</field>
             <field name="gender">female</field>
             <field name="phone">+380671234567</field>
             <field name="email">alice.williams@example.com</field>
             <field name="address">123 Main Street, Kyiv, Ukraine</field>
+            <field name="passport_data">AB1234567</field>
+            <field name="blood_type">a_positive</field>
+            <field name="allergies">Penicillin, Peanuts</field>
+            <field name="insurance_policy_number">INS-2023-001</field>
             <field name="doctor_id" ref="doctor_demo_1"/>
         </record>
 
         <!-- Patient 2 -->
         <record id="patient_demo_2" model="hr.hospital.patient">
-            <field name="name">Robert Davis</field>
+            <field name="last_name">Davis</field>
+            <field name="first_name">Robert</field>
             <field name="date_of_birth">1978-07-22</field>
             <field name="gender">male</field>
             <field name="phone">+380672345678</field>
             <field name="email">robert.davis@example.com</field>
             <field name="address">456 Oak Avenue, Lviv, Ukraine</field>
+            <field name="passport_data">CD9876543</field>
+            <field name="blood_type">o_positive</field>
+            <field name="allergies">None known</field>
+            <field name="insurance_policy_number">INS-2023-002</field>
             <field name="doctor_id" ref="doctor_demo_2"/>
         </record>
 
         <!-- Patient 3 -->
         <record id="patient_demo_3" model="hr.hospital.patient">
-            <field name="name">Emily Martinez</field>
+            <field name="last_name">Martinez</field>
+            <field name="first_name">Emily</field>
             <field name="date_of_birth">1992-11-08</field>
             <field name="gender">female</field>
             <field name="phone">+380673456789</field>
             <field name="email">emily.martinez@example.com</field>
             <field name="address">789 Pine Road, Odesa, Ukraine</field>
+            <field name="passport_data">EF4567890</field>
+            <field name="blood_type">b_negative</field>
+            <field name="allergies">Lactose, Shellfish</field>
+            <field name="insurance_policy_number">INS-2023-003</field>
             <field name="doctor_id" ref="doctor_demo_1"/>
         </record>
 </odoo>

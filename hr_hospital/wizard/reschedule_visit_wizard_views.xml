@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reschedule Visit Wizard Form View -->
+    <record id="reschedule_visit_wizard_view_form" model="ir.ui.view">
+        <field name="name">reschedule.visit.wizard.form</field>
+        <field name="model">reschedule.visit.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reschedule Visit">
+                <group string="Current Visit Information">
+                    <group>
+                        <field name="visit_id" invisible="1"/>
+                        <field name="current_patient_id"/>
+                        <field name="current_doctor_id"/>
+                    </group>
+                    <group>
+                        <field name="current_scheduled_date"/>
+                    </group>
+                </group>
+                <group string="New Visit Information">
+                    <group>
+                        <field name="new_doctor_id" 
+                               placeholder="Leave empty to keep current doctor"/>
+                        <field name="new_date"/>
+                    </group>
+                    <group>
+                        <field name="new_time" widget="float_time"/>
+                    </group>
+                </group>
+                <group string="Reason for Rescheduling">
+                    <field name="reschedule_reason" nolabel="1" 
+                           placeholder="Enter reason for rescheduling..."/>
+                </group>
+                <footer>
+                    <button name="action_reschedule" 
+                            string="Reschedule" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button string="Cancel" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Reschedule Visit Action -->
+    <record id="reschedule_visit_wizard_action" model="ir.actions.act_window">
+        <field name="name">Reschedule Visit</field>
+        <field name="res_model">reschedule.visit.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_hr_hospital_visit"/>
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Diagnosis Tree View -->
+    <record id="hr_hospital_diagnosis_view_tree" model="ir.ui.view">
+        <field name="name">hr.hospital.diagnosis.tree</field>
+        <field name="model">hr.hospital.diagnosis</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="is_approved == True"
+                  decoration-warning="severity in ['moderate', 'severe']"
+                  decoration-danger="severity == 'critical'">
+                <field name="sequence" widget="handle"/>
+                <field name="disease_id"/>
+                <field name="diagnosis_type"/>
+                <field name="severity"/>
+                <field name="is_approved" widget="boolean_toggle"/>
+                <field name="approved_by_id" optional="hide"/>
+                <field name="description"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Diagnosis Form View -->
+    <record id="hr_hospital_diagnosis_view_form" model="ir.ui.view">
+        <field name="name">hr.hospital.diagnosis.form</field>
+        <field name="model">hr.hospital.diagnosis</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve" 
+                            type="object" class="oe_highlight"
+                            invisible="is_approved"/>
+                    <button name="action_unapprove" string="Unapprove" 
+                            type="object"
+                            invisible="not is_approved"/>
+                    <field name="is_approved" widget="statusbar" 
+                           statusbar_visible="False,True"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" 
+                                name="toggle_active" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Diagnosis Information">
+                            <field name="visit_id"/>
+                            <field name="disease_id"/>
+                            <field name="diagnosis_type"/>
+                            <field name="severity"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group string="Approval">
+                            <field name="approved_by_id"/>
+                            <field name="approval_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" 
+                                   placeholder="Detailed diagnosis description..."/>
+                        </page>
+                        <page string="Treatment">
+                            <field name="treatment" 
+                                   placeholder="Prescribed treatment plan..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Diagnosis Search View -->
+    <record id="hr_hospital_diagnosis_view_search" model="ir.ui.view">
+        <field name="name">hr.hospital.diagnosis.search</field>
+        <field name="model">hr.hospital.diagnosis</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="visit_id"/>
+                <field name="disease_id"/>
+                <field name="approved_by_id"/>
+                <separator/>
+                <filter string="Approved" name="approved" 
+                        domain="[('is_approved', '=', True)]"/>
+                <filter string="Not Approved" name="not_approved" 
+                        domain="[('is_approved', '=', False)]"/>
+                <separator/>
+                <filter string="Primary" name="primary" 
+                        domain="[('diagnosis_type', '=', 'primary')]"/>
+                <filter string="Secondary" name="secondary" 
+                        domain="[('diagnosis_type', '=', 'secondary')]"/>
+                <separator/>
+                <filter string="Critical" name="critical" 
+                        domain="[('severity', '=', 'critical')]"/>
+                <filter string="Severe" name="severe" 
+                        domain="[('severity', '=', 'severe')]"/>
+                <filter string="Moderate" name="moderate" 
+                        domain="[('severity', '=', 'moderate')]"/>
+                <filter string="Mild" name="mild" 
+                        domain="[('severity', '=', 'mild')]"/>
+                <separator/>
+                <filter string="Active" name="active" 
+                        domain="[('active', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Visit" name="group_visit" 
+                            context="{'group_by': 'visit_id'}"/>
+                    <filter string="Disease" name="group_disease" 
+                            context="{'group_by': 'disease_id'}"/>
+                    <filter string="Type" name="group_type" 
+                            context="{'group_by': 'diagnosis_type'}"/>
+                    <filter string="Severity" name="group_severity" 
+                            context="{'group_by': 'severity'}"/>
+                    <filter string="Approval Status" name="group_approved" 
+                            context="{'group_by': 'is_approved'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Diagnosis Action -->
+    <record id="hr_hospital_diagnosis_action" model="ir.actions.act_window">
+        <field name="name">Diagnoses</field>
+        <field name="res_model">hr.hospital.diagnosis</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+</odoo>

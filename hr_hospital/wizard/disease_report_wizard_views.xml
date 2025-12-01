@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Disease Report Wizard Form View -->
+    <record id="disease_report_wizard_view_form" model="ir.ui.view">
+        <field name="name">disease.report.wizard.form</field>
+        <field name="model">disease.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Disease Report">
+                <group>
+                    <group string="Period">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group string="Report Settings">
+                        <field name="report_type"/>
+                        <field name="group_by"/>
+                    </group>
+                </group>
+                <group string="Filters">
+                    <group>
+                        <field name="doctor_ids" widget="many2many_tags"/>
+                        <field name="disease_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="country_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_report" 
+                            string="Generate Report" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button string="Cancel" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Disease Report Action -->
+    <record id="disease_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Disease Report</field>
+        <field name="res_model">disease.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_disease_report_wizard"
+              name="Disease Report"
+              parent="hr_hospital_menu_reports"
+              action="disease_report_wizard_action"
+              sequence="10"/>
+</odoo>
