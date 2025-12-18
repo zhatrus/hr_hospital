@@ -45,6 +45,14 @@ class HrHospitalDiagnosis(models.Model):
                "('danger_level', 'in', ['high', 'critical'])]",
         help='Diagnosed disease',
     )
+    disease_type_id = fields.Many2one(
+        comodel_name='hr.hospital.disease',
+        string='Disease Type',
+        compute='_compute_disease_type_id',
+        store=True,
+        index=True,
+        readonly=True,
+    )
     diagnosis_type = fields.Selection(
         selection=[
             ('primary', 'Primary'),
@@ -102,6 +110,11 @@ class HrHospitalDiagnosis(models.Model):
     active = fields.Boolean(
         default=True,
     )
+
+    @api.depends('disease_id', 'disease_id.parent_id')
+    def _compute_disease_type_id(self):
+        for record in self:
+            record.disease_type_id = record.disease_id.parent_id or record.disease_id
 
     @api.constrains('approval_date', 'visit_id')
     def _check_approval_date(self):

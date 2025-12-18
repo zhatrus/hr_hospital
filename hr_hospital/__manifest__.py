@@ -51,6 +51,7 @@ Includes helper wizards for rescheduling and mass reassigning doctors.
         'demo/hr_hospital_patient_demo.xml',
         'demo/hr_hospital_contact_person_demo.xml',
         'demo/hr_hospital_visit_demo.xml',
+        'demo/hr_hospital_diagnosis_demo_6.xml',
         # TODO: Fix IDs in these files
         # 'demo/hr_hospital_disease_demo.xml',
         # 'demo/hr_hospital_diagnosis_demo.xml',

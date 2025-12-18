@@ -57,4 +57,10 @@
               parent="hr_hospital_menu_reports"
               action="hr_hospital_visit_pivot_action"
               sequence="10"/>
+
+    <menuitem id="hr_hospital_menu_diagnosis_report"
+              name="Disease Incidence"
+              parent="hr_hospital_menu_reports"
+              action="hr_hospital_diagnosis_report_action"
+              sequence="20"/>
 </odoo>
