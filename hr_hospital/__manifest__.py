@@ -1,10 +1,22 @@
 {
     'name': 'Hospital Management',
-    'version': '17.0.3.0.1',
+    'version': '17.0.3.0.2',
     'category': 'Healthcare',
     'summary': 'Hospital management system for doctors and patients',
+    'description': """Hospital Management
+
+Manage:
+- Doctors and specializations
+- Patients and contact persons
+- Visits, diagnoses and diseases
+- Doctor schedules
+
+Includes helper wizards for rescheduling and mass reassigning doctors.
+""",
     'author': 'Khatrus Zakhar',
+    'maintainer': 'Khatrus Zakhar',
     'website': 'https://github.com/zhatrus/hr_hospital',
+    'support': 'https://github.com/zhatrus/hr_hospital/issues',
     'license': 'LGPL-3',
     'depends': [
         'base',

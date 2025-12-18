@@ -15,20 +15,26 @@
                         <field name="change_date"/>
                     </group>
                 </group>
-                <group string="Patients to Reassign">
-                    <field name="patient_ids" nolabel="1">
-                        <tree>
-                            <field name="full_name"/>
-                            <field name="doctor_id"/>
-                            <field name="phone"/>
-                            <field name="age"/>
-                        </tree>
-                    </field>
-                </group>
-                <group string="Reason for Change">
-                    <field name="change_reason" nolabel="1" 
-                           placeholder="Enter reason for doctor change..."/>
-                </group>
+                <separator string="Patients to Reassign"/>
+                <div class="o_row">
+                    <div class="o_col_12">
+                        <field name="patient_ids" nolabel="1">
+                            <tree>
+                                <field name="full_name"/>
+                                <field name="doctor_id"/>
+                                <field name="phone"/>
+                                <field name="age"/>
+                            </tree>
+                        </field>
+                    </div>
+                </div>
+                <separator string="Reason for Change"/>
+                <div class="o_row">
+                    <div class="o_col_12">
+                        <field name="change_reason" nolabel="1" 
+                               placeholder="Enter reason for doctor change..."/>
+                    </div>
+                </div>
                 <footer>
                     <button name="action_reassign" 
                             string="Reassign" 
