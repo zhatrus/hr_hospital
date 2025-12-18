@@ -251,3 +251,19 @@ class HrHospitalVisit(models.Model):
                       'Please remove diagnoses first.')
                 )
         return super().unlink()
+
+    def name_get(self):
+        result = []
+        for record in self:
+            patient_name = record.patient_id.full_name or record.patient_id.display_name
+            doctor_name = record.doctor_id.full_name or record.doctor_id.display_name
+
+            dt_str = False
+            if record.scheduled_date:
+                dt = fields.Datetime.context_timestamp(record, record.scheduled_date)
+                dt_str = dt.strftime('%d.%m.%Y %H:%M')
+
+            parts = [p for p in [patient_name, doctor_name, dt_str] if p]
+            name = ' — '.join(parts) if parts else f"{record._name},{record.id}"
+            result.append((record.id, name))
+        return result

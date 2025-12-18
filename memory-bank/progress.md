@@ -10,6 +10,8 @@
 - [x] Visit: search view доповнено фільтром "This Month" (та є group by status).
 - [x] Visit: додано pivot view + action для поточного місяця + пункт меню в Reports.
 - [x] Visit: demo дані — додано 4-й demo запис.
+- [x] Visit: виправлено домени date filters (прибрано datetime.timedelta), щоб не падав OwlError у Pivot/Calendar.
+- [x] Visit: покращено назву події в календарі (name_get замість hr.hospital.visit,ID).
 - [x] Patient: додано smart buttons Visits/Diagnoses та кнопку швидкого створення Visit.
 - [x] Patient: додано вкладку Diagnoses (історія діагнозів лікарів).
 - [x] Patient: search view з пошуком по ПІБ або телефону (одним рядком).

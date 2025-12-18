@@ -104,22 +104,23 @@
                 
                 <!-- Фільтри за датою -->
                 <filter string="Today" name="filter_today"
-                        domain="[('scheduled_date', '&gt;=', context_today()),
-                                 ('scheduled_date', '&lt;', 
-                                  (context_today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                        domain="[('scheduled_date', '&gt;=',
+                                  context_today().strftime('%Y-%m-%d')),
+                                 ('scheduled_date', '&lt;',
+                                  (context_today() + relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
                 <filter string="This Week" name="filter_week"
-                        domain="[('scheduled_date', '&gt;=', 
-                                  (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
-                                 ('scheduled_date', '&lt;', 
-                                  (context_today() + datetime.timedelta(days=7-context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                        domain="[('scheduled_date', '&gt;=',
+                                  (context_today() - relativedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
+                                 ('scheduled_date', '&lt;',
+                                  (context_today() + relativedelta(days=(7 - context_today().weekday()))).strftime('%Y-%m-%d'))]"/>
                 <filter string="This Month" name="filter_current_month"
                         domain="[('scheduled_date', '&gt;=',
                                   context_today().replace(day=1).strftime('%Y-%m-%d')),
                                  ('scheduled_date', '&lt;',
-                                  (context_today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1).strftime('%Y-%m-%d'))]"/>
+                                  (context_today().replace(day=1) + relativedelta(months=1)).strftime('%Y-%m-%d'))]"/>
                 <filter string="Last 30 Days" name="filter_last_30"
-                        domain="[('scheduled_date', '&gt;=', 
-                                  (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                        domain="[('scheduled_date', '&gt;=',
+                                  (context_today() - relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
                 
                 <separator/>
                 
