@@ -62,6 +62,27 @@ class PatientCardExportWizard(models.TransientModel):
         help='Name of exported file',
     )
 
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if 'patient_id' not in fields_list:
+            return res
+
+        if res.get('patient_id'):
+            return res
+
+        if self.env.context.get('active_model') != 'hr.hospital.patient':
+            return res
+
+        active_id = self.env.context.get('active_id')
+        if not active_id:
+            active_ids = self.env.context.get('active_ids') or []
+            active_id = active_ids[0] if active_ids else False
+
+        if active_id:
+            res['patient_id'] = active_id
+        return res
+
     @api.onchange('patient_id')
     def _onchange_patient_id(self):
         """Встановлює мову звіту по замовчуванню"""
