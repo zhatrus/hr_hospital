@@ -204,7 +204,6 @@ class DoctorScheduleWizard(models.TransientModel):
                     'date': current_date,
                     'time_from': self.time_from,
                     'time_to': self.time_to,
-                    'schedule_type': self.schedule_type,
                 }
 
                 # Додаємо перерву якщо вказана
