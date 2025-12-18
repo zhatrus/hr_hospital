@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -94,16 +96,17 @@ class DiseaseReportWizard(models.TransientModel):
         domain = []
 
         # Фільтр по даті візиту
-        domain.append(('visit_id.scheduled_date', '>=',
-                      fields.Datetime.to_string(
-                          fields.Datetime.from_string(self.date_from))))
-        domain.append(('visit_id.scheduled_date', '<=',
-                      fields.Datetime.to_string(
-                          fields.Datetime.from_string(self.date_to) +
-                          fields.Datetime.now().replace(
-                              hour=23, minute=59, second=59) -
-                          fields.Datetime.now().replace(
-                              hour=0, minute=0, second=0))))
+        date_from_dt = datetime.combine(self.date_from, datetime.min.time())
+        date_to_dt = datetime.combine(
+            self.date_to + timedelta(days=1),
+            datetime.min.time(),
+        )
+        domain.append(
+            ('visit_id.scheduled_date', '>=', fields.Datetime.to_string(date_from_dt))
+        )
+        domain.append(
+            ('visit_id.scheduled_date', '<', fields.Datetime.to_string(date_to_dt))
+        )
 
         # Фільтр по лікарям
         if self.doctor_ids:
