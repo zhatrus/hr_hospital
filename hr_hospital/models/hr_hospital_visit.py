@@ -253,6 +253,7 @@ class HrHospitalVisit(models.Model):
         return super().unlink()
 
     def name_get(self):
+        """Human-friendly display name for calendar/pickers."""
         result = []
         for record in self:
             patient_name = record.patient_id.full_name or record.patient_id.display_name

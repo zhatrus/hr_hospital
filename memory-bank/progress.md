@@ -15,6 +15,10 @@
 - [x] Patient: додано smart buttons Visits/Diagnoses та кнопку швидкого створення Visit.
 - [x] Patient: додано вкладку Diagnoses (історія діагнозів лікарів).
 - [x] Patient: search view з пошуком по ПІБ або телефону (одним рядком).
+- [x] Doctor: form view доповнено блоком Mentor (для інтернів) та списком Interns у вигляді kanban.
+- [x] Doctor: search view доповнено фільтрами Mentors/Interns.
+- [x] Doctor: додано kanban view з групуванням по specialization та кнопкою швидкого створення Visit.
+- [x] Doctor: demo дані — додано 2 додаткових записи типу Intern.
 
 ## Що в процесі
 - [ ] Перевірка після Upgrade модуля на стенді.

@@ -25,6 +25,10 @@
                         domain="[('specialization_id', '!=', False)]"/>
                 <filter string="With License" name="filter_with_license"
                         domain="[('license_number', '!=', False)]"/>
+                <filter string="Mentors" name="filter_mentors"
+                        domain="[('intern_ids', '!=', False)]"/>
+                <filter string="Interns" name="filter_interns"
+                        domain="[('is_intern', '=', True)]"/>
                 <filter string="Not Interns" name="filter_not_intern"
                         domain="[('is_intern', '=', False)]"/>
                 
@@ -38,6 +42,10 @@
                 </group>
             </search>
         </field>
+    </record>
+
+    <record id="hr_hospital_doctor_action" model="ir.actions.act_window">
+        <field name="search_view_id" ref="hr_hospital_doctor_view_search_extended"/>
     </record>
 
     <!-- Patient Search View with Dynamic Filters -->

@@ -43,6 +43,19 @@ class HrHospitalDoctor(models.Model):
         help='Mentor doctor (available only for interns)',
     )
 
+    mentor_phone = fields.Char(
+        related='mentor_id.phone',
+        readonly=True,
+    )
+    mentor_email = fields.Char(
+        related='mentor_id.email',
+        readonly=True,
+    )
+    mentor_specialization_id = fields.Many2one(
+        related='mentor_id.specialization_id',
+        readonly=True,
+    )
+
     # Ліцензія
     license_number = fields.Char(
         required=True,
@@ -160,3 +173,17 @@ class HrHospitalDoctor(models.Model):
                         _('Cannot archive doctor with active visits! '
                           'Please reassign or cancel visits first.')
                     )
+
+    def action_quick_create_visit(self):
+        """Open Visit creation form with this doctor prefilled."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('New Visit'),
+            'res_model': 'hr.hospital.visit',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_doctor_id': self.id,
+            },
+        }
