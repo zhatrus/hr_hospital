@@ -26,10 +26,13 @@
                         <field name="new_time" widget="float_time"/>
                     </group>
                 </group>
-                <group string="Reason for Rescheduling">
-                    <field name="reschedule_reason" nolabel="1" 
-                           placeholder="Enter reason for rescheduling..."/>
-                </group>
+                <separator string="Reason for Rescheduling"/>
+                <div class="o_row">
+                    <div class="o_col_12">
+                        <field name="reschedule_reason" nolabel="1" 
+                               placeholder="Enter reason for rescheduling..."/>
+                    </div>
+                </div>
                 <footer>
                     <button name="action_reschedule" 
                             string="Reschedule" 
