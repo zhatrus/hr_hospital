@@ -33,8 +33,7 @@
                     <button name="action_unapprove" string="Unapprove" 
                             type="object"
                             invisible="not is_approved"/>
-                    <field name="is_approved" widget="statusbar" 
-                           statusbar_visible="False,True"/>
+                    <field name="is_approved" widget="boolean_toggle"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
