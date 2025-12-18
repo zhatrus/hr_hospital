@@ -249,8 +249,9 @@ class DoctorScheduleWizard(models.TransientModel):
             }
         }
 
-    def _format_time(self, time_float):
+    @staticmethod
+    def _format_time(time_float):
         """Форматує час з float в рядок"""
         hours = int(time_float)
         minutes = int((time_float - hours) * 60)
-        return '%02d:%02d' % (hours, minutes)
+        return f"{hours:02d}:{minutes:02d}"

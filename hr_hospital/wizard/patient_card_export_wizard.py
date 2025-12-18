@@ -189,9 +189,9 @@ class PatientCardExportWizard(models.TransientModel):
 
     def _generate_json(self, data):
         """Генерує JSON файл"""
-        filename = 'patient_card_%s_%s.json' % (
-            self.patient_id.id,
-            fields.Date.today().strftime('%Y%m%d')
+        filename = (
+            f"patient_card_{self.patient_id.id}_"
+            f"{fields.Date.today().strftime('%Y%m%d')}.json"
         )
 
         # Форматуємо JSON з відступами для читабельності
@@ -201,9 +201,9 @@ class PatientCardExportWizard(models.TransientModel):
 
     def _generate_csv(self, data):
         """Генерує CSV файл"""
-        filename = 'patient_card_%s_%s.csv' % (
-            self.patient_id.id,
-            fields.Date.today().strftime('%Y%m%d')
+        filename = (
+            f"patient_card_{self.patient_id.id}_"
+            f"{fields.Date.today().strftime('%Y%m%d')}.csv"
         )
 
         output = StringIO()
@@ -275,9 +275,9 @@ class PatientCardExportWizard(models.TransientModel):
 
         return {
             'type': 'ir.actions.act_url',
-            'url': '/web/content/patient.card.export.wizard/%s/'
-                   'export_file/%s?download=true' % (
-                       self.id, self.export_filename
-                   ),
+            'url': (
+                f"/web/content/patient.card.export.wizard/{self.id}/"
+                f"export_file/{self.export_filename}?download=true"
+            ),
             'target': 'self',
         }

@@ -101,11 +101,13 @@ class DiseaseReportWizard(models.TransientModel):
             self.date_to + timedelta(days=1),
             datetime.min.time(),
         )
+        date_from_str = fields.Datetime.to_string(date_from_dt)
+        date_to_str = fields.Datetime.to_string(date_to_dt)
         domain.append(
-            ('visit_id.scheduled_date', '>=', fields.Datetime.to_string(date_from_dt))
+            ('visit_id.scheduled_date', '>=', date_from_str)
         )
         domain.append(
-            ('visit_id.scheduled_date', '<', fields.Datetime.to_string(date_to_dt))
+            ('visit_id.scheduled_date', '<', date_to_str)
         )
 
         # Фільтр по лікарям
@@ -198,7 +200,8 @@ class DiseaseReportWizard(models.TransientModel):
 
         return data
 
-    def _group_diagnoses(self, diagnoses, group_by):
+    @staticmethod
+    def _group_diagnoses(diagnoses, group_by):
         """Групує діагнози за вказаним полем"""
         grouped = {}
 
