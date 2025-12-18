@@ -51,4 +51,10 @@
               name="Reports"
               parent="hr_hospital_menu_root"
               sequence="90"/>
+
+    <menuitem id="hr_hospital_menu_visit_pivot"
+              name="Visits Pivot (This Month)"
+              parent="hr_hospital_menu_reports"
+              action="hr_hospital_visit_pivot_action"
+              sequence="10"/>
 </odoo>

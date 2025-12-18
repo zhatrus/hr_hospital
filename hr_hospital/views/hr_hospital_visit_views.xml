@@ -28,7 +28,7 @@
             <form>
                 <header>
                     <field name="status" widget="statusbar" 
-                           statusbar_visible="scheduled,completed"/>
+                           statusbar_visible="scheduled,completed,cancelled,no_show"/>
                 </header>
                 <sheet>
                     <group>
@@ -36,6 +36,10 @@
                             <field name="patient_id"/>
                             <field name="doctor_id"/>
                             <field name="visit_type"/>
+                        </group>
+                        <group string="Doctor Filters">
+                            <field name="specialization_filter_id"/>
+                            <field name="available_date_filter"/>
                         </group>
                         <group string="Schedule">
                             <field name="scheduled_date"/>
@@ -86,10 +90,40 @@
         </field>
     </record>
 
+    <record id="hr_hospital_visit_view_calendar" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.view.calendar</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <calendar date_start="scheduled_date" color="doctor_id" event_open_popup="true">
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="status"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="hr_hospital_visit_view_pivot" model="ir.ui.view">
+        <field name="name">hr.hospital.visit.view.pivot</field>
+        <field name="model">hr.hospital.visit</field>
+        <field name="arch" type="xml">
+            <pivot display_quantity="1">
+                <field name="doctor_id" type="row"/>
+                <field name="status" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
     <!-- Visit Action -->
     <record id="hr_hospital_visit_action" model="ir.actions.act_window">
         <field name="name">Visits</field>
         <field name="res_model">hr.hospital.visit</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+    <record id="hr_hospital_visit_pivot_action" model="ir.actions.act_window">
+        <field name="name">Visits Pivot (This Month)</field>
+        <field name="res_model">hr.hospital.visit</field>
+        <field name="view_mode">pivot</field>
+        <field name="context">{'search_default_filter_current_month': 1}</field>
     </record>
 </odoo>

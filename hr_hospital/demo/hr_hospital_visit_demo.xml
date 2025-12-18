@@ -28,4 +28,13 @@
         <field name="status">scheduled</field>
         <field name="visit_type">primary</field>
     </record>
+
+    <!-- No Show Visit 4 -->
+    <record id="visit_demo_4" model="hr.hospital.visit">
+        <field name="patient_id" ref="patient_demo_1"/>
+        <field name="doctor_id" ref="doctor_demo_2"/>
+        <field name="scheduled_date" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d 16:00:00')"/>
+        <field name="status">no_show</field>
+        <field name="visit_type">followup</field>
+    </record>
 </odoo>

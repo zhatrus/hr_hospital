@@ -108,6 +108,11 @@
                                   (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
                                  ('scheduled_date', '&lt;', 
                                   (context_today() + datetime.timedelta(days=7-context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                <filter string="This Month" name="filter_current_month"
+                        domain="[('scheduled_date', '&gt;=',
+                                  context_today().replace(day=1).strftime('%Y-%m-%d')),
+                                 ('scheduled_date', '&lt;',
+                                  (context_today().replace(day=1) + datetime.timedelta(days=32)).replace(day=1).strftime('%Y-%m-%d'))]"/>
                 <filter string="Last 30 Days" name="filter_last_30"
                         domain="[('scheduled_date', '&gt;=', 
                                   (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
