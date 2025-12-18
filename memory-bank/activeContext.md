@@ -1,17 +1,21 @@
 # Active Context
 
 ## Поточна задача
-Познайомитись та засвоїти на практиці представлення моделей в Odoo: додати/покращити представлення для моделі "Візити пацієнтів" (hr.hospital.visit).
+Покращити UI для моделі "Пацієнт" (hr.hospital.patient):
+- smart buttons для історії візитів та діагнозів
+- швидке створення візиту з картки пацієнта
+- вкладка з історією діагнозів (лікар + дата)
+- пошук пацієнта по ПІБ або телефону
 
 ## Останні зміни
-- [x] Visit form: statusbar налаштовано для всіх статусів; додано блок фільтрів лікаря.
-- [x] Visit calendar view: додано календарне представлення.
-- [x] Visit pivot view + action (поточний місяць через search_default).
-- [x] Visit search: додано фільтр "This Month" з name="filter_current_month".
-- [x] Demo visits: додано 4-й демо запис візиту.
+- [x] Patient form: додано smart buttons Visits/Diagnoses + кнопку "New Visit".
+- [x] Patient form: вкладка Visits оновлена під нові поля (scheduled_date/status/visit_type).
+- [x] Patient form: вкладка Diagnoses (read-only) з історією діагнозів.
+- [x] Patient model: додано actions для відкриття історії Visits/Diagnoses та швидкого створення Visit.
+- [x] Patient search: пошук одним рядком по ПІБ або телефону.
 
 ## Наступні кроки
-- [ ] Upgrade модуль hr_hospital та перевірити: Visits form/tree/calendar/search/pivot.
+- [ ] Upgrade модуль hr_hospital та перевірити: Patient form (кнопки/вкладки), search, швидке створення Visit.
 
 ## Відкриті питання
 - [ ] За потреби додати ще демо-дані/діагнози під нові demo visits.

@@ -17,6 +17,26 @@ class HrHospitalDiagnosis(models.Model):
         index=True,
         domain="[('status', '=', 'completed')]",
     )
+    patient_id = fields.Many2one(
+        comodel_name='hr.hospital.patient',
+        related='visit_id.patient_id',
+        store=True,
+        index=True,
+        readonly=True,
+    )
+    doctor_id = fields.Many2one(
+        comodel_name='hr.hospital.doctor',
+        related='visit_id.doctor_id',
+        store=True,
+        index=True,
+        readonly=True,
+    )
+    visit_date = fields.Datetime(
+        related='visit_id.scheduled_date',
+        store=True,
+        index=True,
+        readonly=True,
+    )
     disease_id = fields.Many2one(
         comodel_name='hr.hospital.disease',
         string='Disease',

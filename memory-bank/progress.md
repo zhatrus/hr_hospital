@@ -10,6 +10,9 @@
 - [x] Visit: search view доповнено фільтром "This Month" (та є group by status).
 - [x] Visit: додано pivot view + action для поточного місяця + пункт меню в Reports.
 - [x] Visit: demo дані — додано 4-й demo запис.
+- [x] Patient: додано smart buttons Visits/Diagnoses та кнопку швидкого створення Visit.
+- [x] Patient: додано вкладку Diagnoses (історія діагнозів лікарів).
+- [x] Patient: search view з пошуком по ПІБ або телефону (одним рядком).
 
 ## Що в процесі
 - [ ] Перевірка після Upgrade модуля на стенді.
