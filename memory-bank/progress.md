@@ -19,6 +19,10 @@
 - [x] Doctor: search view доповнено фільтрами Mentors/Interns.
 - [x] Doctor: додано kanban view з групуванням по specialization та кнопкою швидкого створення Visit.
 - [x] Doctor: demo дані — додано 2 додаткових записи типу Intern.
+- [x] Diagnosis: додано disease_type_id (stored) + pivot/graph views, action та пункт меню в Reports.
+- [x] Diagnosis: додано demo файл з 6 діагнозами та підключено в __manifest__.
+- [x] Diseases: додано searchpanel (hierarchize по parent_id) + підв'язано search view до action.
+- [x] Wizard: звіт по діагнозах за період (doctor_ids/disease_ids/date_from/date_to) + запуск з Print меню Doctor (list/form).
 
 ## Що в процесі
 - [ ] Перевірка після Upgrade модуля на стенді.

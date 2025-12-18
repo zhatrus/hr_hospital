@@ -1,5 +1,5 @@
-# memory-bank/*
-# docmem/*
+memory-bank/*
+docmem/*
 __pycache__/
 *.py[cod]
 *$py.class
