@@ -55,17 +55,19 @@
                             <field name="insurance_policy_number"/>
                         </group>
                     </group>
-                    <group string="Address">
-                        <div>
+                    <separator string="Address"/>
+                    <div class="o_row">
+                        <div class="o_col_12">
                             <field name="address" nolabel="1"/>
                         </div>
-                    </group>
-                    <group string="Allergies">
-                        <div>
+                    </div>
+                    <separator string="Allergies"/>
+                    <div class="o_row">
+                        <div class="o_col_12">
                             <field name="allergies" nolabel="1" 
                                    placeholder="List all known allergies..."/>
                         </div>
-                    </group>
+                    </div>
                     <notebook>
                         <page string="Visits">
                             <field name="visit_ids">
