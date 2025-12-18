@@ -56,11 +56,15 @@
                         </group>
                     </group>
                     <group string="Address">
-                        <field name="address" nolabel="1"/>
+                        <div>
+                            <field name="address" nolabel="1"/>
+                        </div>
                     </group>
                     <group string="Allergies">
-                        <field name="allergies" nolabel="1" 
-                               placeholder="List all known allergies..."/>
+                        <div>
+                            <field name="allergies" nolabel="1" 
+                                   placeholder="List all known allergies..."/>
+                        </div>
                     </group>
                     <notebook>
                         <page string="Visits">
