@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Шаблон звіту для лікаря -->
+    <template id="report_doctor_document">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <!-- Заголовок звіту -->
+                    <div class="text-center mb-4">
+                        <h2>Інформація про лікаря</h2>
+                    </div>
+
+                    <!-- Основна інформація про лікаря -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h4>Особисті дані</h4>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td style="width: 30%;"><strong>Прізвище:</strong></td>
+                                    <td><span t-field="o.last_name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ім'я:</strong></td>
+                                    <td><span t-field="o.first_name"/></td>
+                                </tr>
+                                <tr t-if="o.middle_name">
+                                    <td><strong>По батькові:</strong></td>
+                                    <td><span t-field="o.middle_name"/></td>
+                                </tr>
+                                <tr t-if="o.date_of_birth">
+                                    <td><strong>Дата народження:</strong></td>
+                                    <td><span t-field="o.date_of_birth"/></td>
+                                </tr>
+                                <tr t-if="o.age">
+                                    <td><strong>Вік:</strong></td>
+                                    <td><span t-field="o.age"/> років</td>
+                                </tr>
+                                <tr t-if="o.gender">
+                                    <td><strong>Стать:</strong></td>
+                                    <td><span t-field="o.gender"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Контактна інформація -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h4>Контактна інформація</h4>
+                            <table class="table table-sm">
+                                <tr t-if="o.phone">
+                                    <td style="width: 30%;"><strong>Телефон:</strong></td>
+                                    <td><span t-field="o.phone"/></td>
+                                </tr>
+                                <tr t-if="o.email">
+                                    <td><strong>Email:</strong></td>
+                                    <td><span t-field="o.email"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Професійна інформація -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h4>Професійна інформація</h4>
+                            <table class="table table-sm">
+                                <tr t-if="o.specialization_id">
+                                    <td style="width: 30%;"><strong>Спеціалізація:</strong></td>
+                                    <td><span t-field="o.specialization_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Номер ліцензії:</strong></td>
+                                    <td><span t-field="o.license_number"/></td>
+                                </tr>
+                                <tr t-if="o.license_issue_date">
+                                    <td><strong>Дата видачі ліцензії:</strong></td>
+                                    <td><span t-field="o.license_issue_date"/></td>
+                                </tr>
+                                <tr t-if="o.years_of_experience">
+                                    <td><strong>Досвід роботи:</strong></td>
+                                    <td><span t-field="o.years_of_experience"/> років</td>
+                                </tr>
+                                <tr t-if="o.rating">
+                                    <td><strong>Рейтинг:</strong></td>
+                                    <td><span t-field="o.rating"/></td>
+                                </tr>
+                                <tr t-if="o.education_country_id">
+                                    <td><strong>Країна навчання:</strong></td>
+                                    <td><span t-field="o.education_country_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Статус:</strong></td>
+                                    <td>
+                                        <span t-if="o.is_intern">Інтерн</span>
+                                        <span t-else="">Лікар</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Інформація про ментора (якщо є) -->
+                    <div class="row mb-3" t-if="o.is_intern and o.mentor_id">
+                        <div class="col-12">
+                            <h4>Інформація про ментора</h4>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td style="width: 30%;"><strong>Ментор:</strong></td>
+                                    <td><span t-field="o.mentor_id.full_name"/></td>
+                                </tr>
+                                <tr t-if="o.mentor_phone">
+                                    <td><strong>Телефон ментора:</strong></td>
+                                    <td><span t-field="o.mentor_phone"/></td>
+                                </tr>
+                                <tr t-if="o.mentor_email">
+                                    <td><strong>Email ментора:</strong></td>
+                                    <td><span t-field="o.mentor_email"/></td>
+                                </tr>
+                                <tr t-if="o.mentor_specialization_id">
+                                    <td><strong>Спеціалізація ментора:</strong></td>
+                                    <td><span t-field="o.mentor_specialization_id.name"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Статистика -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h4>Статистика</h4>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td style="width: 30%;"><strong>Кількість пацієнтів:</strong></td>
+                                    <td><t t-esc="len(o.patient_ids)"/></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Кількість візитів:</strong></td>
+                                    <td><t t-esc="len(o.visit_ids)"/></td>
+                                </tr>
+                                <tr t-if="o.intern_ids">
+                                    <td><strong>Кількість інтернів:</strong></td>
+                                    <td><t t-esc="len(o.intern_ids)"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -39,6 +39,9 @@ Includes helper wizards for rescheduling and mass reassigning doctors.
         'views/hr_hospital_search_filters.xml',
         'views/hr_hospital_menu.xml',
 
+        'report/hr_hospital_doctor_report.xml',
+        'report/hr_hospital_doctor_report_template.xml',
+
         'wizard/mass_reassign_doctor_wizard_views.xml',
         'wizard/disease_report_wizard_views.xml',
         'wizard/reschedule_visit_wizard_views.xml',
