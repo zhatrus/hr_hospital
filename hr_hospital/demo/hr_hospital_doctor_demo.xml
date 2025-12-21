@@ -14,6 +14,7 @@
             <field name="rating">4.85</field>
             <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="False"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_1.png"/>
         </record>
 
         <!-- Doctor 2: Senior Doctor (Mentor) -->
@@ -30,6 +31,7 @@
             <field name="rating">4.92</field>
             <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="False"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_2.png"/>
         </record>
 
         <!-- Doctor 3: Intern with Mentor -->
@@ -47,6 +49,7 @@
             <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="True"/>
             <field name="mentor_id" ref="doctor_demo_1"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_3.png"/>
         </record>
 
         <!-- Doctor 4: Intern with Mentor -->
@@ -64,6 +67,7 @@
             <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="True"/>
             <field name="mentor_id" ref="doctor_demo_1"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_4.png"/>
         </record>
 
         <!-- Doctor 5: Intern with Mentor -->
@@ -81,5 +85,6 @@
             <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="True"/>
             <field name="mentor_id" ref="doctor_demo_2"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/1.png"/>
         </record>
 </odoo>

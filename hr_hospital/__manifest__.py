@@ -49,6 +49,7 @@ Includes helper wizards for rescheduling and mass reassigning doctors.
         'wizard/patient_card_export_wizard_views.xml',
     ],
     'demo': [
+        'demo/res_company_demo.xml',
         'demo/hr_hospital_doctor_specialization_demo.xml',
         'demo/hr_hospital_doctor_demo.xml',
         'demo/hr_hospital_patient_demo.xml',
