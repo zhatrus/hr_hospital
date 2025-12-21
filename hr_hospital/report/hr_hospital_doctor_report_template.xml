@@ -3,8 +3,8 @@
     <!-- Шаблон звіту для лікаря -->
     <template id="report_doctor_document">
         <t t-call="web.external_layout">
-            <t t-foreach="docs" t-as="o">
-                <div class="page">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
                     <!-- Заголовок звіту -->
                     <div class="text-center mb-4">
                         <h2>Інформація про лікаря</h2>
@@ -145,8 +145,8 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            </t>
+                </t>
+            </div>
         </t>
     </template>
 </odoo>
