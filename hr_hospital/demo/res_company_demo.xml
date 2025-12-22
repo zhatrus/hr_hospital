@@ -10,6 +10,6 @@
         <field name="phone">+380 44 123 4567</field>
         <field name="email">info@hospital.com</field>
         <field name="website">www.hospital.com</field>
-        <field name="logo" type="base64" file="hr_hospital/static/img/company/9391718.png"/>
+        <field name="logo" type="base64" file="hr_hospital/static/img/company/logo_1.jpg"/>
     </record>
 </odoo>
