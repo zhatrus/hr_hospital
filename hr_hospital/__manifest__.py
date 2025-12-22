@@ -26,6 +26,7 @@ Includes helper wizards for rescheduling and mass reassigning doctors.
     'data': [
         'security/hr_hospital_groups.xml',
         'security/ir.model.access.csv',
+        'security/hr_hospital_record_rules.xml',
 
         'data/hr_hospital_disease_data.xml',
 
