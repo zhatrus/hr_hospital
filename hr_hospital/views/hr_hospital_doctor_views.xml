@@ -154,11 +154,6 @@
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card oe_kanban_global_click">
                             <!-- Dropdown menu -->
-                            <div class="oe_kanban_bottom_right">
-                                <div class="oe_kanban_bottom_left">
-                                    <field name="activity_ids" widget="kanban_activity"/>
-                                </div>
-                            </div>
                             <div class="o_dropdown_kanban dropdown">
                                 <a class="dropdown-toggle o-no-caret btn" role="button" data-bs-toggle="dropdown" data-bs-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
                                     <span class="fa fa-ellipsis-v"/>
