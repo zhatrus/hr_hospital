@@ -114,7 +114,9 @@ class HrHospitalDiagnosis(models.Model):
     @api.depends('disease_id', 'disease_id.parent_id')
     def _compute_disease_type_id(self):
         for record in self:
-            record.disease_type_id = record.disease_id.parent_id or record.disease_id
+            record.disease_type_id = (
+                record.disease_id.parent_id or record.disease_id
+            )
 
     @api.constrains('approval_date', 'visit_id')
     def _check_approval_date(self):

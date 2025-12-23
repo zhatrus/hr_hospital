@@ -256,8 +256,12 @@ class HrHospitalVisit(models.Model):
         """Human-friendly display name for calendar/pickers."""
         result = []
         for record in self:
-            patient_name = record.patient_id.full_name or record.patient_id.display_name
-            doctor_name = record.doctor_id.full_name or record.doctor_id.display_name
+            patient_name = (
+                record.patient_id.full_name or record.patient_id.display_name
+            )
+            doctor_name = (
+                record.doctor_id.full_name or record.doctor_id.display_name
+            )
 
             dt_str = False
             if record.scheduled_date:

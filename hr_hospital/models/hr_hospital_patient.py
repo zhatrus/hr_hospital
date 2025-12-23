@@ -130,7 +130,9 @@ class HrHospitalPatient(models.Model):
     def action_view_diagnoses(self):
         """Open diagnoses view filtered by current patient."""
         self.ensure_one()
-        action = self.env.ref('hr_hospital.hr_hospital_diagnosis_action').read()[0]
+        action = self.env.ref(
+            'hr_hospital.hr_hospital_diagnosis_action'
+        ).read()[0]
         action['domain'] = [('patient_id', '=', self.id)]
         action_ctx = safe_eval(action.get('context', '{}') or '{}')
         action_ctx.update(self.env.context)
