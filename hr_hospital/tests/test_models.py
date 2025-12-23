@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta
-
 from odoo import fields
 from odoo.tests import TransactionCase, tagged
 
@@ -12,9 +10,9 @@ class TestHospitalModels(TransactionCase):
         self.Patient = self.env['hr.hospital.patient']
         self.Visit = self.env['hr.hospital.visit']
         self.Diagnosis = self.env['hr.hospital.diagnosis']
-        self.specialization = self.env['hr.hospital.doctor.specialization'].create(
-            {'name': 'Therapist'}
-        )
+        self.specialization = self.env[
+            'hr.hospital.doctor.specialization'
+        ].create({'name': 'Therapist'})
         self.doctor = self.Doctor.create({
             'first_name': 'John',
             'last_name': 'Doe',

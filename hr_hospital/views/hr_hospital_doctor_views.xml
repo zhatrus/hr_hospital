@@ -220,5 +220,6 @@
         <field name="res_model">hr.hospital.doctor</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="context">{'group_by': 'specialization_id'}</field>
+        <field name="search_view_id" ref="hr_hospital.hr_hospital_doctor_view_search_extended"/>
     </record>
 </odoo>
