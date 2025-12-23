@@ -1,5 +1,5 @@
-mmory-bank/*
-doecmem/*
+# mmory-bank/*
+# doecmem/*
 __pycache__/
 *.py[cod]
 *$py.class

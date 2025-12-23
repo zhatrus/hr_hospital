@@ -274,7 +274,7 @@ msgstr "Група крові"
 #. module: hr_hospital
 #: model:ir.model.fields,help:hr_hospital.field_hr_hospital_patient__blood_type
 msgid "Blood type with Rh factor"
-msgstr "Група крові з резус-фактором"
+msgstr ""
 
 #. module: hr_hospital
 #. odoo-python
@@ -724,7 +724,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_doctor__date_of_birth
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__date_of_birth
 msgid "Date Of Birth"
-msgstr "Дата народження"
+msgstr ""
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_disease_report_wizard__date_to
@@ -990,7 +990,7 @@ msgstr "Лікар"
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__doctor_history_ids
 msgid "Doctor Assignment History"
-msgstr "Історія закріплення лікарів"
+msgstr ""
 
 #. module: hr_hospital
 #. odoo-python
@@ -1618,7 +1618,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__insurance_company_id
 msgid "Insurance Company"
-msgstr "Страхова компанія"
+msgstr ""
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__insurance_policy_number
@@ -2195,7 +2195,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields,help:hr_hospital.field_hr_hospital_patient__passport_data
 msgid "Passport number or ID"
-msgstr "Номер паспорта або ID"
+msgstr ""
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient_doctor_history__patient_id
@@ -2303,7 +2303,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__doctor_id
 msgid "Personal Doctor"
-msgstr "Особистий лікар"
+msgstr ""
 
 #. module: hr_hospital
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_contact_person_view_form
@@ -2370,7 +2370,7 @@ msgstr ""
 #. module: hr_hospital
 #: model:ir.model.fields,help:hr_hospital.field_hr_hospital_patient__insurance_policy_number
 msgid "Policy or contract number"
-msgstr "Номер страхового полісу"
+msgstr ""
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_abstract_person__lang_id
@@ -2378,7 +2378,7 @@ msgstr "Номер страхового полісу"
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_doctor__lang_id
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__lang_id
 msgid "Preferred Language"
-msgstr "Бажана мова"
+msgstr ""
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_diagnosis__treatment
@@ -2410,7 +2410,7 @@ msgstr "Первинний"
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__primary_contact_id
 msgid "Primary Contact Person"
-msgstr "Основна контактна особа"
+msgstr ""
 
 #. module: hr_hospital
 #: model:hr.hospital.contact.person,notes:hr_hospital.contact_person_demo_1
