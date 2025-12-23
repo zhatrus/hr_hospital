@@ -1,36 +1,105 @@
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <div class="oe_span12">
-            <h2 class="oe_slogan">Hospital Management</h2>
-            <h3 class="oe_slogan">Hospital management system for doctors and patients</h3>
-        </div>
-    </div>
-</section>
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hospital Management</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        color: #1f2d3d;
+        background: linear-gradient(135deg, #f7f9fb 0%, #edf2f7 50%, #f7f9fb 100%);
+        margin: 0;
+        padding: 0;
+      }
+      .hero {
+        padding: 64px 32px 32px;
+        text-align: center;
+        background: radial-gradient(circle at 20% 20%, #e3f2fd, transparent 35%),
+          radial-gradient(circle at 80% 10%, #e8f5e9, transparent 30%),
+          radial-gradient(circle at 50% 80%, #fff3e0, transparent 40%);
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 36px;
+        letter-spacing: -0.5px;
+      }
+      p.lead {
+        max-width: 760px;
+        margin: 0 auto;
+        font-size: 18px;
+        line-height: 1.6;
+        color: #4b5563;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+        padding: 32px;
+        max-width: 1100px;
+        margin: 0 auto 32px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+        border: 1px solid #e5e7eb;
+      }
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      .card p {
+        margin: 0;
+        color: #6b7280;
+        line-height: 1.5;
+      }
+      .footer {
+        text-align: center;
+        padding: 24px;
+        color: #6b7280;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero">
+      <h1>Hospital Management</h1>
+      <p class="lead">
+        Управління лікарнею в Odoo: пацієнти, лікарі, візити, діагнози,
+        класифікатор хвороб, аналітика та друковані звіти.
+      </p>
+    </section>
 
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <div class="oe_span6">
-            <img class="oe_picture oe_screenshot" src="icon.png" alt="Hospital Management"/>
-        </div>
-        <div class="oe_span6">
-            <h4>Key Features</h4>
-            <ul>
-                <li>Doctors: profiles, specializations, schedules</li>
-                <li>Patients: cards, contact persons, medical notes</li>
-                <li>Visits: diagnoses and diseases tracking</li>
-                <li>Wizards: mass doctor reassignment, rescheduling, reports, export</li>
-            </ul>
-        </div>
-    </div>
-</section>
+    <section class="grid">
+      <div class="card">
+        <h3>Пацієнти</h3>
+        <p>Облік пацієнтів, контактних осіб, історії лікарів та візитів.</p>
+      </div>
+      <div class="card">
+        <h3>Лікарі</h3>
+        <p>Спеціалізації, розклади, менторство інтернів, доступи та рейтинги.</p>
+      </div>
+      <div class="card">
+        <h3>Візити та діагнози</h3>
+        <p>Планування та фактичний час, множинні діагнози, рекомендації та витрати.</p>
+      </div>
+      <div class="card">
+        <h3>Класифікатор хвороб</h3>
+        <p>Ієрархія хвороб із типами, пошук та аналітика у звітах.</p>
+      </div>
+      <div class="card">
+        <h3>Звіти</h3>
+        <p>Піводи та графіки по захворюваності, друк карток лікаря та пацієнта.</p>
+      </div>
+      <div class="card">
+        <h3>Доступи та безпека</h3>
+        <p>Групи: пацієнт, інтерн, лікар, менеджер, адміністратор. Розмежування доступу до записів.</p>
+      </div>
+    </section>
 
-<section class="oe_container">
-    <div class="oe_row oe_spaced">
-        <div class="oe_span12">
-            <h4>Notes</h4>
-            <p>
-                This module is intended for Odoo 17.0.
-            </p>
-        </div>
+    <div class="footer">
+      Hospital Management · Odoo 17 · Розробник: Khatrus Zakhar
     </div>
-</section>
+  </body>
+</html>
