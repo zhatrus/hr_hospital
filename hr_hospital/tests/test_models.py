@@ -43,7 +43,10 @@ class TestHospitalModels(TransactionCase):
         })
         action = self.patient.action_view_visits()
         self.assertIn(('patient_id', '=', self.patient.id), action['domain'])
-        self.assertEqual(action['context']['default_patient_id'], self.patient.id)
+        self.assertEqual(
+            action['context']['default_patient_id'],
+            self.patient.id,
+        )
         self.assertIn(visit.id, self.Visit.search(action['domain']).ids)
 
     def test_diagnosis_compute_disease_type(self):

@@ -16,6 +16,68 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+# ---------------------------------------------------------------------------
+# Custom additions for hospital fields
+# ---------------------------------------------------------------------------
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__doctor_id
+msgid "Personal Doctor"
+msgstr "Особистий лікар"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__lang_id
+msgid "Preferred Language"
+msgstr "Бажана мова"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__date_of_birth
+msgid "Date Of Birth"
+msgstr "Дата народження"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__age
+msgid "Age"
+msgstr "Вік"
+
+#. module: hr_hospital
+#: model:ir.model.fields,help:hr_hospital.field_hr_hospital_patient__passport_data
+msgid "Passport number or ID"
+msgstr "Номер паспорта або ID"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__primary_contact_id
+msgid "Primary Contact Person"
+msgstr "Основна контактна особа"
+
+#. module: hr_hospital
+#: model:ir.model.fields,help:hr_hospital.field_hr_hospital_patient__blood_type
+msgid "Blood type with Rh factor"
+msgstr "Група крові з резус-фактором"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__insurance_company_id
+msgid "Insurance Company"
+msgstr "Страхова компанія"
+
+#. module: hr_hospital
+#: model:ir.model.fields,help:hr_hospital.field_hr_hospital_patient__insurance_policy_number
+msgid "Policy or contract number"
+msgstr "Номер страхового полісу"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__allergies
+msgid "Allergies"
+msgstr "Алергії"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__doctor_history_ids
+msgid "Doctor Assignment History"
+msgstr "Історія закріплення лікарів"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__recommendations
+msgid "Recommendations"
+msgstr "Рекомендації"
 #. module: hr_hospital
 #: model:hr.hospital.patient,address:hr_hospital.patient_demo_1
 msgid "123 Main Street, Kyiv, Ukraine"
