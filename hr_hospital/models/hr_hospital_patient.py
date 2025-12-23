@@ -29,6 +29,13 @@ class HrHospitalPatient(models.Model):
         help='Current personal doctor of the patient',
         tracking=True,
     )
+    # Користувач системи (для самостійного доступу)
+    user_id = fields.Many2one(
+        comodel_name='res.users',
+        string='System User',
+        help='User account linked to this patient',
+        ondelete='restrict',
+    )
 
     # Паспортні дані
     passport_data = fields.Char(
