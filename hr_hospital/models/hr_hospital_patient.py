@@ -106,6 +106,7 @@ class HrHospitalPatient(models.Model):
     )
 
     def _compute_counts(self):
+        """Розрахунок кількості візитів та діагнозів"""
         visit_model = self.env['hr.hospital.visit']
         diagnosis_model = self.env['hr.hospital.diagnosis']
         for record in self:
@@ -117,6 +118,7 @@ class HrHospitalPatient(models.Model):
             ])
 
     def action_view_visits(self):
+        """Відкриває список візитів пацієнта"""
         self.ensure_one()
         action = self.env.ref('hr_hospital.hr_hospital_visit_action').read()[0]
         action['domain'] = [('patient_id', '=', self.id)]
@@ -127,6 +129,7 @@ class HrHospitalPatient(models.Model):
         return action
 
     def action_view_diagnoses(self):
+        """Відкриває список діагнозів пацієнта"""
         self.ensure_one()
         action = self.env.ref('hr_hospital.hr_hospital_diagnosis_action').read()[0]
         action['domain'] = [('patient_id', '=', self.id)]
@@ -137,6 +140,7 @@ class HrHospitalPatient(models.Model):
         return action
 
     def action_create_visit(self):
+        """Відкриває форму створення нового візиту для пацієнта"""
         self.ensure_one()
         ctx = dict(self.env.context, default_patient_id=self.id)
         if self.doctor_id:

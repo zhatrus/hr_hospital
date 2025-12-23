@@ -133,7 +133,6 @@
             <pivot string="Diagnoses Analysis">
                 <field name="disease_type_id" type="row"/>
                 <field name="disease_id" type="row"/>
-                <field name="visit_date" interval="year" type="col"/>
                 <field name="visit_date" interval="month" type="col"/>
                 <field name="id" type="measure"/>
             </pivot>

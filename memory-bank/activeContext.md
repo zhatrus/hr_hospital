@@ -1,6 +1,12 @@
 # Active Context
 
 ## Поточна задача
+Завершено виправлення технічних боргів та помилок завантаження:
+- Виправлено дублікати XML ID та полів.
+- Виправлено застарілі XML теги (`<data>`).
+- Виправлено помилки лінтера (Pylint/Flake8) в Python коді.
+- Виправлено критичну помилку завантаження прав доступу (`ir.model.access.csv`).
+
 Покращити UI для моделі "Пацієнт" (hr.hospital.patient):
 - smart buttons для історії візитів та діагнозів
 - швидке створення візиту з картки пацієнта
@@ -17,6 +23,11 @@
 - Wizard: звіт по діагнозах за період (фільтри лікар/хвороба/дати) з запуском з Print меню лікаря.
 
 ## Останні зміни
+- [x] **FIX**: Виправлено помилку завантаження модуля (відсутні зовнішні ID груп в CSV).
+- [x] **FIX**: Виправлено дублювання XML ID в action/search views для Doctor та Patient.
+- [x] **FIX**: Виправлено дублювання поля `visit_date` в `hr_hospital_diagnosis_views.xml`.
+- [x] **FIX**: Прибрано застарілі теги `<data>` в security XML файлах.
+- [x] **FIX**: Pylint fixes: docstrings, naming conventions, protected access.
 - [x] Patient form: додано smart buttons Visits/Diagnoses + кнопку "New Visit".
 - [x] Patient form: вкладка Visits оновлена під нові поля (scheduled_date/status/visit_type).
 - [x] Patient form: вкладка Diagnoses (read-only) з історією діагнозів.

@@ -1,6 +1,7 @@
 # Progress
 
 ## Що зроблено
+- [x] **Технічні виправлення**: Pylint/Flake8, duplicate XML IDs, deprecated XML tags, Access CSV module loading error.
 - [x] Виправлено верстку Address/Allergies в картці пацієнта.
 - [x] Виправлено верстку у wizard-вікнах з `nolabel` (Mass Reassign Doctor, Reschedule Visit).
 - [x] Піднято версію модуля і доповнено `__manifest__.py`.

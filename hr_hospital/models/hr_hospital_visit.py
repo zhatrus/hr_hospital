@@ -261,10 +261,11 @@ class HrHospitalVisit(models.Model):
 
             dt_str = False
             if record.scheduled_date:
-                dt = fields.Datetime.context_timestamp(record, record.scheduled_date)
-                dt_str = dt.strftime('%d.%m.%Y %H:%M')
+                local_dt = fields.Datetime.context_timestamp(record, record.scheduled_date)
+                dt_str = local_dt.strftime('%d.%m.%Y %H:%M')
 
             parts = [p for p in [patient_name, doctor_name, dt_str] if p]
+            # pylint: disable=protected-access
             name = ' — '.join(parts) if parts else f"{record._name},{record.id}"
             result.append((record.id, name))
         return result
