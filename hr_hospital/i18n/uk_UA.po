@@ -78,6 +78,69 @@ msgstr "Історія закріплення лікарів"
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__recommendations
 msgid "Recommendations"
 msgstr "Рекомендації"
+
+# ---------------------------------------------------------------------------
+# Patient views and related labels
+# ---------------------------------------------------------------------------
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "New Visit"
+msgstr "Новий візит"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Visits"
+msgstr "Візити"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Diagnoses"
+msgstr "Діагнози"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Contact Persons"
+msgstr "Контактні особи"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Doctor History"
+msgstr "Історія лікарів"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Personal Information"
+msgstr "Особиста інформація"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Contact Information"
+msgstr "Контактна інформація"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Medical Information"
+msgstr "Медична інформація"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Insurance"
+msgstr "Страхування"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Address"
+msgstr "Адреса"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "Allergies"
+msgstr "Алергії"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_patient_view_form
+msgid "List all known allergies..."
+msgstr "Вкажіть усі відомі алергії..."
 #. module: hr_hospital
 #: model:hr.hospital.patient,address:hr_hospital.patient_demo_1
 msgid "123 Main Street, Kyiv, Ukraine"
