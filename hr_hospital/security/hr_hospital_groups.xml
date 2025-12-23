@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Категорія модуля -->
-    <record id="module_category_hospital" model="ir.module.category">
+        <!-- Категорія модуля -->
+        <record id="module_category_hospital" model="ir.module.category">
             <field name="name">Hospital</field>
             <field name="description">Hospital Management System</field>
             <field name="sequence">10</field>
