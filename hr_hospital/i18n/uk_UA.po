@@ -375,7 +375,8 @@ msgstr "Скасовано"
 msgid ""
 "Cannot archive doctor with active visits! Please reassign or cancel visits "
 "first."
-msgstr ""
+msgstr "Неможливо архівувати лікаря з активними візитами! Спочатку перенесіть "
+"або скасуйте візити."
 
 #. module: hr_hospital
 #. odoo-python
@@ -528,7 +529,7 @@ msgstr "Контактні особи"
 msgid ""
 "Contact persons can be relatives, friends, or emergency contacts for "
 "patients."
-msgstr ""
+msgstr "Контактні особи можуть бути родичами, друзями або контакти для екстрених випадків для пацієнтів."
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_disease__is_contagious
