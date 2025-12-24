@@ -68,13 +68,11 @@ class HrHospitalVisit(models.Model):
     disease_id = fields.Many2one(
         comodel_name='hr.hospital.disease',
         string='Disease',
-        help='Deprecated: use diagnosis_ids instead',
     )
     visit_date = fields.Datetime(
         string='Date Visit',
         compute='_compute_visit_date',
         store=True,
-        help='Deprecated: use scheduled_date or actual_date',
     )
     notes = fields.Text(
         string='Notes Visit',
@@ -82,7 +80,6 @@ class HrHospitalVisit(models.Model):
     )
     diagnosis = fields.Text(
         string='Diagnosis Visit',
-        help='Deprecated: use diagnosis_ids instead',
         translate=True,
     )
     prescription = fields.Text(
