@@ -853,7 +853,7 @@ msgstr "Діагностована хвороба"
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__diagnosis_ids
 #: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_form
 msgid "Diagnoses"
-msgstr ""
+msgstr "Діагнози"
 
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_diagnosis__description
@@ -869,11 +869,6 @@ msgstr "Інформація про діагноз"
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_diagnosis__diagnosis_type
 msgid "Diagnosis Type"
 msgstr "Тип діагнозу"
-
-#. module: hr_hospital
-#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__diagnosis_ids
-msgid "Diagnoses"
-msgstr "Діагнози"
 
 #. module: hr_hospital
 #: model:hr.hospital.doctor.specialization,description:hr_hospital.specialization_cardiology
@@ -1489,6 +1484,8 @@ msgstr "Іконка для позначення винятку активнос
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__image_1920
 msgid "Image"
 msgstr "Зображення"
+
+#. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__image_1024
 msgid "Image 1024"
 msgstr "Зображення 1024"
