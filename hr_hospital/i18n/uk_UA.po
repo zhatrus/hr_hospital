@@ -2666,6 +2666,7 @@ msgstr "Тип"
 
 #. module: hr_hospital
 #: model:ir.model.fields,help:hr_hospital.field_doctor_schedule_wizard__schedule_type
+msgid "Type of schedule"
 msgstr "Тип винятку активності в записі."
 
 #. module: hr_hospital
