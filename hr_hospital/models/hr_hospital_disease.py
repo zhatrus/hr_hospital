@@ -4,11 +4,11 @@ from odoo.exceptions import ValidationError
 
 class HrHospitalDisease(models.Model):
     """Hospital Disease model.
-    
+
     Hierarchical classification of diseases with ICD-10 codes, danger levels,
     and geographical distribution. Prevents recursive hierarchy through
     validation constraints.
-    
+
     Features:
         - Hierarchical structure (parent-child relationships)
         - ICD-10 coding system

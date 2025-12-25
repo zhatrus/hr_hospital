@@ -20,14 +20,14 @@ class TestHospitalModels(TransactionCase):
         self.PatientDoctorHistory = self.env[
             'hr.hospital.patient.doctor.history'
         ]
-        
+
         self.specialization = self.env[
             'hr.hospital.doctor.specialization'
         ].create({
             'name': 'Therapist',
             'code': 'THER',
         })
-        
+
         self.mentor_doctor = self.Doctor.create({
             'first_name': 'Senior',
             'last_name': 'Mentor',
@@ -36,7 +36,7 @@ class TestHospitalModels(TransactionCase):
             'specialization_id': self.specialization.id,
             'is_intern': False,
         })
-        
+
         self.doctor = self.Doctor.create({
             'first_name': 'John',
             'last_name': 'Doe',
@@ -44,7 +44,7 @@ class TestHospitalModels(TransactionCase):
             'license_issue_date': date.today() - timedelta(days=365),
             'specialization_id': self.specialization.id,
         })
-        
+
         self.patient = self.Patient.create({
             'first_name': 'Jane',
             'last_name': 'Smith',
@@ -100,7 +100,7 @@ class TestHospitalModels(TransactionCase):
         )
 
     # New tests for Module 3 methods
-    
+
     def test_abstract_person_compute_age(self):
         """Test age computation from birth_date."""
         birth_date = date.today() - timedelta(days=10950)  # 30 years
@@ -152,16 +152,16 @@ class TestHospitalModels(TransactionCase):
     def test_patient_write_creates_history(self):
         """Test that changing patient's doctor creates history record."""
         self.patient.write({'doctor_id': self.doctor.id})
-        
+
         new_doctor = self.Doctor.create({
             'first_name': 'New',
             'last_name': 'Doctor',
             'license_number': 'LIC-NEW-001',
             'specialization_id': self.specialization.id,
         })
-        
+
         self.patient.write({'doctor_id': new_doctor.id})
-        
+
         history = self.PatientDoctorHistory.search([
             ('patient_id', '=', self.patient.id)
         ])
@@ -177,25 +177,25 @@ class TestHospitalModels(TransactionCase):
             'doctor_id': self.doctor.id,
             'assignment_date': date.today() - timedelta(days=30),
         })
-        
+
         self.assertTrue(
             history1.is_active,
             "First history record should be active"
         )
-        
+
         new_doctor = self.Doctor.create({
             'first_name': 'Another',
             'last_name': 'Doctor',
             'license_number': 'LIC-ANOTHER-001',
             'specialization_id': self.specialization.id,
         })
-        
+
         history2 = self.PatientDoctorHistory.create({
             'patient_id': self.patient.id,
             'doctor_id': new_doctor.id,
             'assignment_date': date.today(),
         })
-        
+
         history1.invalidate_recordset()
         self.assertFalse(
             history1.is_active,
@@ -212,21 +212,21 @@ class TestHospitalModels(TransactionCase):
             'patient_id': self.patient.id,
             'doctor_id': self.doctor.id,
         })
-        
+
         disease = self.Disease.create({
             'name': 'Test Disease',
         })
-        
+
         diagnosis = self.Diagnosis.create({
             'patient_id': self.patient.id,
             'visit_id': visit.id,
             'disease_id': disease.id,
         })
-        
+
         self.assertFalse(diagnosis.is_approved)
-        
+
         diagnosis.action_approve()
-        
+
         self.assertTrue(diagnosis.is_approved)
         self.assertEqual(diagnosis.approved_by_id, self.env.user.partner_id)
         self.assertTrue(diagnosis.approved_date)
@@ -237,17 +237,17 @@ class TestHospitalModels(TransactionCase):
             'patient_id': self.patient.id,
             'doctor_id': self.doctor.id,
         })
-        
+
         disease = self.Disease.create({
             'name': 'Test Disease',
         })
-        
+
         self.Diagnosis.create({
             'patient_id': self.patient.id,
             'visit_id': visit.id,
             'disease_id': disease.id,
         })
-        
+
         with self.assertRaises(
             ValidationError,
             msg="Should not allow deleting visit with diagnoses"
@@ -263,7 +263,7 @@ class TestHospitalModels(TransactionCase):
             'specialization_id': self.specialization.id,
             'is_intern': True,
         })
-        
+
         with self.assertRaises(
             ValidationError,
             msg="Intern should not be allowed as mentor"
@@ -284,7 +284,7 @@ class TestHospitalModels(TransactionCase):
             'name': 'Disease 2',
             'parent_id': disease1.id,
         })
-        
+
         with self.assertRaises(
             ValidationError,
             msg="Should not allow recursive hierarchy"

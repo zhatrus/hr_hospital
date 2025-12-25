@@ -4,11 +4,11 @@ from odoo.exceptions import UserError, ValidationError
 
 class HrHospitalDiagnosis(models.Model):
     """Patient Diagnosis model.
-    
+
     Represents medical diagnoses made during patient visits. Supports
     approval workflow where intern diagnoses require mentor approval.
     Automatically computes disease type from hierarchical disease structure.
-    
+
     Features:
         - Multiple diagnoses per visit
         - Severity levels (mild, moderate, severe, critical)

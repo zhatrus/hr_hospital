@@ -5,11 +5,11 @@ from odoo.tools.safe_eval import safe_eval
 
 class HrHospitalPatient(models.Model):
     """Hospital Patient model.
-    
+
     Represents patients with their medical information, personal doctor,
     visit history, and diagnoses. Tracks changes to personal doctor
     automatically in history records.
-    
+
     Inherits from:
         - abstract.person: Common personal data fields
         - mail.thread: Chatter functionality
