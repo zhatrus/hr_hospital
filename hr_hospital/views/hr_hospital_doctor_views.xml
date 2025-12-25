@@ -199,10 +199,10 @@
                                 <div class="o_kanban_record_bottom mt-3 pt-2" style="border-top: 1px solid #dee2e6;">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span t-if="record.phone.raw_value" class="text-muted small">
-                                            <i class="fa fa-phone"/> <field name="phone"/>
+                                            <i class="fa fa-phone" title="Phone"/> <field name="phone"/>
                                         </span>
                                         <span t-if="record.rating.raw_value" class="badge bg-warning text-dark">
-                                            <i class="fa fa-star"/> <field name="rating"/>
+                                            <i class="fa fa-star" title="Rating"/> <field name="rating"/>
                                         </span>
                                     </div>
                                 </div>

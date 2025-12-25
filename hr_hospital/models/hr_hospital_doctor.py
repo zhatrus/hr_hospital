@@ -52,14 +52,17 @@ class HrHospitalDoctor(models.Model):
     )
 
     mentor_phone = fields.Char(
+        string="Mentor's Phone",
         related='mentor_id.phone',
         readonly=True,
     )
     mentor_email = fields.Char(
+        string="Mentor's Email",
         related='mentor_id.email',
         readonly=True,
     )
     mentor_specialization_id = fields.Many2one(
+        string="Mentor's Specialization",
         related='mentor_id.specialization_id',
         readonly=True,
     )
