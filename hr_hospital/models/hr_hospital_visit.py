@@ -4,6 +4,16 @@ from dateutil.relativedelta import relativedelta
 
 
 class HrHospitalVisit(models.Model):
+    """Hospital Visit model.
+    
+    Represents patient visits to doctors with scheduling, status tracking,
+    and multiple diagnoses support. Prevents deletion of visits with
+    existing diagnoses.
+    
+    Inherits from:
+        - mail.thread: Chatter functionality
+        - mail.activity.mixin: Activity tracking
+    """
     _name = 'hr.hospital.visit'
     _description = 'Hospital Visit'
     _inherit = ['mail.thread', 'mail.activity.mixin']

@@ -4,6 +4,14 @@ from dateutil.relativedelta import relativedelta
 
 
 class HrHospitalDoctor(models.Model):
+    """Hospital Doctor model.
+    
+    Represents medical doctors with their qualifications, specializations,
+    and work schedules. Supports intern-mentor relationships and tracks
+    years of experience based on license issue date.
+    
+    Inherits from abstract.person to get common personal data fields.
+    """
     _name = 'hr.hospital.doctor'
     _description = 'Hospital Doctor'
     _inherit = ['abstract.person']

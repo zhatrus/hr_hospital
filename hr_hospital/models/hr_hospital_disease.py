@@ -3,6 +3,20 @@ from odoo.exceptions import ValidationError
 
 
 class HrHospitalDisease(models.Model):
+    """Hospital Disease model.
+    
+    Hierarchical classification of diseases with ICD-10 codes, danger levels,
+    and geographical distribution. Prevents recursive hierarchy through
+    validation constraints.
+    
+    Features:
+        - Hierarchical structure (parent-child relationships)
+        - ICD-10 coding system
+        - Danger levels (low, medium, high, critical)
+        - Contagious disease tracking
+        - Geographical distribution (regions)
+        - Symptoms description
+    """
     _name = 'hr.hospital.disease'
     _description = 'Hospital Disease'
     _parent_name = 'parent_id'
