@@ -164,7 +164,7 @@ class RescheduleVisitWizard(models.TransientModel):
                     'with doctor %(doctor)s'
                 ) % {
                     'date': self.new_date,
-                    'time': '%02d:%02d' % (hours, minutes),
+                    'time': f"{hours:02d}:{minutes:02d}",
                     'doctor': new_doctor.full_name,
                 },
                 'type': 'success',

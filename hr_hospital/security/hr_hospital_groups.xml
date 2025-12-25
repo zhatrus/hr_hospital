@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- Категорія модуля -->
+        <record id="module_category_hospital" model="ir.module.category">
+            <field name="name">Hospital</field>
+            <field name="description">Hospital Management System</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Група: Пацієнт (базова група) -->
+        <record id="group_hospital_patient" model="res.groups">
+            <field name="name">Patient</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="comment">Пацієнт може переглядати свої дані та записи</field>
+        </record>
+
+        <!-- Група: Інтерн (наслідує Пацієнт) -->
+        <record id="group_hospital_intern" model="res.groups">
+            <field name="name">Intern</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_patient'))]"/>
+            <field name="comment">Інтерн має доступ до перегляду пацієнтів та обмежені права на редагування</field>
+        </record>
+
+        <!-- Група: Лікар (наслідує Інтерн) -->
+        <record id="group_hospital_doctor" model="res.groups">
+            <field name="name">Doctor</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_intern'))]"/>
+            <field name="comment">Лікар має повний доступ до пацієнтів, візитів та діагнозів</field>
+        </record>
+
+        <!-- Група: Менеджер (наслідує Лікар) -->
+        <record id="group_hospital_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_doctor'))]"/>
+            <field name="comment">Менеджер має доступ до управління всіма даними та звітів</field>
+        </record>
+
+        <!-- Група: Адміністратор (наслідує Менеджер) -->
+        <record id="group_hospital_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hospital_manager'))]"/>
+            <field name="comment">Адміністратор має повний доступ до всіх функцій системи, включаючи налаштування</field>
+        </record>
+
+        <!-- Додаткова група для користувачів з доступом до меню -->
+        <record id="group_hospital_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_category_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Базовий користувач системи Hospital</field>
+        </record>
+</odoo>

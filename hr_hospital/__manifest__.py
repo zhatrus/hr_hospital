@@ -24,7 +24,9 @@ Includes helper wizards for rescheduling and mass reassigning doctors.
         'mail',
     ],
     'data': [
+        'security/hr_hospital_groups.xml',
         'security/ir.model.access.csv',
+        'security/hr_hospital_record_rules.xml',
 
         'data/hr_hospital_disease_data.xml',
 
@@ -39,6 +41,9 @@ Includes helper wizards for rescheduling and mass reassigning doctors.
         'views/hr_hospital_search_filters.xml',
         'views/hr_hospital_menu.xml',
 
+        'report/hr_hospital_doctor_report.xml',
+        'report/hr_hospital_doctor_report_template.xml',
+
         'wizard/mass_reassign_doctor_wizard_views.xml',
         'wizard/disease_report_wizard_views.xml',
         'wizard/reschedule_visit_wizard_views.xml',
@@ -46,11 +51,15 @@ Includes helper wizards for rescheduling and mass reassigning doctors.
         'wizard/patient_card_export_wizard_views.xml',
     ],
     'demo': [
+        'demo/res_company_demo.xml',
         'demo/hr_hospital_doctor_specialization_demo.xml',
         'demo/hr_hospital_doctor_demo.xml',
+        'demo/hr_hospital_doctor_demo_extended.xml',
         'demo/hr_hospital_patient_demo.xml',
+        'demo/hr_hospital_patient_demo_extended.xml',
         'demo/hr_hospital_contact_person_demo.xml',
         'demo/hr_hospital_visit_demo.xml',
+        'demo/hr_hospital_diagnosis_demo_6.xml',
         # TODO: Fix IDs in these files
         # 'demo/hr_hospital_disease_demo.xml',
         # 'demo/hr_hospital_diagnosis_demo.xml',

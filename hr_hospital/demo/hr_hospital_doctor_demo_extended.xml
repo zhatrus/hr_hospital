@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Doctors 6-30 with avatars -->
+    
+    <!-- Doctor 6: Senior Doctor -->
+    <record id="doctor_demo_6" model="hr.hospital.doctor">
+        <field name="last_name">Anderson</field>
+        <field name="first_name">James</field>
+        <field name="specialization_id" ref="specialization_general"/>
+        <field name="phone">+380501234568</field>
+        <field name="email">james.anderson@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1978-04-12</field>
+        <field name="license_number">MD-2003-015</field>
+        <field name="license_issue_date">2003-05-20</field>
+        <field name="rating">4.75</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_6.png"/>
+    </record>
+
+    <!-- Doctor 7: Senior Doctor -->
+    <record id="doctor_demo_7" model="hr.hospital.doctor">
+        <field name="last_name">Taylor</field>
+        <field name="first_name">Emma</field>
+        <field name="specialization_id" ref="specialization_cardiology"/>
+        <field name="phone">+380501234569</field>
+        <field name="email">emma.taylor@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1982-09-18</field>
+        <field name="license_number">MD-2007-028</field>
+        <field name="license_issue_date">2007-06-10</field>
+        <field name="rating">4.88</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_7.png"/>
+    </record>
+
+    <!-- Doctor 8: Senior Doctor -->
+    <record id="doctor_demo_8" model="hr.hospital.doctor">
+        <field name="last_name">Wilson</field>
+        <field name="first_name">David</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234570</field>
+        <field name="email">david.wilson@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1976-11-25</field>
+        <field name="license_number">MD-2001-008</field>
+        <field name="license_issue_date">2001-07-15</field>
+        <field name="rating">4.90</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_8.png"/>
+    </record>
+
+    <!-- Doctor 9: Intern -->
+    <record id="doctor_demo_9" model="hr.hospital.doctor">
+        <field name="last_name">Martinez</field>
+        <field name="first_name">Sofia</field>
+        <field name="specialization_id" ref="specialization_general"/>
+        <field name="phone">+380501234571</field>
+        <field name="email">sofia.martinez@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1997-02-14</field>
+        <field name="license_number">MD-2024-203</field>
+        <field name="license_issue_date">2024-08-01</field>
+        <field name="rating">4.08</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_6"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_9.png"/>
+    </record>
+
+    <!-- Doctor 10: Intern -->
+    <record id="doctor_demo_10" model="hr.hospital.doctor">
+        <field name="last_name">Garcia</field>
+        <field name="first_name">Carlos</field>
+        <field name="specialization_id" ref="specialization_cardiology"/>
+        <field name="phone">+380501234572</field>
+        <field name="email">carlos.garcia@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1996-06-30</field>
+        <field name="license_number">MD-2024-204</field>
+        <field name="license_issue_date">2024-09-01</field>
+        <field name="rating">4.15</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_7"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_10.png"/>
+    </record>
+
+    <!-- Doctor 11: Senior Doctor -->
+    <record id="doctor_demo_11" model="hr.hospital.doctor">
+        <field name="last_name">Rodriguez</field>
+        <field name="first_name">Maria</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234573</field>
+        <field name="email">maria.rodriguez@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1979-03-22</field>
+        <field name="license_number">MD-2004-019</field>
+        <field name="license_issue_date">2004-04-15</field>
+        <field name="rating">4.82</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_11.png"/>
+    </record>
+
+    <!-- Doctor 12: Intern -->
+    <record id="doctor_demo_12" model="hr.hospital.doctor">
+        <field name="last_name">Lee</field>
+        <field name="first_name">Kevin</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234574</field>
+        <field name="email">kevin.lee@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1998-08-05</field>
+        <field name="license_number">MD-2024-205</field>
+        <field name="license_issue_date">2024-10-01</field>
+        <field name="rating">4.11</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_11"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_12.png"/>
+    </record>
+
+    <!-- Doctor 13: Senior Doctor -->
+    <record id="doctor_demo_13" model="hr.hospital.doctor">
+        <field name="last_name">White</field>
+        <field name="first_name">Jennifer</field>
+        <field name="specialization_id" ref="specialization_general"/>
+        <field name="phone">+380501234575</field>
+        <field name="email">jennifer.white@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1981-12-10</field>
+        <field name="license_number">MD-2006-025</field>
+        <field name="license_issue_date">2006-03-20</field>
+        <field name="rating">4.78</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_13.png"/>
+    </record>
+
+    <!-- Doctor 14: Intern -->
+    <record id="doctor_demo_14" model="hr.hospital.doctor">
+        <field name="last_name">Harris</field>
+        <field name="first_name">Daniel</field>
+        <field name="specialization_id" ref="specialization_general"/>
+        <field name="phone">+380501234576</field>
+        <field name="email">daniel.harris@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1997-05-28</field>
+        <field name="license_number">MD-2024-206</field>
+        <field name="license_issue_date">2024-11-01</field>
+        <field name="rating">4.09</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_13"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_14.png"/>
+    </record>
+
+    <!-- Doctor 15: Senior Doctor -->
+    <record id="doctor_demo_15" model="hr.hospital.doctor">
+        <field name="last_name">Clark</field>
+        <field name="first_name">Lisa</field>
+        <field name="specialization_id" ref="specialization_cardiology"/>
+        <field name="phone">+380501234577</field>
+        <field name="email">lisa.clark@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1977-07-16</field>
+        <field name="license_number">MD-2002-012</field>
+        <field name="license_issue_date">2002-08-10</field>
+        <field name="rating">4.86</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_15.png"/>
+    </record>
+
+    <!-- Doctor 16: Intern -->
+    <record id="doctor_demo_16" model="hr.hospital.doctor">
+        <field name="last_name">Lewis</field>
+        <field name="first_name">Anna</field>
+        <field name="specialization_id" ref="specialization_cardiology"/>
+        <field name="phone">+380501234578</field>
+        <field name="email">anna.lewis@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1999-01-20</field>
+        <field name="license_number">MD-2024-207</field>
+        <field name="license_issue_date">2024-12-01</field>
+        <field name="rating">4.07</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_15"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_16.png"/>
+    </record>
+
+    <!-- Doctor 17: Senior Doctor -->
+    <record id="doctor_demo_17" model="hr.hospital.doctor">
+        <field name="last_name">Walker</field>
+        <field name="first_name">Thomas</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234579</field>
+        <field name="email">thomas.walker@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1980-10-08</field>
+        <field name="license_number">MD-2005-022</field>
+        <field name="license_issue_date">2005-09-15</field>
+        <field name="rating">4.80</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_17.png"/>
+    </record>
+
+    <!-- Doctor 18: Intern -->
+    <record id="doctor_demo_18" model="hr.hospital.doctor">
+        <field name="last_name">Hall</field>
+        <field name="first_name">Michelle</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234580</field>
+        <field name="email">michelle.hall@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1998-04-12</field>
+        <field name="license_number">MD-2024-208</field>
+        <field name="license_issue_date">2024-01-15</field>
+        <field name="rating">4.13</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_17"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_18.png"/>
+    </record>
+
+    <!-- Doctor 19: Senior Doctor -->
+    <record id="doctor_demo_19" model="hr.hospital.doctor">
+        <field name="last_name">Allen</field>
+        <field name="first_name">Christopher</field>
+        <field name="specialization_id" ref="specialization_general"/>
+        <field name="phone">+380501234581</field>
+        <field name="email">christopher.allen@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1983-02-28</field>
+        <field name="license_number">MD-2008-031</field>
+        <field name="license_issue_date">2008-05-25</field>
+        <field name="rating">4.77</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_19.png"/>
+    </record>
+
+    <!-- Doctor 20: Intern -->
+    <record id="doctor_demo_20" model="hr.hospital.doctor">
+        <field name="last_name">Young</field>
+        <field name="first_name">Patricia</field>
+        <field name="specialization_id" ref="specialization_general"/>
+        <field name="phone">+380501234582</field>
+        <field name="email">patricia.young@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1996-09-14</field>
+        <field name="license_number">MD-2024-209</field>
+        <field name="license_issue_date">2024-02-20</field>
+        <field name="rating">4.06</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_19"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_20.png"/>
+    </record>
+
+    <!-- Doctor 21: Senior Doctor -->
+    <record id="doctor_demo_21" model="hr.hospital.doctor">
+        <field name="last_name">King</field>
+        <field name="first_name">Richard</field>
+        <field name="specialization_id" ref="specialization_cardiology"/>
+        <field name="phone">+380501234583</field>
+        <field name="email">richard.king@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1974-06-19</field>
+        <field name="license_number">MD-1999-005</field>
+        <field name="license_issue_date">1999-07-10</field>
+        <field name="rating">4.91</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_21.png"/>
+    </record>
+
+    <!-- Doctor 22: Intern -->
+    <record id="doctor_demo_22" model="hr.hospital.doctor">
+        <field name="last_name">Wright</field>
+        <field name="first_name">Laura</field>
+        <field name="specialization_id" ref="specialization_cardiology"/>
+        <field name="phone">+380501234584</field>
+        <field name="email">laura.wright@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1997-11-03</field>
+        <field name="license_number">MD-2024-210</field>
+        <field name="license_issue_date">2024-03-15</field>
+        <field name="rating">4.14</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_21"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_22.png"/>
+    </record>
+
+    <!-- Doctor 23: Senior Doctor -->
+    <record id="doctor_demo_23" model="hr.hospital.doctor">
+        <field name="last_name">Scott</field>
+        <field name="first_name">Nancy</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234585</field>
+        <field name="email">nancy.scott@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1978-08-27</field>
+        <field name="license_number">MD-2003-016</field>
+        <field name="license_issue_date">2003-06-20</field>
+        <field name="rating">4.84</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_23.png"/>
+    </record>
+
+    <!-- Doctor 24: Intern -->
+    <record id="doctor_demo_24" model="hr.hospital.doctor">
+        <field name="last_name">Green</field>
+        <field name="first_name">Steven</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234586</field>
+        <field name="email">steven.green@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1998-12-09</field>
+        <field name="license_number">MD-2024-211</field>
+        <field name="license_issue_date">2024-04-10</field>
+        <field name="rating">4.10</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_23"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_24.png"/>
+    </record>
+
+    <!-- Doctor 25: Senior Doctor -->
+    <record id="doctor_demo_25" model="hr.hospital.doctor">
+        <field name="last_name">Baker</field>
+        <field name="first_name">Paul</field>
+        <field name="specialization_id" ref="specialization_general"/>
+        <field name="phone">+380501234587</field>
+        <field name="email">paul.baker@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1981-01-15</field>
+        <field name="license_number">MD-2006-024</field>
+        <field name="license_issue_date">2006-02-18</field>
+        <field name="rating">4.79</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_25.png"/>
+    </record>
+
+    <!-- Doctor 26: Intern -->
+    <record id="doctor_demo_26" model="hr.hospital.doctor">
+        <field name="last_name">Adams</field>
+        <field name="first_name">Karen</field>
+        <field name="specialization_id" ref="specialization_general"/>
+        <field name="phone">+380501234588</field>
+        <field name="email">karen.adams@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1999-03-25</field>
+        <field name="license_number">MD-2024-212</field>
+        <field name="license_issue_date">2024-05-05</field>
+        <field name="rating">4.08</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_25"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_26.png"/>
+    </record>
+
+    <!-- Doctor 27: Senior Doctor -->
+    <record id="doctor_demo_27" model="hr.hospital.doctor">
+        <field name="last_name">Nelson</field>
+        <field name="first_name">Betty</field>
+        <field name="specialization_id" ref="specialization_cardiology"/>
+        <field name="phone">+380501234589</field>
+        <field name="email">betty.nelson@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1979-05-11</field>
+        <field name="license_number">MD-2004-020</field>
+        <field name="license_issue_date">2004-06-15</field>
+        <field name="rating">4.83</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_27.png"/>
+    </record>
+
+    <!-- Doctor 28: Intern -->
+    <record id="doctor_demo_28" model="hr.hospital.doctor">
+        <field name="last_name">Carter</field>
+        <field name="first_name">Mark</field>
+        <field name="specialization_id" ref="specialization_cardiology"/>
+        <field name="phone">+380501234590</field>
+        <field name="email">mark.carter@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1996-07-22</field>
+        <field name="license_number">MD-2024-213</field>
+        <field name="license_issue_date">2024-06-01</field>
+        <field name="rating">4.12</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_27"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_28.png"/>
+    </record>
+
+    <!-- Doctor 29: Senior Doctor -->
+    <record id="doctor_demo_29" model="hr.hospital.doctor">
+        <field name="last_name">Mitchell</field>
+        <field name="first_name">Sandra</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234591</field>
+        <field name="email">sandra.mitchell@hospital.com</field>
+        <field name="gender">female</field>
+        <field name="date_of_birth">1982-09-30</field>
+        <field name="license_number">MD-2007-029</field>
+        <field name="license_issue_date">2007-08-12</field>
+        <field name="rating">4.81</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="False"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_29.png"/>
+    </record>
+
+    <!-- Doctor 30: Intern -->
+    <record id="doctor_demo_30" model="hr.hospital.doctor">
+        <field name="last_name">Perez</field>
+        <field name="first_name">Anthony</field>
+        <field name="specialization_id" ref="specialization_neurology"/>
+        <field name="phone">+380501234592</field>
+        <field name="email">anthony.perez@hospital.com</field>
+        <field name="gender">male</field>
+        <field name="date_of_birth">1997-10-18</field>
+        <field name="license_number">MD-2024-214</field>
+        <field name="license_issue_date">2024-07-01</field>
+        <field name="rating">4.09</field>
+        <field name="education_country_id" ref="base.ua"/>
+        <field name="is_intern" eval="True"/>
+        <field name="mentor_id" ref="doctor_demo_29"/>
+        <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_30.png"/>
+    </record>
+</odoo>

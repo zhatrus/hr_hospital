@@ -22,12 +22,32 @@
         <field name="model">hr.hospital.patient</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_create_visit"
+                            string="New Visit"
+                            type="object"
+                            class="btn-primary"/>
+                </header>
                 <sheet>
                     <field name="image_1920" widget="image" class="oe_avatar"/>
                     <div class="oe_title">
                         <h1>
                             <field name="full_name" readonly="1"/>
                         </h1>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_visits"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-calendar">
+                            <field name="visit_count" widget="statinfo" string="Visits"/>
+                        </button>
+                        <button name="action_view_diagnoses"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-stethoscope">
+                            <field name="diagnosis_count" widget="statinfo" string="Diagnoses"/>
+                        </button>
                     </div>
                     <group>
                         <group string="Personal Information">
@@ -73,9 +93,21 @@
                             <field name="visit_ids">
                                 <tree>
                                     <field name="doctor_id"/>
+                                    <field name="scheduled_date"/>
+                                    <field name="status"/>
+                                    <field name="visit_type"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Diagnoses">
+                            <field name="diagnosis_ids" readonly="1">
+                                <tree>
                                     <field name="visit_date"/>
+                                    <field name="doctor_id"/>
                                     <field name="disease_id"/>
-                                    <field name="diagnosis"/>
+                                    <field name="diagnosis_type"/>
+                                    <field name="severity"/>
+                                    <field name="is_approved"/>
                                 </tree>
                             </field>
                         </page>

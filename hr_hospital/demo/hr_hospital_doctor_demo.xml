@@ -14,6 +14,7 @@
             <field name="rating">4.85</field>
             <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="False"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_1.png"/>
         </record>
 
         <!-- Doctor 2: Senior Doctor (Mentor) -->
@@ -30,6 +31,7 @@
             <field name="rating">4.92</field>
             <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="False"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_2.png"/>
         </record>
 
         <!-- Doctor 3: Intern with Mentor -->
@@ -47,5 +49,42 @@
             <field name="education_country_id" ref="base.ua"/>
             <field name="is_intern" eval="True"/>
             <field name="mentor_id" ref="doctor_demo_1"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_3.png"/>
+        </record>
+
+        <!-- Doctor 4: Intern with Mentor -->
+        <record id="doctor_demo_4" model="hr.hospital.doctor">
+            <field name="last_name">Koval</field>
+            <field name="first_name">Olena</field>
+            <field name="specialization_id" ref="specialization_cardiology"/>
+            <field name="phone">+380631112233</field>
+            <field name="email">olena.koval@hospital.com</field>
+            <field name="gender">female</field>
+            <field name="date_of_birth">1999-11-04</field>
+            <field name="license_number">MD-2024-201</field>
+            <field name="license_issue_date">2024-06-01</field>
+            <field name="rating">4.05</field>
+            <field name="education_country_id" ref="base.ua"/>
+            <field name="is_intern" eval="True"/>
+            <field name="mentor_id" ref="doctor_demo_1"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_4.png"/>
+        </record>
+
+        <!-- Doctor 5: Intern with Mentor -->
+        <record id="doctor_demo_5" model="hr.hospital.doctor">
+            <field name="last_name">Ivanenko</field>
+            <field name="first_name">Dmytro</field>
+            <field name="specialization_id" ref="specialization_neurology"/>
+            <field name="phone">+380671234890</field>
+            <field name="email">dmytro.ivanenko@hospital.com</field>
+            <field name="gender">male</field>
+            <field name="date_of_birth">1998-02-18</field>
+            <field name="license_number">MD-2024-202</field>
+            <field name="license_issue_date">2024-07-15</field>
+            <field name="rating">4.12</field>
+            <field name="education_country_id" ref="base.ua"/>
+            <field name="is_intern" eval="True"/>
+            <field name="mentor_id" ref="doctor_demo_2"/>
+            <field name="image_1920" type="base64" file="hr_hospital/static/img/doctors/doctor_5.png"/>
         </record>
 </odoo>

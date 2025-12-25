@@ -4,6 +4,16 @@ from dateutil.relativedelta import relativedelta
 
 
 class HrHospitalVisit(models.Model):
+    """Hospital Visit model.
+
+    Represents patient visits to doctors with scheduling, status tracking,
+    and multiple diagnoses support. Prevents deletion of visits with
+    existing diagnoses.
+
+    Inherits from:
+        - mail.thread: Chatter functionality
+        - mail.activity.mixin: Activity tracking
+    """
     _name = 'hr.hospital.visit'
     _description = 'Hospital Visit'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -68,13 +78,11 @@ class HrHospitalVisit(models.Model):
     disease_id = fields.Many2one(
         comodel_name='hr.hospital.disease',
         string='Disease',
-        help='Deprecated: use diagnosis_ids instead',
     )
     visit_date = fields.Datetime(
         string='Date Visit',
         compute='_compute_visit_date',
         store=True,
-        help='Deprecated: use scheduled_date or actual_date',
     )
     notes = fields.Text(
         string='Notes Visit',
@@ -82,7 +90,6 @@ class HrHospitalVisit(models.Model):
     )
     diagnosis = fields.Text(
         string='Diagnosis Visit',
-        help='Deprecated: use diagnosis_ids instead',
         translate=True,
     )
     prescription = fields.Text(
@@ -251,3 +258,26 @@ class HrHospitalVisit(models.Model):
                       'Please remove diagnoses first.')
                 )
         return super().unlink()
+
+    def name_get(self):
+        """Human-friendly display name for calendar/pickers."""
+        result = []
+        for record in self:
+            patient_name = (
+                record.patient_id.full_name or record.patient_id.display_name
+            )
+            doctor_name = (
+                record.doctor_id.full_name or record.doctor_id.display_name
+            )
+
+            dt_str = False
+            if record.scheduled_date:
+                datetime_obj = fields.Datetime.context_timestamp(
+                    record, record.scheduled_date)
+                dt_str = datetime_obj.strftime('%d.%m.%Y %H:%M')
+
+            parts = [p for p in [patient_name, doctor_name, dt_str] if p]
+            model_name = 'hr.hospital.visit'
+            name = ' — '.join(parts) if parts else f"{model_name},{record.id}"
+            result.append((record.id, name))
+        return result

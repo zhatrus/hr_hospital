@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="diagnosis_demo_001" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_demo_1"/>
+        <field name="disease_id" ref="disease_covid19"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">critical</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_demo_1"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d 09:30:00')"/>
+        <field name="description">Confirmed COVID-19 by rapid antigen test.</field>
+        <field name="treatment">&lt;p&gt;Isolation, symptomatic treatment, monitor oxygen saturation&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_demo_002" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_demo_1"/>
+        <field name="disease_id" ref="disease_infectious"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">severe</field>
+        <field name="is_approved" eval="False"/>
+        <field name="description">Suspected secondary infection; additional lab tests required.</field>
+        <field name="treatment">&lt;p&gt;Order CBC/CRP, start empiric therapy if confirmed&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_demo_003" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_demo_1"/>
+        <field name="disease_id" ref="disease_covid19"/>
+        <field name="diagnosis_type">complication</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="False"/>
+        <field name="description">Post-viral fatigue and shortness of breath reported.</field>
+        <field name="treatment">&lt;p&gt;Breathing exercises, follow-up in 7 days&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_demo_004" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_demo_2"/>
+        <field name="disease_id" ref="disease_covid19"/>
+        <field name="diagnosis_type">primary</field>
+        <field name="severity">severe</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_demo_2"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d 10:20:00')"/>
+        <field name="description">High fever and dyspnea. COVID-19 confirmed.</field>
+        <field name="treatment">&lt;p&gt;Oxygen therapy, hospitalization, antiviral per protocol&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_demo_005" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_demo_2"/>
+        <field name="disease_id" ref="disease_infectious"/>
+        <field name="diagnosis_type">secondary</field>
+        <field name="severity">mild</field>
+        <field name="is_approved" eval="True"/>
+        <field name="approved_by_id" ref="doctor_demo_2"/>
+        <field name="approval_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d 10:25:00')"/>
+        <field name="description">General infectious risk assessment added to the case.</field>
+        <field name="treatment">&lt;p&gt;Supportive care, monitor for complications&lt;/p&gt;</field>
+    </record>
+
+    <record id="diagnosis_demo_006" model="hr.hospital.diagnosis">
+        <field name="visit_id" ref="visit_demo_2"/>
+        <field name="disease_id" ref="disease_infectious"/>
+        <field name="diagnosis_type">complication</field>
+        <field name="severity">moderate</field>
+        <field name="is_approved" eval="False"/>
+        <field name="description">Possible bacterial complication suspected; pending confirmation.</field>
+        <field name="treatment">&lt;p&gt;Chest X-ray if symptoms worsen; re-evaluate in 48h&lt;/p&gt;</field>
+    </record>
+</odoo>

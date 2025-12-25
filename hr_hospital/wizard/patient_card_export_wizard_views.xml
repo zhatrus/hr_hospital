@@ -52,6 +52,9 @@
         <field name="res_model">patient.card.export.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+        <field name="context">{
+            'default_patient_id': active_id or (active_ids and active_ids[0])
+        }</field>
         <field name="binding_model_id" ref="model_hr_hospital_patient"/>
         <field name="binding_view_types">form</field>
     </record>

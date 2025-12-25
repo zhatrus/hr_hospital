@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+        
+        <!-- Record Rule: Пацієнт - лише свої відвідування (read only) -->
+        <record id="hr_hospital_visit_patient_rule" model="ir.rule">
+            <field name="name">Patient: Own Visits Only</field>
+            <field name="model_id" ref="model_hr_hospital_visit"/>
+            <field name="domain_force">[('patient_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_patient'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Record Rule: Інтерн - свої відвідування (read + write) -->
+        <record id="hr_hospital_visit_intern_rule" model="ir.rule">
+            <field name="name">Intern: Own Visits</field>
+            <field name="model_id" ref="model_hr_hospital_visit"/>
+            <field name="domain_force">[('doctor_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_intern'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Record Rule: Лікар - свої відвідування + відвідування інтернів (read + write) -->
+        <record id="hr_hospital_visit_doctor_rule" model="ir.rule">
+            <field name="name">Doctor: Own and Interns' Visits</field>
+            <field name="model_id" ref="model_hr_hospital_visit"/>
+            <field name="domain_force">['|', ('doctor_id.user_id', '=', user.id), ('doctor_id.mentor_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_doctor'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Record Rule: Менеджер - всі відвідування (read only) -->
+        <record id="hr_hospital_visit_manager_rule" model="ir.rule">
+            <field name="name">Manager: All Visits Read</field>
+            <field name="model_id" ref="model_hr_hospital_visit"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Record Rule: Адміністратор - повний доступ до всіх даних -->
+        <record id="hr_hospital_visit_admin_rule" model="ir.rule">
+            <field name="name">Administrator: Full Access</field>
+            <field name="model_id" ref="model_hr_hospital_visit"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Record Rule: Адміністратор - повний доступ до лікарів -->
+        <record id="hr_hospital_doctor_admin_rule" model="ir.rule">
+            <field name="name">Administrator: Full Access to Doctors</field>
+            <field name="model_id" ref="model_hr_hospital_doctor"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Record Rule: Адміністратор - повний доступ до пацієнтів -->
+        <record id="hr_hospital_patient_admin_rule" model="ir.rule">
+            <field name="name">Administrator: Full Access to Patients</field>
+            <field name="model_id" ref="model_hr_hospital_patient"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Record Rule: Адміністратор - повний доступ до діагнозів -->
+        <record id="hr_hospital_diagnosis_admin_rule" model="ir.rule">
+            <field name="name">Administrator: Full Access to Diagnoses</field>
+            <field name="model_id" ref="model_hr_hospital_diagnosis"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Record Rule: Адміністратор - повний доступ до хвороб -->
+        <record id="hr_hospital_disease_admin_rule" model="ir.rule">
+            <field name="name">Administrator: Full Access to Diseases</field>
+            <field name="model_id" ref="model_hr_hospital_disease"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_hospital_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+</odoo>

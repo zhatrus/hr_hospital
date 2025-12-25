@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Patients 4-30 -->
+    
+    <!-- Patient 4 -->
+    <record id="patient_demo_4" model="hr.hospital.patient">
+        <field name="last_name">Thompson</field>
+        <field name="first_name">Michael</field>
+        <field name="date_of_birth">1990-04-15</field>
+        <field name="gender">male</field>
+        <field name="phone">+380674567890</field>
+        <field name="email">michael.thompson@example.com</field>
+        <field name="address">321 Elm Street, Kharkiv, Ukraine</field>
+        <field name="passport_data">GH1122334</field>
+        <field name="blood_type">ab_positive</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-004</field>
+        <field name="doctor_id" ref="doctor_demo_6"/>
+    </record>
+
+    <!-- Patient 5 -->
+    <record id="patient_demo_5" model="hr.hospital.patient">
+        <field name="last_name">Anderson</field>
+        <field name="first_name">Jessica</field>
+        <field name="date_of_birth">1988-09-20</field>
+        <field name="gender">female</field>
+        <field name="phone">+380675678901</field>
+        <field name="email">jessica.anderson@example.com</field>
+        <field name="address">654 Maple Avenue, Dnipro, Ukraine</field>
+        <field name="passport_data">IJ5566778</field>
+        <field name="blood_type">o_negative</field>
+        <field name="allergies">Aspirin</field>
+        <field name="insurance_policy_number">INS-2023-005</field>
+        <field name="doctor_id" ref="doctor_demo_7"/>
+    </record>
+
+    <!-- Patient 6 -->
+    <record id="patient_demo_6" model="hr.hospital.patient">
+        <field name="last_name">Taylor</field>
+        <field name="first_name">Christopher</field>
+        <field name="date_of_birth">1982-12-05</field>
+        <field name="gender">male</field>
+        <field name="phone">+380676789012</field>
+        <field name="email">christopher.taylor@example.com</field>
+        <field name="address">987 Oak Road, Zaporizhzhia, Ukraine</field>
+        <field name="passport_data">KL9988776</field>
+        <field name="blood_type">a_negative</field>
+        <field name="allergies">Sulfa drugs</field>
+        <field name="insurance_policy_number">INS-2023-006</field>
+        <field name="doctor_id" ref="doctor_demo_8"/>
+    </record>
+
+    <!-- Patient 7 -->
+    <record id="patient_demo_7" model="hr.hospital.patient">
+        <field name="last_name">Moore</field>
+        <field name="first_name">Amanda</field>
+        <field name="date_of_birth">1995-06-18</field>
+        <field name="gender">female</field>
+        <field name="phone">+380677890123</field>
+        <field name="email">amanda.moore@example.com</field>
+        <field name="address">147 Pine Street, Lviv, Ukraine</field>
+        <field name="passport_data">MN3344556</field>
+        <field name="blood_type">b_positive</field>
+        <field name="allergies">Latex</field>
+        <field name="insurance_policy_number">INS-2023-007</field>
+        <field name="doctor_id" ref="doctor_demo_1"/>
+    </record>
+
+    <!-- Patient 8 -->
+    <record id="patient_demo_8" model="hr.hospital.patient">
+        <field name="last_name">Jackson</field>
+        <field name="first_name">Daniel</field>
+        <field name="date_of_birth">1987-03-22</field>
+        <field name="gender">male</field>
+        <field name="phone">+380678901234</field>
+        <field name="email">daniel.jackson@example.com</field>
+        <field name="address">258 Cedar Avenue, Kyiv, Ukraine</field>
+        <field name="passport_data">OP7788990</field>
+        <field name="blood_type">o_positive</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-008</field>
+        <field name="doctor_id" ref="doctor_demo_2"/>
+    </record>
+
+    <!-- Patient 9 -->
+    <record id="patient_demo_9" model="hr.hospital.patient">
+        <field name="last_name">White</field>
+        <field name="first_name">Sarah</field>
+        <field name="date_of_birth">1993-11-30</field>
+        <field name="gender">female</field>
+        <field name="phone">+380679012345</field>
+        <field name="email">sarah.white@example.com</field>
+        <field name="address">369 Birch Road, Odesa, Ukraine</field>
+        <field name="passport_data">QR1122334</field>
+        <field name="blood_type">a_positive</field>
+        <field name="allergies">Iodine</field>
+        <field name="insurance_policy_number">INS-2023-009</field>
+        <field name="doctor_id" ref="doctor_demo_11"/>
+    </record>
+
+    <!-- Patient 10 -->
+    <record id="patient_demo_10" model="hr.hospital.patient">
+        <field name="last_name">Harris</field>
+        <field name="first_name">James</field>
+        <field name="date_of_birth">1980-08-14</field>
+        <field name="gender">male</field>
+        <field name="phone">+380670123456</field>
+        <field name="email">james.harris@example.com</field>
+        <field name="address">741 Willow Street, Kharkiv, Ukraine</field>
+        <field name="passport_data">ST5566778</field>
+        <field name="blood_type">ab_negative</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-010</field>
+        <field name="doctor_id" ref="doctor_demo_13"/>
+    </record>
+
+    <!-- Patient 11 -->
+    <record id="patient_demo_11" model="hr.hospital.patient">
+        <field name="last_name">Martin</field>
+        <field name="first_name">Laura</field>
+        <field name="date_of_birth">1991-02-28</field>
+        <field name="gender">female</field>
+        <field name="phone">+380671234567</field>
+        <field name="email">laura.martin@example.com</field>
+        <field name="address">852 Spruce Avenue, Dnipro, Ukraine</field>
+        <field name="passport_data">UV9988776</field>
+        <field name="blood_type">b_negative</field>
+        <field name="allergies">Penicillin</field>
+        <field name="insurance_policy_number">INS-2023-011</field>
+        <field name="doctor_id" ref="doctor_demo_15"/>
+    </record>
+
+    <!-- Patient 12 -->
+    <record id="patient_demo_12" model="hr.hospital.patient">
+        <field name="last_name">Thompson</field>
+        <field name="first_name">Kevin</field>
+        <field name="date_of_birth">1986-07-09</field>
+        <field name="gender">male</field>
+        <field name="phone">+380672345678</field>
+        <field name="email">kevin.thompson@example.com</field>
+        <field name="address">963 Ash Road, Zaporizhzhia, Ukraine</field>
+        <field name="passport_data">WX3344556</field>
+        <field name="blood_type">o_positive</field>
+        <field name="allergies">Shellfish</field>
+        <field name="insurance_policy_number">INS-2023-012</field>
+        <field name="doctor_id" ref="doctor_demo_17"/>
+    </record>
+
+    <!-- Patient 13 -->
+    <record id="patient_demo_13" model="hr.hospital.patient">
+        <field name="last_name">Garcia</field>
+        <field name="first_name">Maria</field>
+        <field name="date_of_birth">1994-05-17</field>
+        <field name="gender">female</field>
+        <field name="phone">+380673456789</field>
+        <field name="email">maria.garcia@example.com</field>
+        <field name="address">159 Poplar Street, Lviv, Ukraine</field>
+        <field name="passport_data">YZ7788990</field>
+        <field name="blood_type">a_positive</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-013</field>
+        <field name="doctor_id" ref="doctor_demo_19"/>
+    </record>
+
+    <!-- Patient 14 -->
+    <record id="patient_demo_14" model="hr.hospital.patient">
+        <field name="last_name">Martinez</field>
+        <field name="first_name">David</field>
+        <field name="date_of_birth">1989-10-25</field>
+        <field name="gender">male</field>
+        <field name="phone">+380674567890</field>
+        <field name="email">david.martinez@example.com</field>
+        <field name="address">357 Hickory Avenue, Kyiv, Ukraine</field>
+        <field name="passport_data">AB1122334</field>
+        <field name="blood_type">b_positive</field>
+        <field name="allergies">Latex</field>
+        <field name="insurance_policy_number">INS-2023-014</field>
+        <field name="doctor_id" ref="doctor_demo_21"/>
+    </record>
+
+    <!-- Patient 15 -->
+    <record id="patient_demo_15" model="hr.hospital.patient">
+        <field name="last_name">Robinson</field>
+        <field name="first_name">Jennifer</field>
+        <field name="date_of_birth">1992-01-12</field>
+        <field name="gender">female</field>
+        <field name="phone">+380675678901</field>
+        <field name="email">jennifer.robinson@example.com</field>
+        <field name="address">468 Walnut Road, Odesa, Ukraine</field>
+        <field name="passport_data">CD5566778</field>
+        <field name="blood_type">o_negative</field>
+        <field name="allergies">Aspirin</field>
+        <field name="insurance_policy_number">INS-2023-015</field>
+        <field name="doctor_id" ref="doctor_demo_23"/>
+    </record>
+
+    <!-- Patient 16 -->
+    <record id="patient_demo_16" model="hr.hospital.patient">
+        <field name="last_name">Clark</field>
+        <field name="first_name">Richard</field>
+        <field name="date_of_birth">1984-09-03</field>
+        <field name="gender">male</field>
+        <field name="phone">+380676789012</field>
+        <field name="email">richard.clark@example.com</field>
+        <field name="address">579 Chestnut Street, Kharkiv, Ukraine</field>
+        <field name="passport_data">EF9988776</field>
+        <field name="blood_type">ab_positive</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-016</field>
+        <field name="doctor_id" ref="doctor_demo_25"/>
+    </record>
+
+    <!-- Patient 17 -->
+    <record id="patient_demo_17" model="hr.hospital.patient">
+        <field name="last_name">Rodriguez</field>
+        <field name="first_name">Lisa</field>
+        <field name="date_of_birth">1996-04-20</field>
+        <field name="gender">female</field>
+        <field name="phone">+380677890123</field>
+        <field name="email">lisa.rodriguez@example.com</field>
+        <field name="address">680 Sycamore Avenue, Dnipro, Ukraine</field>
+        <field name="passport_data">GH3344556</field>
+        <field name="blood_type">a_negative</field>
+        <field name="allergies">Sulfa drugs</field>
+        <field name="insurance_policy_number">INS-2023-017</field>
+        <field name="doctor_id" ref="doctor_demo_27"/>
+    </record>
+
+    <!-- Patient 18 -->
+    <record id="patient_demo_18" model="hr.hospital.patient">
+        <field name="last_name">Lewis</field>
+        <field name="first_name">Thomas</field>
+        <field name="date_of_birth">1983-12-08</field>
+        <field name="gender">male</field>
+        <field name="phone">+380678901234</field>
+        <field name="email">thomas.lewis@example.com</field>
+        <field name="address">791 Magnolia Road, Zaporizhzhia, Ukraine</field>
+        <field name="passport_data">IJ7788990</field>
+        <field name="blood_type">b_positive</field>
+        <field name="allergies">Iodine</field>
+        <field name="insurance_policy_number">INS-2023-018</field>
+        <field name="doctor_id" ref="doctor_demo_29"/>
+    </record>
+
+    <!-- Patient 19 -->
+    <record id="patient_demo_19" model="hr.hospital.patient">
+        <field name="last_name">Lee</field>
+        <field name="first_name">Nancy</field>
+        <field name="date_of_birth">1990-06-15</field>
+        <field name="gender">female</field>
+        <field name="phone">+380679012345</field>
+        <field name="email">nancy.lee@example.com</field>
+        <field name="address">802 Dogwood Street, Lviv, Ukraine</field>
+        <field name="passport_data">KL1122334</field>
+        <field name="blood_type">o_positive</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-019</field>
+        <field name="doctor_id" ref="doctor_demo_1"/>
+    </record>
+
+    <!-- Patient 20 -->
+    <record id="patient_demo_20" model="hr.hospital.patient">
+        <field name="last_name">Walker</field>
+        <field name="first_name">Paul</field>
+        <field name="date_of_birth">1988-03-27</field>
+        <field name="gender">male</field>
+        <field name="phone">+380670123456</field>
+        <field name="email">paul.walker@example.com</field>
+        <field name="address">913 Redwood Avenue, Kyiv, Ukraine</field>
+        <field name="passport_data">MN5566778</field>
+        <field name="blood_type">a_positive</field>
+        <field name="allergies">Penicillin</field>
+        <field name="insurance_policy_number">INS-2023-020</field>
+        <field name="doctor_id" ref="doctor_demo_6"/>
+    </record>
+
+    <!-- Patient 21 -->
+    <record id="patient_demo_21" model="hr.hospital.patient">
+        <field name="last_name">Hall</field>
+        <field name="first_name">Betty</field>
+        <field name="date_of_birth">1985-11-11</field>
+        <field name="gender">female</field>
+        <field name="phone">+380671234567</field>
+        <field name="email">betty.hall@example.com</field>
+        <field name="address">124 Sequoia Road, Odesa, Ukraine</field>
+        <field name="passport_data">OP9988776</field>
+        <field name="blood_type">b_negative</field>
+        <field name="allergies">Latex</field>
+        <field name="insurance_policy_number">INS-2023-021</field>
+        <field name="doctor_id" ref="doctor_demo_8"/>
+    </record>
+
+    <!-- Patient 22 -->
+    <record id="patient_demo_22" model="hr.hospital.patient">
+        <field name="last_name">Allen</field>
+        <field name="first_name">Mark</field>
+        <field name="date_of_birth">1993-07-19</field>
+        <field name="gender">male</field>
+        <field name="phone">+380672345678</field>
+        <field name="email">mark.allen@example.com</field>
+        <field name="address">235 Cypress Street, Kharkiv, Ukraine</field>
+        <field name="passport_data">QR3344556</field>
+        <field name="blood_type">ab_negative</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-022</field>
+        <field name="doctor_id" ref="doctor_demo_11"/>
+    </record>
+
+    <!-- Patient 23 -->
+    <record id="patient_demo_23" model="hr.hospital.patient">
+        <field name="last_name">Young</field>
+        <field name="first_name">Sandra</field>
+        <field name="date_of_birth">1991-02-04</field>
+        <field name="gender">female</field>
+        <field name="phone">+380673456789</field>
+        <field name="email">sandra.young@example.com</field>
+        <field name="address">346 Fir Avenue, Dnipro, Ukraine</field>
+        <field name="passport_data">ST7788990</field>
+        <field name="blood_type">o_positive</field>
+        <field name="allergies">Shellfish</field>
+        <field name="insurance_policy_number">INS-2023-023</field>
+        <field name="doctor_id" ref="doctor_demo_13"/>
+    </record>
+
+    <!-- Patient 24 -->
+    <record id="patient_demo_24" model="hr.hospital.patient">
+        <field name="last_name">Hernandez</field>
+        <field name="first_name">Steven</field>
+        <field name="date_of_birth">1987-10-16</field>
+        <field name="gender">male</field>
+        <field name="phone">+380674567890</field>
+        <field name="email">steven.hernandez@example.com</field>
+        <field name="address">457 Hemlock Road, Zaporizhzhia, Ukraine</field>
+        <field name="passport_data">UV1122334</field>
+        <field name="blood_type">a_positive</field>
+        <field name="allergies">Aspirin</field>
+        <field name="insurance_policy_number">INS-2023-024</field>
+        <field name="doctor_id" ref="doctor_demo_15"/>
+    </record>
+
+    <!-- Patient 25 -->
+    <record id="patient_demo_25" model="hr.hospital.patient">
+        <field name="last_name">King</field>
+        <field name="first_name">Donna</field>
+        <field name="date_of_birth">1994-05-23</field>
+        <field name="gender">female</field>
+        <field name="phone">+380675678901</field>
+        <field name="email">donna.king@example.com</field>
+        <field name="address">568 Juniper Street, Lviv, Ukraine</field>
+        <field name="passport_data">WX5566778</field>
+        <field name="blood_type">b_positive</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-025</field>
+        <field name="doctor_id" ref="doctor_demo_17"/>
+    </record>
+
+    <!-- Patient 26 -->
+    <record id="patient_demo_26" model="hr.hospital.patient">
+        <field name="last_name">Wright</field>
+        <field name="first_name">George</field>
+        <field name="date_of_birth">1982-01-30</field>
+        <field name="gender">male</field>
+        <field name="phone">+380676789012</field>
+        <field name="email">george.wright@example.com</field>
+        <field name="address">679 Laurel Avenue, Kyiv, Ukraine</field>
+        <field name="passport_data">YZ9988776</field>
+        <field name="blood_type">o_negative</field>
+        <field name="allergies">Sulfa drugs</field>
+        <field name="insurance_policy_number">INS-2023-026</field>
+        <field name="doctor_id" ref="doctor_demo_19"/>
+    </record>
+
+    <!-- Patient 27 -->
+    <record id="patient_demo_27" model="hr.hospital.patient">
+        <field name="last_name">Lopez</field>
+        <field name="first_name">Carol</field>
+        <field name="date_of_birth">1989-09-07</field>
+        <field name="gender">female</field>
+        <field name="phone">+380677890123</field>
+        <field name="email">carol.lopez@example.com</field>
+        <field name="address">780 Beech Road, Odesa, Ukraine</field>
+        <field name="passport_data">AB3344556</field>
+        <field name="blood_type">a_negative</field>
+        <field name="allergies">Iodine</field>
+        <field name="insurance_policy_number">INS-2023-027</field>
+        <field name="doctor_id" ref="doctor_demo_21"/>
+    </record>
+
+    <!-- Patient 28 -->
+    <record id="patient_demo_28" model="hr.hospital.patient">
+        <field name="last_name">Hill</field>
+        <field name="first_name">Ronald</field>
+        <field name="date_of_birth">1986-04-14</field>
+        <field name="gender">male</field>
+        <field name="phone">+380678901234</field>
+        <field name="email">ronald.hill@example.com</field>
+        <field name="address">891 Cottonwood Street, Kharkiv, Ukraine</field>
+        <field name="passport_data">CD7788990</field>
+        <field name="blood_type">ab_positive</field>
+        <field name="allergies">None known</field>
+        <field name="insurance_policy_number">INS-2023-028</field>
+        <field name="doctor_id" ref="doctor_demo_23"/>
+    </record>
+
+    <!-- Patient 29 -->
+    <record id="patient_demo_29" model="hr.hospital.patient">
+        <field name="last_name">Scott</field>
+        <field name="first_name">Sharon</field>
+        <field name="date_of_birth">1995-12-21</field>
+        <field name="gender">female</field>
+        <field name="phone">+380679012345</field>
+        <field name="email">sharon.scott@example.com</field>
+        <field name="address">902 Alder Avenue, Dnipro, Ukraine</field>
+        <field name="passport_data">EF1122334</field>
+        <field name="blood_type">b_positive</field>
+        <field name="allergies">Latex</field>
+        <field name="insurance_policy_number">INS-2023-029</field>
+        <field name="doctor_id" ref="doctor_demo_25"/>
+    </record>
+
+    <!-- Patient 30 -->
+    <record id="patient_demo_30" model="hr.hospital.patient">
+        <field name="last_name">Green</field>
+        <field name="first_name">Kenneth</field>
+        <field name="date_of_birth">1981-08-28</field>
+        <field name="gender">male</field>
+        <field name="phone">+380670123456</field>
+        <field name="email">kenneth.green@example.com</field>
+        <field name="address">113 Willow Street, Zaporizhzhia, Ukraine</field>
+        <field name="passport_data">GH5566778</field>
+        <field name="blood_type">o_positive</field>
+        <field name="allergies">Penicillin</field>
+        <field name="insurance_policy_number">INS-2023-030</field>
+        <field name="doctor_id" ref="doctor_demo_27"/>
+    </record>
+</odoo>

@@ -4,6 +4,14 @@ from dateutil.relativedelta import relativedelta
 
 
 class HrHospitalDoctor(models.Model):
+    """Hospital Doctor model.
+
+    Represents medical doctors with their qualifications, specializations,
+    and work schedules. Supports intern-mentor relationships and tracks
+    years of experience based on license issue date.
+
+    Inherits from abstract.person to get common personal data fields.
+    """
     _name = 'hr.hospital.doctor'
     _description = 'Hospital Doctor'
     _inherit = ['abstract.person']
@@ -41,6 +49,22 @@ class HrHospitalDoctor(models.Model):
         string='Mentor',
         domain="[('is_intern', '=', False)]",
         help='Mentor doctor (available only for interns)',
+    )
+
+    mentor_phone = fields.Char(
+        string="Mentor's Phone",
+        related='mentor_id.phone',
+        readonly=True,
+    )
+    mentor_email = fields.Char(
+        string="Mentor's Email",
+        related='mentor_id.email',
+        readonly=True,
+    )
+    mentor_specialization_id = fields.Many2one(
+        string="Mentor's Specialization",
+        related='mentor_id.specialization_id',
+        readonly=True,
     )
 
     # Ліцензія
@@ -160,3 +184,17 @@ class HrHospitalDoctor(models.Model):
                         _('Cannot archive doctor with active visits! '
                           'Please reassign or cancel visits first.')
                     )
+
+    def action_quick_create_visit(self):
+        """Open Visit creation form with this doctor prefilled."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('New Visit'),
+            'res_model': 'hr.hospital.visit',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_doctor_id': self.id,
+            },
+        }

@@ -3,7 +3,18 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class HrHospitalDiagnosis(models.Model):
-    """Діагноз пацієнта під час візиту"""
+    """Patient Diagnosis model.
+
+    Represents medical diagnoses made during patient visits. Supports
+    approval workflow where intern diagnoses require mentor approval.
+    Automatically computes disease type from hierarchical disease structure.
+
+    Features:
+        - Multiple diagnoses per visit
+        - Severity levels (mild, moderate, severe, critical)
+        - Approval workflow with tracking
+        - Disease type computation from hierarchy
+    """
     _name = 'hr.hospital.diagnosis'
     _description = 'Patient Diagnosis'
     _order = 'visit_id, sequence, id'
@@ -17,6 +28,26 @@ class HrHospitalDiagnosis(models.Model):
         index=True,
         domain="[('status', '=', 'completed')]",
     )
+    patient_id = fields.Many2one(
+        comodel_name='hr.hospital.patient',
+        related='visit_id.patient_id',
+        store=True,
+        index=True,
+        readonly=True,
+    )
+    doctor_id = fields.Many2one(
+        comodel_name='hr.hospital.doctor',
+        related='visit_id.doctor_id',
+        store=True,
+        index=True,
+        readonly=True,
+    )
+    visit_date = fields.Datetime(
+        related='visit_id.scheduled_date',
+        store=True,
+        index=True,
+        readonly=True,
+    )
     disease_id = fields.Many2one(
         comodel_name='hr.hospital.disease',
         string='Disease',
@@ -24,6 +55,14 @@ class HrHospitalDiagnosis(models.Model):
         domain="[('is_contagious', '=', True), "
                "('danger_level', 'in', ['high', 'critical'])]",
         help='Diagnosed disease',
+    )
+    disease_type_id = fields.Many2one(
+        comodel_name='hr.hospital.disease',
+        string='Disease Type',
+        compute='_compute_disease_type_id',
+        store=True,
+        index=True,
+        readonly=True,
     )
     diagnosis_type = fields.Selection(
         selection=[
@@ -82,6 +121,13 @@ class HrHospitalDiagnosis(models.Model):
     active = fields.Boolean(
         default=True,
     )
+
+    @api.depends('disease_id', 'disease_id.parent_id')
+    def _compute_disease_type_id(self):
+        for record in self:
+            record.disease_type_id = (
+                record.disease_id.parent_id or record.disease_id
+            )
 
     @api.constrains('approval_date', 'visit_id')
     def _check_approval_date(self):

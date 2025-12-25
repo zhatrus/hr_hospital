@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Шаблон звіту для лікаря -->
+    <template id="report_doctor_document">
+        <t t-call="web.external_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <main>
+                    <!-- Заголовок звіту з ПІБ та спеціальністю -->
+                    <div class="text-center mb-4">
+                        <h2><span t-field="o.full_name"/></h2>
+                        <h4 t-if="o.specialization_id">
+                            <span t-field="o.specialization_id.name"/>
+                        </h4>
+                    </div>
+
+                    <!-- Історія візитів -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h4>Історія візитів</h4>
+                            <table class="table table-sm table-bordered">
+                                <thead style="background-color: #f8f9fa;">
+                                    <tr>
+                                        <th>Дата візиту</th>
+                                        <th>Пацієнт</th>
+                                        <th>Діагноз</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="visits" t-value="o.visit_ids.sorted(key=lambda v: v.scheduled_date, reverse=True)"/>
+                                    <t t-if="visits">
+                                        <tr t-foreach="visits" t-as="visit">
+                                            <td><span t-field="visit.scheduled_date"/></td>
+                                            <td><span t-field="visit.patient_id.full_name"/></td>
+                                            <td>
+                                                <t t-if="visit.diagnosis_ids">
+                                                    <span t-esc="', '.join(visit.diagnosis_ids.mapped('disease_id.name'))"/>
+                                                </t>
+                                                <t t-else="">—</t>
+                                            </td>
+                                            <td>
+                                                <span t-if="visit.status == 'scheduled'" style="color: #856404; background-color: #fff3cd; padding: 2px 8px; border-radius: 3px;">Заплановано</span>
+                                                <span t-elif="visit.status == 'completed'" style="color: #155724; background-color: #d4edda; padding: 2px 8px; border-radius: 3px;">Завершено</span>
+                                                <span t-elif="visit.status == 'cancelled'" style="color: #721c24; background-color: #f8d7da; padding: 2px 8px; border-radius: 3px;">Скасовано</span>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="4" class="text-center">Немає візитів</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Таблиця пацієнтів -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h4>Пацієнти лікаря</h4>
+                            <table class="table table-sm table-bordered">
+                                <thead style="background-color: #f8f9fa;">
+                                    <tr>
+                                        <th>ПІБ пацієнта</th>
+                                        <th>Стать</th>
+                                        <th>Дата народження</th>
+                                        <th>Телефон</th>
+                                        <th>Статус візиту</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="o.patient_ids">
+                                        <tr t-foreach="o.patient_ids" t-as="patient">
+                                            <td><span t-field="patient.full_name"/></td>
+                                            <td><span t-field="patient.gender"/></td>
+                                            <td><span t-field="patient.date_of_birth"/></td>
+                                            <td><span t-field="patient.phone"/></td>
+                                            <td>
+                                                <t t-set="last_visit" t-value="patient.visit_ids.filtered(lambda v: v.doctor_id == o).sorted(key=lambda v: v.scheduled_date, reverse=True)[:1]"/>
+                                                <t t-if="last_visit">
+                                                    <span t-if="last_visit.status == 'scheduled'" style="color: #856404; background-color: #fff3cd; padding: 2px 8px; border-radius: 3px; display: inline-block; width: 100%;">Заплановано</span>
+                                                    <span t-elif="last_visit.status == 'completed'" style="color: #155724; background-color: #d4edda; padding: 2px 8px; border-radius: 3px; display: inline-block; width: 100%;">Завершено</span>
+                                                    <span t-elif="last_visit.status == 'cancelled'" style="color: #721c24; background-color: #f8d7da; padding: 2px 8px; border-radius: 3px; display: inline-block; width: 100%;">Скасовано</span>
+                                                </t>
+                                                <t t-else="">—</t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="5" class="text-center">Немає пацієнтів</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Нижня частина: дата/час друку та місто -->
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <hr/>
+                            <p class="text-muted small">
+                                <strong>Дата та час друку:</strong> <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y %H:%M')"/><br/>
+                                <strong>Місто:</strong> <span t-field="o.env.company.city"/>
+                            </p>
+                        </div>
+                    </div>
+                    </main>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

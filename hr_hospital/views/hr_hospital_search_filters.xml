@@ -25,6 +25,10 @@
                         domain="[('specialization_id', '!=', False)]"/>
                 <filter string="With License" name="filter_with_license"
                         domain="[('license_number', '!=', False)]"/>
+                <filter string="Mentors" name="filter_mentors"
+                        domain="[('intern_ids', '!=', False)]"/>
+                <filter string="Interns" name="filter_interns"
+                        domain="[('is_intern', '=', True)]"/>
                 <filter string="Not Interns" name="filter_not_intern"
                         domain="[('is_intern', '=', False)]"/>
                 
@@ -46,7 +50,7 @@
         <field name="model">hr.hospital.patient</field>
         <field name="arch" type="xml">
             <search string="Patients">
-                <field name="full_name"/>
+                <field name="full_name" filter_domain="['|', ('full_name', 'ilike', self), ('phone', 'ilike', self)]"/>
                 <field name="phone"/>
                 <field name="email"/>
                 <field name="doctor_id"/>
@@ -100,17 +104,23 @@
                 
                 <!-- Фільтри за датою -->
                 <filter string="Today" name="filter_today"
-                        domain="[('scheduled_date', '&gt;=', context_today()),
-                                 ('scheduled_date', '&lt;', 
-                                  (context_today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                        domain="[('scheduled_date', '&gt;=',
+                                  context_today().strftime('%Y-%m-%d')),
+                                 ('scheduled_date', '&lt;',
+                                  (context_today() + relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
                 <filter string="This Week" name="filter_week"
-                        domain="[('scheduled_date', '&gt;=', 
-                                  (context_today() - datetime.timedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
-                                 ('scheduled_date', '&lt;', 
-                                  (context_today() + datetime.timedelta(days=7-context_today().weekday())).strftime('%Y-%m-%d'))]"/>
+                        domain="[('scheduled_date', '&gt;=',
+                                  (context_today() - relativedelta(days=context_today().weekday())).strftime('%Y-%m-%d')),
+                                 ('scheduled_date', '&lt;',
+                                  (context_today() + relativedelta(days=(7 - context_today().weekday()))).strftime('%Y-%m-%d'))]"/>
+                <filter string="This Month" name="filter_current_month"
+                        domain="[('scheduled_date', '&gt;=',
+                                  context_today().replace(day=1).strftime('%Y-%m-%d')),
+                                 ('scheduled_date', '&lt;',
+                                  (context_today().replace(day=1) + relativedelta(months=1)).strftime('%Y-%m-%d'))]"/>
                 <filter string="Last 30 Days" name="filter_last_30"
-                        domain="[('scheduled_date', '&gt;=', 
-                                  (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                        domain="[('scheduled_date', '&gt;=',
+                                  (context_today() - relativedelta(days=30)).strftime('%Y-%m-%d'))]"/>
                 
                 <separator/>
                 

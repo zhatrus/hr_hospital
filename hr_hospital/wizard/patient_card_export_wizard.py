@@ -62,6 +62,27 @@ class PatientCardExportWizard(models.TransientModel):
         help='Name of exported file',
     )
 
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        if 'patient_id' not in fields_list:
+            return res
+
+        if res.get('patient_id'):
+            return res
+
+        if self.env.context.get('active_model') != 'hr.hospital.patient':
+            return res
+
+        active_id = self.env.context.get('active_id')
+        if not active_id:
+            active_ids = self.env.context.get('active_ids') or []
+            active_id = active_ids[0] if active_ids else False
+
+        if active_id:
+            res['patient_id'] = active_id
+        return res
+
     @api.onchange('patient_id')
     def _onchange_patient_id(self):
         """Встановлює мову звіту по замовчуванню"""
@@ -189,9 +210,9 @@ class PatientCardExportWizard(models.TransientModel):
 
     def _generate_json(self, data):
         """Генерує JSON файл"""
-        filename = 'patient_card_%s_%s.json' % (
-            self.patient_id.id,
-            fields.Date.today().strftime('%Y%m%d')
+        filename = (
+            f"patient_card_{self.patient_id.id}_"
+            f"{fields.Date.today().strftime('%Y%m%d')}.json"
         )
 
         # Форматуємо JSON з відступами для читабельності
@@ -201,9 +222,9 @@ class PatientCardExportWizard(models.TransientModel):
 
     def _generate_csv(self, data):
         """Генерує CSV файл"""
-        filename = 'patient_card_%s_%s.csv' % (
-            self.patient_id.id,
-            fields.Date.today().strftime('%Y%m%d')
+        filename = (
+            f"patient_card_{self.patient_id.id}_"
+            f"{fields.Date.today().strftime('%Y%m%d')}.csv"
         )
 
         output = StringIO()
@@ -275,9 +296,9 @@ class PatientCardExportWizard(models.TransientModel):
 
         return {
             'type': 'ir.actions.act_url',
-            'url': '/web/content/patient.card.export.wizard/%s/'
-                   'export_file/%s?download=true' % (
-                       self.id, self.export_filename
-                   ),
+            'url': (
+                f"/web/content/patient.card.export.wizard/{self.id}/"
+                f"export_file/{self.export_filename}?download=true"
+            ),
             'target': 'self',
         }
