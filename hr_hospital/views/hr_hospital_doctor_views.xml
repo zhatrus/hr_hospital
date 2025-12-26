@@ -152,64 +152,55 @@
                 <field name="image_1920"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_card oe_kanban_global_click" style="width: 300px;">
-                            <!-- Dropdown menu -->
-                            <div class="o_dropdown_kanban dropdown">
-                                <a class="dropdown-toggle o-no-caret btn" role="button" data-bs-toggle="dropdown" data-bs-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
-                                    <span class="fa fa-ellipsis-v"/>
-                                </a>
-                                <div class="dropdown-menu" role="menu">
-                                    <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
-                                    <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
-                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
-                                </div>
-                            </div>
-                            
-                            <!-- Avatar -->
-                            <div class="o_kanban_image mb-3" style="text-align: center;">
-                                <div style="width: 120px; height: 120px; margin: 0 auto; border-radius: 50%; overflow: hidden;">
-                                    <img t-att-src="kanban_image('hr.hospital.doctor', 'image_1920', record.id.raw_value)" alt="Doctor" style="width: 100%; height: 100%; object-fit: cover;"/>
-                                </div>
-                            </div>
-                            
-                            <!-- Content -->
-                            <div class="oe_kanban_details">
-                                <div class="o_kanban_record_top mb-2">
-                                    <div class="o_kanban_record_headings text-center">
-                                        <strong class="o_kanban_record_title" style="font-size: 16px;">
-                                            <field name="last_name"/> <field name="first_name"/>
-                                        </strong>
+                        <div class="o_kanban_record oe_kanban_global_click o_kanban_card">
+                            <div class="o_kanban_record_top d-flex justify-content-end">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-bs-toggle="dropdown" data-bs-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
                                     </div>
                                 </div>
-                                
-                                <!-- Спеціальність -->
-                                <div class="o_kanban_record_body text-center mb-2">
-                                    <!-- <span class="badge bg-primary"><field name="specialization_id"/></span> -->
-                                    <div style="font-size: 14px; color: #6c757d;">
+                            </div>
+
+                            <div class="o_kanban_primary d-flex align-items-center gap-3 mb-3">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('hr.hospital.doctor', 'image_1920', record.id.raw_value)"
+                                         alt="Doctor"
+                                         class="o_kanban_avatar rounded-circle"
+                                         style="width: 96px; height: 96px; object-fit: cover;"/>
+                                </div>
+                                <div class="o_kanban_headings">
+                                    <strong class="o_kanban_record_title d-block mb-1">
+                                        <field name="last_name"/> <field name="first_name"/>
+                                    </strong>
+                                    <div class="text-muted small">
                                         <field name="specialization_id"/>
                                     </div>
                                 </div>
-                                
-                                <!-- Список інтернів (якщо лікар - ментор) -->
-                                <div t-if="record.intern_ids.raw_value.length > 0 and !record.is_intern.raw_value" class="mt-2 mb-2" style="font-size: 12px;">
-                                    <strong>Інтерни:</strong>
-                                    <div class="text-muted">
-                                        <t t-if="record.intern_ids.raw_value.length == 1">1 інтерн</t>
-                                        <t t-elif="record.intern_ids.raw_value.length &lt; 5"><t t-esc="record.intern_ids.raw_value.length"/> інтерни</t>
-                                        <t t-else=""><t t-esc="record.intern_ids.raw_value.length"/> інтернів</t>
-                                    </div>
+                            </div>
+
+                            <div t-if="record.intern_ids.raw_value.length > 0 and !record.is_intern.raw_value"
+                                 class="mb-3">
+                                <span class="fw-semibold small">Інтерни:</span>
+                                <div class="text-muted small">
+                                    <t t-if="record.intern_ids.raw_value.length == 1">1 інтерн</t>
+                                    <t t-elif="record.intern_ids.raw_value.length &lt; 5"><t t-esc="record.intern_ids.raw_value.length"/> інтерни</t>
+                                    <t t-else=""><t t-esc="record.intern_ids.raw_value.length"/> інтернів</t>
                                 </div>
-                                
-                                <!-- Footer -->
-                                <div class="o_kanban_record_bottom mt-3 pt-2" style="border-top: 1px solid #dee2e6;">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <span t-if="record.phone.raw_value" class="text-muted small">
-                                            <i class="fa fa-phone" title="Phone"/> <field name="phone"/>
-                                        </span>
-                                        <span t-if="record.rating.raw_value" class="badge bg-warning text-dark">
-                                            <i class="fa fa-star" title="Rating"/> <field name="rating"/>
-                                        </span>
-                                    </div>
+                            </div>
+
+                            <div class="o_kanban_record_bottom pt-2 border-top">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span t-if="record.phone.raw_value" class="text-muted small">
+                                        <i class="fa fa-phone" title="Phone"/> <field name="phone"/>
+                                    </span>
+                                    <span t-if="record.rating.raw_value" class="badge bg-warning text-dark">
+                                        <i class="fa fa-star" title="Rating"/> <field name="rating"/>
+                                    </span>
                                 </div>
                             </div>
                         </div>
