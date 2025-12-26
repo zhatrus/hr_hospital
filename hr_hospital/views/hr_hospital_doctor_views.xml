@@ -152,8 +152,9 @@
                 <field name="image_1920"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="o_kanban_record oe_kanban_global_click o_kanban_card">
-                            <div class="o_kanban_record_top d-flex justify-content-end">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_card o_kanban_record d-flex flex-column">
+                                <!-- Dropdown menu -->
                                 <div class="o_dropdown_kanban dropdown">
                                     <a class="dropdown-toggle o-no-caret btn" role="button" data-bs-toggle="dropdown" data-bs-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
                                         <span class="fa fa-ellipsis-v"/>
@@ -164,43 +165,76 @@
                                         <ul class="oe_kanban_colorpicker" data-field="color"/>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="o_kanban_primary d-flex align-items-center gap-3 mb-3">
-                                <div class="o_kanban_image">
-                                    <img t-att-src="kanban_image('hr.hospital.doctor', 'image_1920', record.id.raw_value)"
-                                         alt="Doctor"
-                                         class="o_kanban_avatar rounded-circle"
-                                         style="width: 96px; height: 96px; object-fit: cover;"/>
-                                </div>
-                                <div class="o_kanban_headings">
-                                    <strong class="o_kanban_record_title d-block mb-1">
-                                        <field name="last_name"/> <field name="first_name"/>
-                                    </strong>
-                                    <div class="text-muted small">
-                                        <field name="specialization_id"/>
+                                
+                                <!-- Card Header with Avatar -->
+                                <div class="o_kanban_record_top mb-0">
+                                    <div class="o_kanban_record_headings d-flex align-items-center">
+                                        <div class="o_kanban_image me-3">
+                                            <img t-att-src="kanban_image('hr.hospital.doctor', 'image_1920', record.id.raw_value)" 
+                                                 alt="Doctor" 
+                                                 class="o_image_64_cover rounded-circle"/>
+                                        </div>
+                                        <div class="flex-grow-1 min-w-0">
+                                            <strong class="o_kanban_record_title d-block">
+                                                <field name="full_name"/>
+                                            </strong>
+                                            <div class="o_kanban_record_subtitle text-muted">
+                                                <field name="specialization_id"/>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div t-if="record.intern_ids.raw_value.length > 0 and !record.is_intern.raw_value"
-                                 class="mb-3">
-                                <span class="fw-semibold small">Інтерни:</span>
-                                <div class="text-muted small">
-                                    <t t-if="record.intern_ids.raw_value.length == 1">1 інтерн</t>
-                                    <t t-elif="record.intern_ids.raw_value.length &lt; 5"><t t-esc="record.intern_ids.raw_value.length"/> інтерни</t>
-                                    <t t-else=""><t t-esc="record.intern_ids.raw_value.length"/> інтернів</t>
+                                
+                                <!-- Card Body -->
+                                <div class="o_kanban_record_body mt-3">
+                                    <div class="row g-0">
+                                        <div class="col-6" t-if="record.phone.raw_value">
+                                            <span class="text-muted small d-block mb-1">
+                                                <i class="fa fa-phone me-1"/> Phone
+                                            </span>
+                                            <span class="small">
+                                                <field name="phone"/>
+                                            </span>
+                                        </div>
+                                        <div class="col-6" t-if="record.email.raw_value">
+                                            <span class="text-muted small d-block mb-1">
+                                                <i class="fa fa-envelope me-1"/> Email
+                                            </span>
+                                            <span class="small text-truncate d-block">
+                                                <field name="email"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Intern badge -->
+                                    <div class="mt-2" t-if="record.is_intern.raw_value">
+                                        <span class="badge rounded-pill bg-info">
+                                            <i class="fa fa-graduation-cap me-1"/> Intern
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- Mentor info -->
+                                    <div class="mt-2" t-if="record.intern_ids.raw_value.length > 0 and !record.is_intern.raw_value">
+                                        <span class="badge rounded-pill bg-success">
+                                            <i class="fa fa-users me-1"/> 
+                                            <t t-if="record.intern_ids.raw_value.length == 1">1 Intern</t>
+                                            <t t-else=""><t t-esc="record.intern_ids.raw_value.length"/> Interns</t>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="o_kanban_record_bottom pt-2 border-top">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span t-if="record.phone.raw_value" class="text-muted small">
-                                        <i class="fa fa-phone" title="Phone"/> <field name="phone"/>
-                                    </span>
-                                    <span t-if="record.rating.raw_value" class="badge bg-warning text-dark">
-                                        <i class="fa fa-star" title="Rating"/> <field name="rating"/>
-                                    </span>
+                                
+                                <!-- Card Footer -->
+                                <div class="o_kanban_record_bottom mt-auto pt-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="text-muted small">
+                                            <i class="fa fa-id-card me-1"/> Doctor
+                                        </div>
+                                        <div t-if="record.rating.raw_value">
+                                            <span class="badge bg-warning">
+                                                <i class="fa fa-star"/> <field name="rating"/>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
