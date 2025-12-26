@@ -1,6 +1,5 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-from dateutil.relativedelta import relativedelta
 
 
 class HrHospitalDoctor(models.Model):
