@@ -15,6 +15,43 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. module: hr_hospital
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_diagnosis_view_graph
+#: model:ir.actions.act_window,name:hr_hospital.hr_hospital_diagnosis_report_action
+#: model:ir.ui.menu,name:hr_hospital.hr_hospital_menu_diagnosis_report
+msgid "Disease Incidence"
+msgstr "Захворюваність"
+
+#. module: hr_hospital
+#: model:ir.actions.act_window,name:hr_hospital.hr_hospital_visit_pivot_action
+msgid "Visits Pivot (This Month)"
+msgstr "Поворотна таблиця візитів (цей місяць)"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_doctor__user_id
+msgid "System User"
+msgstr "Системний користувач"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__doctor_id
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient_doctor_history__doctor_id
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_tree
+msgid "Doctor"
+msgstr "Лікар"
+
+#. module: hr_hospital
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__scheduled_date
+#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_tree
+msgid "Scheduled Date & Time"
+msgstr "Запланована дата і час"
+
+#. module: hr_hospital
+#: model:ir.actions.act_window,name:hr_hospital.hr_hospital_diagnosis_action
+#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__diagnosis_ids
+#: model:ir.ui.menu,name:hr_hospital.hr_hospital_menu_diagnosis
+msgid "Diagnoses"
+msgstr "Діагнози"
 #. module: hr_hospital
 #: model:hr.hospital.patient,address:hr_hospital.patient_demo_1
 msgid "123 Main Street, Kyiv, Ukraine"
