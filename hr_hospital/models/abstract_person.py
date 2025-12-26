@@ -1,5 +1,6 @@
 import re
 from datetime import date
+from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -72,15 +73,13 @@ class AbstractPerson(models.AbstractModel):
 
     @api.depends('date_of_birth')
     def _compute_age(self):
-        """Обчислення віку від дати народження"""
+        """Обчислення віку від дати народження (точно по роках)"""
         for record in self:
             if record.date_of_birth:
-                today = date.today()
-                birth_date = record.date_of_birth
-                record.age = today.year - birth_date.year - (
-                    (today.month, today.day) <
-                    (birth_date.month, birth_date.day)
-                )
+                record.age = relativedelta(
+                    date.today(),
+                    record.date_of_birth,
+                ).years
             else:
                 record.age = 0
 

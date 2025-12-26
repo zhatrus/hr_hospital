@@ -97,10 +97,10 @@ class HrHospitalDiagnosis(models.Model):
         help='Diagnosis has been approved by a doctor',
     )
     approved_by_id = fields.Many2one(
-        comodel_name='hr.hospital.doctor',
+        comodel_name='res.partner',
         string='Approved By',
         readonly=True,
-        help='Doctor who approved this diagnosis',
+        help='Partner (doctor) who approved this diagnosis',
     )
     approval_date = fields.Datetime(
         readonly=True,
@@ -153,14 +153,10 @@ class HrHospitalDiagnosis(models.Model):
                 ('user_id', '=', self.env.user.id)
             ], limit=1)
 
-            if not doctor:
-                raise UserError(
-                    _('Current user is not linked to any doctor!')
-                )
-
             record.write({
                 'is_approved': True,
-                'approved_by_id': doctor.id,
+                'approved_by_id': doctor.partner_id.id
+                if doctor else self.env.user.partner_id.id,
                 'approval_date': fields.Datetime.now(),
             })
 

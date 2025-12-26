@@ -136,14 +136,25 @@ class HrHospitalDoctor(models.Model):
 
     @api.depends('license_issue_date')
     def _compute_years_of_experience(self):
-        """Обчислює досвід роботи від дати видачі ліцензії"""
+        """Обчислює досвід роботи від дати видачі ліцензії (цілі роки)."""
         for record in self:
             if record.license_issue_date:
-                today = fields.Date.today()
-                delta = relativedelta(today, record.license_issue_date)
-                record.years_of_experience = delta.years
+                days = (
+                    fields.Date.today() - record.license_issue_date
+                ).days
+                record.years_of_experience = max(0, days // 365)
             else:
                 record.years_of_experience = 0
+
+    def name_get(self):
+        """Додає спеціалізацію до імені для відображення."""
+        result = []
+        for record in self:
+            name = record.full_name or ''
+            if record.specialization_id:
+                name = f"{name} ({record.specialization_id.display_name})"
+            result.append((record.id, name))
+        return result
 
     @api.constrains('license_issue_date')
     def _check_license_issue_date(self):

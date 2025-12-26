@@ -58,6 +58,28 @@ class HrHospitalPatientDoctorHistory(models.Model):
         help='Reason for doctor change or additional notes',
     )
 
+    @api.model
+    def create(self, vals_list):
+        """Ensure previous active assignments are closed when creating new."""
+        if isinstance(vals_list, dict):
+            vals_list = [vals_list]
+        records = self.browse()
+        for vals in vals_list:
+            patient_id = vals.get('patient_id')
+            if patient_id:
+                prev_active = self.search([
+                    ('patient_id', '=', patient_id),
+                    ('is_active', '=', True),
+                ])
+                prev_active.write({
+                    'change_date': vals.get(
+                        'assignment_date', fields.Date.today()
+                    ),
+                    'is_active': False,
+                })
+            records |= super().create(vals)
+        return records
+
     @api.depends('change_date')
     def _compute_end_date(self):
         """Обчислює end_date з change_date для зворотної сумісності"""
