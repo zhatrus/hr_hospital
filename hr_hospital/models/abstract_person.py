@@ -40,6 +40,13 @@ class AbstractPerson(models.AbstractModel):
     )
     date_of_birth = fields.Date(
     )
+    birth_date = fields.Date(
+        string='Birth Date',
+        related='date_of_birth',
+        store=True,
+        readonly=False,
+        help='Alias for date of birth to support legacy usage',
+    )
 
     # Обчислювальні поля
     age = fields.Integer(
