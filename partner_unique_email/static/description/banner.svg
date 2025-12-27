@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 400">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a7cf7;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1d3f91;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="400" fill="url(#grad)"/>
+  <g fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="480" y="110" width="480" height="180" rx="24" ry="24"/>
+    <path d="M500 120l220 140 220-140"/>
+    <path d="M600 260h240"/>
+  </g>
+  <text x="720" y="95" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="42" font-weight="bold">
+    Partner Unique Email
+  </text>
+  <text x="720" y="320" text-anchor="middle" fill="#dfe9ff" font-family="Arial, sans-serif" font-size="22">
+    Enforce unique, normalized emails across contacts and companies
+  </text>
+</svg>
