@@ -76,10 +76,8 @@ class AbstractPerson(models.AbstractModel):
         """Обчислення віку від дати народження (точно по роках)"""
         for record in self:
             if record.date_of_birth:
-                record.age = relativedelta(
-                    date.today(),
-                    record.date_of_birth,
-                ).years
+                days = (date.today() - record.date_of_birth).days
+                record.age = max(0, days // 365)
             else:
                 record.age = 0
 

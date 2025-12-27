@@ -169,11 +169,11 @@
                                 
                                 <div class="o_kanban_record_body">
                                     <div t-if="record.phone.raw_value" class="mb-1">
-                                        <i class="fa fa-phone me-1"/>
+                                        <i class="fa fa-phone me-1" title="Phone"/>
                                         <field name="phone"/>
                                     </div>
                                     <div t-if="record.email.raw_value" class="mb-1">
-                                        <i class="fa fa-envelope me-1"/>
+                                        <i class="fa fa-envelope me-1" title="Email"/>
                                         <field name="email"/>
                                     </div>
                                 </div>
@@ -187,7 +187,7 @@
                                         </div>
                                         <div t-if="record.rating.raw_value">
                                             <span class="badge bg-warning">
-                                                <i class="fa fa-star"/> <field name="rating"/>
+                                                <i class="fa fa-star" title="Rating"/> <field name="rating"/>
                                             </span>
                                         </div>
                                     </div>

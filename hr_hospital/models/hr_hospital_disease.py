@@ -124,6 +124,25 @@ class HrHospitalDisease(models.Model):
                     _('ICD-10 code cannot exceed 10 characters!')
                 )
 
+    def write(self, vals):
+        """Prevent recursive hierarchy with clearer ValidationError."""
+        if 'parent_id' in vals:
+            new_parent_id = vals.get('parent_id')
+            for record in self:
+                if new_parent_id:
+                    new_parent = self.browse(new_parent_id)
+                    if new_parent == record:
+                        raise ValidationError(
+                            _('You cannot create recursive disease hierarchy!')
+                        )
+                    if new_parent.parent_path:
+                        ancestors = new_parent.parent_path.split('/')
+                        if str(record.id) in ancestors:
+                            raise ValidationError(
+                                _('You cannot create recursive disease hierarchy!')
+                            )
+        return super().write(vals)
+
     @api.constrains('parent_id')
     def _check_parent_recursion(self):
         """Перевірка на рекурсивну ієрархію"""

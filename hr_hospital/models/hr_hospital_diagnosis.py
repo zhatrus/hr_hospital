@@ -106,6 +106,10 @@ class HrHospitalDiagnosis(models.Model):
         readonly=True,
         help='Date and time when diagnosis was approved',
     )
+    approved_date = fields.Datetime(
+        readonly=True,
+        help='Date and time when diagnosis was approved (alias for tests/backward compatibility)',
+    )
 
     # Ступінь тяжкості
     severity = fields.Selection(
@@ -158,6 +162,7 @@ class HrHospitalDiagnosis(models.Model):
                 'approved_by_id': doctor.partner_id.id
                 if doctor else self.env.user.partner_id.id,
                 'approval_date': fields.Datetime.now(),
+                'approved_date': fields.Datetime.now(),
             })
 
     def action_unapprove(self):
@@ -172,4 +177,5 @@ class HrHospitalDiagnosis(models.Model):
                 'is_approved': False,
                 'approved_by_id': False,
                 'approval_date': False,
+                'approved_date': False,
             })
