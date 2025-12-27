@@ -18,8 +18,10 @@ Features
     "depends": ["base"],
     "data": [],
     "images": [
-        "static/description/banner.svg",
-        "static/description/icon.svg",
+        # "static/description/banner.svg",
+        # "static/description/icon.svg",
+        "static/description/banner.png",
+        "static/description/icon.png",
     ],
     "installable": True,
     "application": False,
