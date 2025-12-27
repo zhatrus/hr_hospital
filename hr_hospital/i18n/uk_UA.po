@@ -886,14 +886,6 @@ msgstr "Діабет - це хронічне захворювання, що вп
 msgid "Diagnosed disease"
 msgstr "Діагностована хвороба"
 
-#. module: hr_hospital
-#: model:ir.actions.act_window,name:hr_hospital.hr_hospital_diagnosis_action
-#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__diagnosis_ids
-#: model_terms:ir.ui.view,arch_db:hr_hospital.hr_hospital_visit_view_form
-msgid "Diagnoses"
-msgstr "Діагнози"
-
-#. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_diagnosis__description
 msgid "Diagnosis Description"
 msgstr "Опис діагнозу"
@@ -1008,7 +1000,6 @@ msgstr "Хвороби, пов'язані з гормонами та метаб�
 #: model:ir.model.fields,field_description:hr_hospital.field_reschedule_visit_wizard__display_name
 msgid "Display Name"
 msgstr "Назва"
-
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_doctor_schedule_wizard__doctor_id
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_doctor_schedule__doctor_id
@@ -1023,7 +1014,7 @@ msgstr "Лікар"
 #. module: hr_hospital
 #: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_patient__doctor_history_ids
 msgid "Doctor Assignment History"
-msgstr "Історія закріплення лікарів"
+msgstr "Історія призначення лікарів"
 
 #. module: hr_hospital
 #. odoo-python
@@ -2507,12 +2498,6 @@ msgstr "Розклад перетинається з існуючими робо
 msgid "Scheduled"
 msgstr "Заплановано"
 
-#. module: hr_hospital
-#: model:ir.model.fields,field_description:hr_hospital.field_hr_hospital_visit__scheduled_date
-msgid "Scheduled Date & Time"
-msgstr "Заплановані дата та час"
-
-#. module: hr_hospital
 #. odoo-python
 #: code:addons/hr_hospital/models/hr_hospital_visit.py:0
 #, python-format
