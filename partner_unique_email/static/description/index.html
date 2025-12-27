@@ -1,0 +1,45 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Partner Unique Email</h2>
+    <h3 class="oe_slogan">Enforce unique, normalized emails across contacts and companies</h3>
+    <div class="oe_span12">
+      <p>
+        This module prevents duplicate partner emails by normalizing (trim + lowercase) and enforcing uniqueness on a stored field.
+        Empty emails are allowed; duplicates are blocked regardless of case or whitespace.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h3 class="oe_slogan">Key Features</h3>
+    <div class="oe_span6">
+      <ul>
+        <li>Normalization of emails on create/write</li>
+        <li>SQL constraint + Python constraint for safety</li>
+        <li>Case-insensitive duplicate detection</li>
+        <li>Works for companies and contacts</li>
+      </ul>
+    </div>
+    <div class="oe_span6">
+      <ul>
+        <li>Allows multiple empty emails (no false positives)</li>
+        <li>No extra configuration required</li>
+        <li>Compatible with Odoo 17</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h3 class="oe_slogan">How it works</h3>
+    <div class="oe_span12">
+      <p>
+        On every create/write, the module stores a trimmed, lowercase version of the email into <code>email_normalized</code>.
+        A uniqueness constraint on that field blocks duplicates. A Python constraint adds an explicit validation message.
+      </p>
+    </div>
+  </div>
+</section>

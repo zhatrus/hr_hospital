@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
@@ -6,10 +7,8 @@ class ResPartner(models.Model):
 
     email_normalized = fields.Char(
         string="Normalized Email",
-        compute="_compute_email_normalized",
-        store=True,
         index=True,
-        readonly=False,
+        copy=False,
         help="Lowercase, trimmed email used for uniqueness constraint.",
     )
 
@@ -21,8 +20,33 @@ class ResPartner(models.Model):
         ),
     ]
 
-    @api.depends("email")
-    def _compute_email_normalized(self):
+    @staticmethod
+    def _normalize_email(email):
+        return (email or "").strip().lower() or False
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "email" in vals:
+                vals["email_normalized"] = self._normalize_email(vals.get("email"))
+        return super().create(vals_list)
+
+    def write(self, vals):
+        vals = dict(vals)
+        if "email" in vals:
+            vals["email_normalized"] = self._normalize_email(vals.get("email"))
+        return super().write(vals)
+
+    @api.constrains("email_normalized")
+    def _check_unique_email_normalized(self):
         for partner in self:
-            email = (partner.email or "").strip().lower()
-            partner.email_normalized = email or False
+            if not partner.email_normalized:
+                continue
+            duplicate = self.search_count([
+                ("email_normalized", "=", partner.email_normalized),
+                ("id", "!=", partner.id),
+            ])
+            if duplicate:
+                raise ValidationError(
+                    "Email must be unique across partners (case-insensitive)."
+                )
