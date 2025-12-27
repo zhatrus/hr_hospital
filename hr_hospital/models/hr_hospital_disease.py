@@ -139,7 +139,8 @@ class HrHospitalDisease(models.Model):
                         ancestors = new_parent.parent_path.split('/')
                         if str(record.id) in ancestors:
                             raise ValidationError(
-                                _('You cannot create recursive disease hierarchy!')
+                                _('You cannot create recursive '
+                                  'disease hierarchy!')
                             )
         return super().write(vals)
 

@@ -108,7 +108,10 @@ class HrHospitalDiagnosis(models.Model):
     )
     approved_date = fields.Datetime(
         readonly=True,
-        help='Date and time when diagnosis was approved (alias for tests/backward compatibility)',
+        help=(
+            'Date and time when diagnosis was approved '
+            '(alias for tests/backward compatibility)'
+        ),
     )
 
     # Ступінь тяжкості
