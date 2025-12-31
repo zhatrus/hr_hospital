@@ -196,7 +196,7 @@ class AutoMonitoringFuelTransaction(models.Model):
         total_fuel = fuel_result.get('total_fuel', 0) if fuel_result else 0
 
         query_mileage = """
-            SELECT 
+            SELECT
                 (MAX(odometer) - MIN(odometer)) / 1000.0 as mileage
             FROM tracker_light
             WHERE imei = %s AND timestamp >= %s

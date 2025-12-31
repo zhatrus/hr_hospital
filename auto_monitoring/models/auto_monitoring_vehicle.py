@@ -112,7 +112,7 @@ class AutoMonitoringVehicle(models.Model):
         ],
         string='Status',
         compute='_compute_status',
-        store=False,
+        store=True,
     )
 
     tracker_data_ids = fields.One2many(

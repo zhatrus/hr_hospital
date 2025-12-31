@@ -123,7 +123,7 @@ class AutoMonitoringTrip(models.Model):
 
     @api.model
     def calculate_trips_for_vehicle(self, vehicle_id, date_from=None,
-                                     date_to=None):
+                                    date_to=None):
         """Calculate trips for a vehicle based on tracker data.
 
         A trip starts when ignition turns on OR speed > 0 after stopped.
@@ -205,10 +205,14 @@ class AutoMonitoringTrip(models.Model):
                                     last_moving_point.get('longitude')
                                 )
                                 current_trip['end_address'] = (
-                                    last_moving_point.get('address_display_name')
+                                    last_moving_point.get(
+                                        'address_display_name'
+                                    )
                                 )
                                 end_odometer = (
-                                    last_moving_point.get('odometer', 0) / 1000.0
+                                    last_moving_point.get(
+                                        'odometer', 0
+                                    ) / 1000.0
                                 )
                             else:
                                 current_trip['end_latitude'] = None
@@ -243,7 +247,7 @@ class AutoMonitoringTrip(models.Model):
 
     @api.model
     def sync_trips_for_vehicle(self, vehicle_id, date_from=None,
-                                date_to=None):
+                               date_to=None):
         """Calculate and save trips for a vehicle."""
         trips_data = self.calculate_trips_for_vehicle(
             vehicle_id, date_from, date_to
