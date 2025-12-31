@@ -1,35 +1,38 @@
-# Progress
+# Progress - auto_monitoring
 
 ## Що зроблено
-- [x] Виправлено верстку Address/Allergies в картці пацієнта.
-- [x] Виправлено верстку у wizard-вікнах з `nolabel` (Mass Reassign Doctor, Reschedule Visit).
-- [x] Піднято версію модуля і доповнено `__manifest__.py`.
-- [x] Додано `static/description/index.html`.
-- [x] Visit: оновлено form view (statusbar + додаткові поля).
-- [x] Visit: додано calendar view і підключено до action.
-- [x] Visit: search view доповнено фільтром "This Month" (та є group by status).
-- [x] Visit: додано pivot view + action для поточного місяця + пункт меню в Reports.
-- [x] Visit: demo дані — додано 4-й demo запис.
-- [x] Visit: виправлено домени date filters (прибрано datetime.timedelta), щоб не падав OwlError у Pivot/Calendar.
-- [x] Visit: покращено назву події в календарі (name_get замість hr.hospital.visit,ID).
-- [x] Patient: додано smart buttons Visits/Diagnoses та кнопку швидкого створення Visit.
-- [x] Patient: додано вкладку Diagnoses (історія діагнозів лікарів).
-- [x] Patient: search view з пошуком по ПІБ або телефону (одним рядком).
-- [x] Doctor: form view доповнено блоком Mentor (для інтернів) та списком Interns у вигляді kanban.
-- [x] Doctor: search view доповнено фільтрами Mentors/Interns.
-- [x] Doctor: додано kanban view з групуванням по specialization та кнопкою швидкого створення Visit.
-- [x] Doctor: demo дані — додано 2 додаткових записи типу Intern.
-- [x] Diagnosis: додано disease_type_id (stored) + pivot/graph views, action та пункт меню в Reports.
-- [x] Diagnosis: додано demo файл з 6 діагнозами та підключено в __manifest__.
-- [x] Diseases: додано searchpanel (hierarchize по parent_id) + підв'язано search view до action.
-- [x] Wizard: звіт по діагнозах за період (doctor_ids/disease_ids/date_from/date_to) + запуск з Print меню Doctor (list/form).
+- [x] Проаналізовано demo.html з прикладом UI
+- [x] Проаналізовано структуру hr_hospital як reference
+- [x] Визначено структуру зовнішньої БД (tracker_light, fuel_transactions, vehicles)
+- [x] Оновлено memory-bank файли
+- [x] Створено базову структуру модуля (__manifest__.py, __init__.py)
+- [x] Створено моделі:
+  - db_connector.py - підключення до зовнішньої PostgreSQL БД
+  - auto_monitoring_vehicle.py - транспортні засоби
+  - auto_monitoring_tracker.py - GPS дані
+  - auto_monitoring_fuel.py - паливні транзакції
+  - auto_monitoring_trip.py - поїздки
+  - res_config_settings.py - налаштування підключення
+- [x] Створено views:
+  - auto_monitoring_vehicle_views.xml (tree/form/kanban/search)
+  - auto_monitoring_tracker_views.xml (tree/form/search)
+  - auto_monitoring_fuel_views.xml (tree/form/search/pivot/graph)
+  - auto_monitoring_trip_views.xml (tree/form/search/pivot/graph)
+  - auto_monitoring_config_views.xml (settings form)
+  - auto_monitoring_menu.xml (меню)
+- [x] Створено security (groups, access.csv)
+- [x] Створено data (ir.config_parameter)
+- [x] Створено static (CSS, description/index.html)
+- [x] Створено README.md
 
 ## Що в процесі
-- [ ] Перевірка після Upgrade модуля на стенді.
+- [ ] Тестування модуля на Odoo сервері
 
 ## Що залишилось
-- [ ] За потреби аналогічно виправити інші в’юхи.
-- [ ] За потреби додати більше demo даних під нові представлення.
+- [ ] Встановити модуль на Odoo сервері
+- [ ] Налаштувати підключення до зовнішньої БД
+- [ ] Перевірити роботу кожної вкладки
+- [ ] За потреби додати іконку модуля (icon.png)
 
 ## Блокери
-- Немає.
+- Потрібні credentials для зовнішньої PostgreSQL БД (IP, port, dbname, user, password)

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Settings Form View (integrated with Odoo Settings) -->
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.auto_monitoring</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <app data-string="Fleet Monitoring" string="Fleet Monitoring" 
+                         name="auto_monitoring" groups="auto_monitoring.group_auto_monitoring_admin">
+                        <block title="Підключення до зовнішньої бази даних" name="db_connection_settings">
+                            <setting string="Параметри підключення" 
+                                     help="Налаштування підключення до PostgreSQL бази даних з GPS та паливними даними">
+                                <div class="content-group">
+                                    <div class="row mt-2">
+                                        <label for="auto_monitoring_db_host" class="col-3 col-lg-2 o_light_label"/>
+                                        <field name="auto_monitoring_db_host" class="col-4"/>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <label for="auto_monitoring_db_port" class="col-3 col-lg-2 o_light_label"/>
+                                        <field name="auto_monitoring_db_port" class="col-4"/>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <label for="auto_monitoring_db_name" class="col-3 col-lg-2 o_light_label"/>
+                                        <field name="auto_monitoring_db_name" class="col-4"/>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <label for="auto_monitoring_db_user" class="col-3 col-lg-2 o_light_label"/>
+                                        <field name="auto_monitoring_db_user" class="col-4"/>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <label for="auto_monitoring_db_password" class="col-3 col-lg-2 o_light_label"/>
+                                        <field name="auto_monitoring_db_password" class="col-4" password="True"/>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-3 col-lg-2"></div>
+                                        <button name="action_test_db_connection" type="object" 
+                                                string="Перевірити підключення" class="btn-secondary"
+                                                icon="fa-plug"/>
+                                    </div>
+                                </div>
+                            </setting>
+                        </block>
+                        <block title="Моніторинг" name="monitoring_settings">
+                            <setting string="Ліміт швидкості"
+                                     help="Порогова швидкість для фіксації порушень (км/год)">
+                                <div class="row mt-2">
+                                    <label for="auto_monitoring_speed_limit" class="col-3 col-lg-2 o_light_label"/>
+                                    <field name="auto_monitoring_speed_limit" class="col-2"/>
+                                    <span class="col-2"> км/год</span>
+                                </div>
+                            </setting>
+                        </block>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Extend res.config.settings model -->
+        <record id="auto_monitoring_config_settings" model="ir.model">
+            <field name="name">auto_monitoring.config.settings</field>
+        </record>
+    </data>
+</odoo>

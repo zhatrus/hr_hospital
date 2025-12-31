@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Fuel Transaction Tree View -->
+        <record id="auto_monitoring_fuel_view_tree" model="ir.ui.view">
+            <field name="name">auto.monitoring.fuel.transaction.tree</field>
+            <field name="model">auto.monitoring.fuel.transaction</field>
+            <field name="arch" type="xml">
+                <tree string="Fuel Transactions" create="false" edit="false" delete="false">
+                    <field name="trans_date" string="Дата/Час"/>
+                    <field name="vehicle_id" string="ТЗ"/>
+                    <field name="azs_name" string="АЗС"/>
+                    <field name="address" string="Адреса" optional="show"/>
+                    <field name="product_desc" string="Тип палива"/>
+                    <field name="volume" string="Об'єм (л)" sum="Всього"/>
+                    <field name="price" string="Ціна (грн/л)"/>
+                    <field name="amount" string="Сума (грн)" sum="Всього"/>
+                    <field name="card_num_masked" string="Картка"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Fuel Transaction Form View -->
+        <record id="auto_monitoring_fuel_view_form" model="ir.ui.view">
+            <field name="name">auto.monitoring.fuel.transaction.form</field>
+            <field name="model">auto.monitoring.fuel.transaction</field>
+            <field name="arch" type="xml">
+                <form string="Fuel Transaction" create="false" edit="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group string="Транзакція">
+                                <field name="trans_id" string="№ транзакції"/>
+                                <field name="trans_date" string="Дата/Час"/>
+                                <field name="card_num" string="Номер картки"/>
+                                <field name="vehicle_id" string="Транспортний засіб"/>
+                            </group>
+                            <group string="АЗС">
+                                <field name="azs_name" string="Назва АЗС"/>
+                                <field name="address" string="Адреса"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Заправка">
+                                <field name="product_desc" string="Тип палива"/>
+                                <field name="volume" string="Об'єм (л)"/>
+                                <field name="price" string="Ціна за літр (грн)"/>
+                                <field name="amount" string="Сума (грн)"/>
+                            </group>
+                            <group string="Клієнт">
+                                <field name="client_name" string="Клієнт"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Fuel Transaction Search View -->
+        <record id="auto_monitoring_fuel_view_search" model="ir.ui.view">
+            <field name="name">auto.monitoring.fuel.transaction.search</field>
+            <field name="model">auto.monitoring.fuel.transaction</field>
+            <field name="arch" type="xml">
+                <search string="Search Fuel Transactions">
+                    <field name="card_num" string="Картка"/>
+                    <field name="azs_name" string="АЗС"/>
+                    <field name="address" string="Адреса"/>
+                    <field name="product_desc" string="Тип палива"/>
+                    <separator/>
+                    <filter name="filter_today" string="Сьогодні"
+                            domain="[('trans_date', '>=', (context_today()).strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_this_week" string="Цей тиждень"
+                            domain="[('trans_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_this_month" string="Цей місяць"
+                            domain="[('trans_date', '>=', (context_today()).strftime('%Y-%m-01'))]"/>
+                    <separator/>
+                    <group expand="0" string="Групувати по...">
+                        <filter name="group_azs" string="АЗС"
+                                context="{'group_by': 'azs_name'}"/>
+                        <filter name="group_fuel" string="Тип палива"
+                                context="{'group_by': 'product_desc'}"/>
+                        <filter name="group_date" string="Дата"
+                                context="{'group_by': 'trans_date:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Fuel Transaction Pivot View -->
+        <record id="auto_monitoring_fuel_view_pivot" model="ir.ui.view">
+            <field name="name">auto.monitoring.fuel.transaction.pivot</field>
+            <field name="model">auto.monitoring.fuel.transaction</field>
+            <field name="arch" type="xml">
+                <pivot string="Fuel Analysis">
+                    <field name="trans_date" type="row" interval="month"/>
+                    <field name="volume" type="measure"/>
+                    <field name="amount" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Fuel Transaction Graph View -->
+        <record id="auto_monitoring_fuel_view_graph" model="ir.ui.view">
+            <field name="name">auto.monitoring.fuel.transaction.graph</field>
+            <field name="model">auto.monitoring.fuel.transaction</field>
+            <field name="arch" type="xml">
+                <graph string="Fuel Consumption" type="bar">
+                    <field name="trans_date" type="row" interval="week"/>
+                    <field name="volume" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Fuel Transaction Action -->
+        <record id="auto_monitoring_fuel_action" model="ir.actions.act_window">
+            <field name="name">Заправки</field>
+            <field name="res_model">auto.monitoring.fuel.transaction</field>
+            <field name="view_mode">tree,pivot,graph,form</field>
+            <field name="search_view_id" ref="auto_monitoring_fuel_view_search"/>
+            <field name="context">{'search_default_filter_this_month': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Заправки
+                </p>
+                <p>
+                    Дані про заправки завантажуються з зовнішньої бази даних.
+                </p>
+            </field>
+        </record>
+
+        <!-- Fuel Analytics Action -->
+        <record id="auto_monitoring_fuel_analytics_action" model="ir.actions.act_window">
+            <field name="name">Аналітика палива</field>
+            <field name="res_model">auto.monitoring.fuel.transaction</field>
+            <field name="view_mode">pivot,graph,tree</field>
+            <field name="search_view_id" ref="auto_monitoring_fuel_view_search"/>
+            <field name="context">{'search_default_filter_this_month': 1}</field>
+        </record>
+    </data>
+</odoo>

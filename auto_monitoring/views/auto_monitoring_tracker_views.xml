@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tracker Data Tree View -->
+        <record id="auto_monitoring_tracker_view_tree" model="ir.ui.view">
+            <field name="name">auto.monitoring.tracker.data.tree</field>
+            <field name="model">auto.monitoring.tracker.data</field>
+            <field name="arch" type="xml">
+                <tree string="Tracker Data" create="false" edit="false" delete="false"
+                      decoration-danger="speed > 130">
+                    <field name="timestamp" string="Час"/>
+                    <field name="imei" string="IMEI"/>
+                    <field name="latitude" string="Широта"/>
+                    <field name="longitude" string="Довгота"/>
+                    <field name="speed" string="Швидкість"/>
+                    <field name="fuel" string="Паливо (л)"/>
+                    <field name="odometer" string="Одометр (км)"/>
+                    <field name="ignition" string="Запалення" widget="boolean"/>
+                    <field name="address_display_name" string="Адреса"/>
+                    <field name="satellites" string="Супутники" optional="hide"/>
+                    <field name="angle" string="Кут" optional="hide"/>
+                    <field name="temperature" string="Температура" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Tracker Data Form View -->
+        <record id="auto_monitoring_tracker_view_form" model="ir.ui.view">
+            <field name="name">auto.monitoring.tracker.data.form</field>
+            <field name="model">auto.monitoring.tracker.data</field>
+            <field name="arch" type="xml">
+                <form string="Tracker Data" create="false" edit="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group string="Основні дані">
+                                <field name="timestamp" string="Час"/>
+                                <field name="imei" string="IMEI"/>
+                                <field name="vehicle_id" string="ТЗ"/>
+                            </group>
+                            <group string="Позиція">
+                                <field name="latitude" string="Широта"/>
+                                <field name="longitude" string="Довгота"/>
+                                <field name="address_display_name" string="Адреса"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Рух">
+                                <field name="speed" string="Швидкість (км/год)"/>
+                                <field name="angle" string="Напрямок (°)"/>
+                                <field name="odometer" string="Одометр (км)"/>
+                            </group>
+                            <group string="Телеметрія">
+                                <field name="ignition" string="Запалення"/>
+                                <field name="fuel" string="Паливо (л)"/>
+                                <field name="rpm" string="Обороти"/>
+                                <field name="temperature" string="Температура"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="GPS">
+                                <field name="satellites" string="Супутники"/>
+                                <field name="device_battery" string="Батарея пристрою"/>
+                                <field name="battery" string="Батарея авто"/>
+                            </group>
+                            <group string="Метадані">
+                                <field name="created_at" string="Отримано"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tracker Data Search View -->
+        <record id="auto_monitoring_tracker_view_search" model="ir.ui.view">
+            <field name="name">auto.monitoring.tracker.data.search</field>
+            <field name="model">auto.monitoring.tracker.data</field>
+            <field name="arch" type="xml">
+                <search string="Search Tracker Data">
+                    <field name="imei" string="IMEI"/>
+                    <field name="address_display_name" string="Адреса"/>
+                    <separator/>
+                    <filter name="filter_today" string="Сьогодні"
+                            domain="[('timestamp', '>=', (context_today()).strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_moving" string="В русі"
+                            domain="[('speed', '>', 3)]"/>
+                    <filter name="filter_violations" string="Порушення швидкості"
+                            domain="[('speed', '>', 130)]"/>
+                    <separator/>
+                    <group expand="0" string="Групувати по...">
+                        <filter name="group_imei" string="IMEI"
+                                context="{'group_by': 'imei'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tracker Data Action -->
+        <record id="auto_monitoring_tracker_action" model="ir.actions.act_window">
+            <field name="name">Дані GPS</field>
+            <field name="res_model">auto.monitoring.tracker.data</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="auto_monitoring_tracker_view_search"/>
+            <field name="context">{'search_default_filter_today': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Дані GPS-трекерів
+                </p>
+                <p>
+                    Дані автоматично завантажуються з зовнішньої бази даних.
+                </p>
+            </field>
+        </record>
+
+        <!-- Speed Violations Action -->
+        <record id="auto_monitoring_violations_action" model="ir.actions.act_window">
+            <field name="name">Порушення швидкості</field>
+            <field name="res_model">auto.monitoring.tracker.data</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="auto_monitoring_tracker_view_search"/>
+            <field name="domain">[('speed', '>', 130)]</field>
+            <field name="context">{'search_default_filter_today': 1}</field>
+        </record>
+    </data>
+</odoo>

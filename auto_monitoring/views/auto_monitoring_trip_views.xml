@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Trip Tree View -->
+        <record id="auto_monitoring_trip_view_tree" model="ir.ui.view">
+            <field name="name">auto.monitoring.trip.tree</field>
+            <field name="model">auto.monitoring.trip</field>
+            <field name="arch" type="xml">
+                <tree string="Trips" decoration-info="status == 'in_progress'"
+                      decoration-danger="speed_violation">
+                    <field name="vehicle_id" string="ТЗ"/>
+                    <field name="start_time" string="Початок"/>
+                    <field name="end_time" string="Завершення"/>
+                    <field name="start_address" string="Звідки" optional="show"/>
+                    <field name="end_address" string="Куди" optional="show"/>
+                    <field name="distance" string="Пробіг (км)" sum="Всього"/>
+                    <field name="duration_display" string="Час в дорозі"/>
+                    <field name="max_speed" string="Макс. швидкість"/>
+                    <field name="avg_speed" string="Середня швидкість" optional="hide"/>
+                    <field name="status" string="Статус" widget="badge"
+                           decoration-info="status == 'in_progress'"
+                           decoration-success="status == 'completed'"/>
+                    <field name="speed_violation" column_invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Trip Form View -->
+        <record id="auto_monitoring_trip_view_form" model="ir.ui.view">
+            <field name="name">auto.monitoring.trip.form</field>
+            <field name="model">auto.monitoring.trip</field>
+            <field name="arch" type="xml">
+                <form string="Trip">
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Перевищення швидкості" 
+                                bg_color="bg-danger" invisible="not speed_violation"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="vehicle_id" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Час">
+                                <field name="start_time" string="Початок"/>
+                                <field name="end_time" string="Завершення"/>
+                                <field name="duration_display" string="Тривалість"/>
+                            </group>
+                            <group string="Маршрут">
+                                <field name="start_address" string="Звідки"/>
+                                <field name="end_address" string="Куди"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Статистика">
+                                <field name="distance" string="Пробіг (км)"/>
+                                <field name="avg_speed" string="Середня швидкість (км/год)"/>
+                                <field name="max_speed" string="Максимальна швидкість (км/год)"/>
+                            </group>
+                            <group string="Координати">
+                                <field name="start_latitude" string="Широта (початок)"/>
+                                <field name="start_longitude" string="Довгота (початок)"/>
+                                <field name="end_latitude" string="Широта (кінець)"/>
+                                <field name="end_longitude" string="Довгота (кінець)"/>
+                            </group>
+                        </group>
+                        <field name="speed_violation" invisible="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Trip Search View -->
+        <record id="auto_monitoring_trip_view_search" model="ir.ui.view">
+            <field name="name">auto.monitoring.trip.search</field>
+            <field name="model">auto.monitoring.trip</field>
+            <field name="arch" type="xml">
+                <search string="Search Trips">
+                    <field name="vehicle_id" string="ТЗ"/>
+                    <field name="start_address" string="Звідки"/>
+                    <field name="end_address" string="Куди"/>
+                    <separator/>
+                    <filter name="filter_today" string="Сьогодні"
+                            domain="[('start_time', '>=', (context_today()).strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_this_week" string="Цей тиждень"
+                            domain="[('start_time', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_this_month" string="Цей місяць"
+                            domain="[('start_time', '>=', (context_today()).strftime('%Y-%m-01'))]"/>
+                    <separator/>
+                    <filter name="filter_in_progress" string="В русі"
+                            domain="[('status', '=', 'in_progress')]"/>
+                    <filter name="filter_completed" string="Завершені"
+                            domain="[('status', '=', 'completed')]"/>
+                    <filter name="filter_violations" string="З порушеннями"
+                            domain="[('speed_violation', '=', True)]"/>
+                    <separator/>
+                    <group expand="0" string="Групувати по...">
+                        <filter name="group_vehicle" string="ТЗ"
+                                context="{'group_by': 'vehicle_id'}"/>
+                        <filter name="group_status" string="Статус"
+                                context="{'group_by': 'status'}"/>
+                        <filter name="group_date" string="Дата"
+                                context="{'group_by': 'start_time:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Trip Pivot View -->
+        <record id="auto_monitoring_trip_view_pivot" model="ir.ui.view">
+            <field name="name">auto.monitoring.trip.pivot</field>
+            <field name="model">auto.monitoring.trip</field>
+            <field name="arch" type="xml">
+                <pivot string="Trip Analysis">
+                    <field name="vehicle_id" type="row"/>
+                    <field name="start_time" type="col" interval="week"/>
+                    <field name="distance" type="measure"/>
+                    <field name="duration" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Trip Graph View -->
+        <record id="auto_monitoring_trip_view_graph" model="ir.ui.view">
+            <field name="name">auto.monitoring.trip.graph</field>
+            <field name="model">auto.monitoring.trip</field>
+            <field name="arch" type="xml">
+                <graph string="Mileage by Vehicle" type="bar">
+                    <field name="vehicle_id" type="row"/>
+                    <field name="distance" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Trip Action -->
+        <record id="auto_monitoring_trip_action" model="ir.actions.act_window">
+            <field name="name">Поїздки</field>
+            <field name="res_model">auto.monitoring.trip</field>
+            <field name="view_mode">tree,pivot,graph,form</field>
+            <field name="search_view_id" ref="auto_monitoring_trip_view_search"/>
+            <field name="context">{'search_default_filter_this_week': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Поїздки
+                </p>
+                <p>
+                    Поїздки розраховуються автоматично на основі даних GPS-трекерів.
+                </p>
+            </field>
+        </record>
+
+        <!-- Trip Analytics Action -->
+        <record id="auto_monitoring_trip_analytics_action" model="ir.actions.act_window">
+            <field name="name">Аналітика пробігу</field>
+            <field name="res_model">auto.monitoring.trip</field>
+            <field name="view_mode">pivot,graph,tree</field>
+            <field name="search_view_id" ref="auto_monitoring_trip_view_search"/>
+            <field name="context">{'search_default_filter_this_month': 1}</field>
+        </record>
+
+        <!-- Sync Trips Server Action -->
+        <record id="auto_monitoring_trip_sync_action" model="ir.actions.server">
+            <field name="name">Синхронізувати поїздки</field>
+            <field name="model_id" ref="model_auto_monitoring_trip"/>
+            <field name="binding_model_id" ref="model_auto_monitoring_trip"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+model.sync_all_trips()
+action = {'type': 'ir.actions.client', 'tag': 'reload'}
+            </field>
+        </record>
+    </data>
+</odoo>

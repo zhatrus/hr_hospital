@@ -1,0 +1,190 @@
+/* Fleet Monitoring Module Styles */
+
+/* Vehicle status badges */
+.o_kanban_view .badge.bg-success {
+    background-color: #28a745 !important;
+}
+
+.o_kanban_view .badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.o_kanban_view .badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.o_kanban_view .badge.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+/* Speed violation highlight */
+.o_list_view tr.text-danger td {
+    color: #dc3545 !important;
+}
+
+/* Dashboard stat cards */
+.o_auto_monitoring_stat_card {
+    background: white;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #875a7b;
+}
+
+.o_auto_monitoring_stat_card.success {
+    border-left-color: #28a745;
+}
+
+.o_auto_monitoring_stat_card.warning {
+    border-left-color: #ffc107;
+}
+
+.o_auto_monitoring_stat_card.danger {
+    border-left-color: #dc3545;
+}
+
+.o_auto_monitoring_stat_card.info {
+    border-left-color: #17a2b8;
+}
+
+.o_auto_monitoring_stat_value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.o_auto_monitoring_stat_label {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+/* Vehicle list item in monitoring */
+.o_auto_monitoring_vehicle_item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 8px;
+}
+
+.o_auto_monitoring_vehicle_item:hover {
+    background: #f9f9f9;
+    border-color: #875a7b;
+}
+
+.o_auto_monitoring_vehicle_icon {
+    width: 40px;
+    height: 40px;
+    background: #875a7b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    margin-right: 12px;
+}
+
+.o_auto_monitoring_vehicle_info {
+    flex: 1;
+}
+
+.o_auto_monitoring_vehicle_number {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.o_auto_monitoring_vehicle_status {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.o_auto_monitoring_vehicle_speed {
+    font-size: 14px;
+    font-weight: 600;
+    color: #875a7b;
+}
+
+/* Progress bars */
+.o_auto_monitoring_progress {
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.o_auto_monitoring_progress_bar {
+    height: 100%;
+    background: #875a7b;
+    transition: width 0.3s;
+}
+
+.o_auto_monitoring_progress_bar.success {
+    background: #28a745;
+}
+
+.o_auto_monitoring_progress_bar.warning {
+    background: #ffc107;
+}
+
+.o_auto_monitoring_progress_bar.danger {
+    background: #dc3545;
+}
+
+/* Timeline */
+.o_auto_monitoring_timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.o_auto_monitoring_timeline_item {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.o_auto_monitoring_timeline_item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #875a7b;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #875a7b;
+}
+
+.o_auto_monitoring_timeline_item::after {
+    content: '';
+    position: absolute;
+    left: -18px;
+    top: 12px;
+    width: 2px;
+    height: calc(100% - 12px);
+    background: #e0e0e0;
+}
+
+.o_auto_monitoring_timeline_item:last-child::after {
+    display: none;
+}
+
+.o_auto_monitoring_timeline_time {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.o_auto_monitoring_timeline_content {
+    font-size: 13px;
+    color: #333;
+}

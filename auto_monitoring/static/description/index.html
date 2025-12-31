@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Monitoring System</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 { color: #875a7b; }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .feature {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #875a7b;
+        }
+        .feature h3 { margin-top: 0; }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #875a7b;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 4px 4px 4px 0;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .screenshot {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚗 Fleet Monitoring System</h1>
+    <p>Система моніторингу автопарку для Odoo 17 з підключенням до зовнішньої PostgreSQL бази даних GPS-трекерів та паливних карток.</p>
+
+    <div class="feature-grid">
+        <div class="feature">
+            <h3>📊 Дашборд</h3>
+            <p>Статистика по транспортних засобах, пробігу, паливу та порушенням швидкості в реальному часі.</p>
+        </div>
+        <div class="feature">
+            <h3>🗺️ Моніторинг</h3>
+            <p>Відстеження позицій всіх ТЗ з відображенням статусу (в русі / на стоянці / офлайн).</p>
+        </div>
+        <div class="feature">
+            <h3>🛣️ Поїздки</h3>
+            <p>Автоматичний розрахунок поїздок на основі GPS-даних з пробігом, часом та максимальною швидкістю.</p>
+        </div>
+        <div class="feature">
+            <h3>⛽ Паливо</h3>
+            <p>Облік заправок з паливних карток, аналітика витрати та порівняння з нормою.</p>
+        </div>
+    </div>
+
+    <h2>Можливості</h2>
+    <ul>
+        <li>Підключення до зовнішньої PostgreSQL бази даних</li>
+        <li>Синхронізація транспортних засобів</li>
+        <li>Відображення останньої позиції з GPS-трекерів</li>
+        <li>Журнал поїздок з автоматичним розрахунком</li>
+        <li>Аналітика витрати палива по ТЗ</li>
+        <li>Виявлення порушень швидкості</li>
+        <li>Pivot та Graph звіти</li>
+        <li>Налаштування ліміту швидкості</li>
+    </ul>
+
+    <h2>Зовнішня база даних</h2>
+    <p>Модуль працює з такими таблицями зовнішньої PostgreSQL БД:</p>
+    <ul>
+        <li><code>vehicles</code> — транспортні засоби (IMEI, держ.номер, модель, паливна картка)</li>
+        <li><code>tracker_light</code> — GPS дані (координати, швидкість, паливо, одометр)</li>
+        <li><code>fuel_transactions</code> — транзакції з паливних карток</li>
+    </ul>
+
+    <h2>Налаштування підключення</h2>
+    <p>Параметри підключення можна задати двома способами:</p>
+    
+    <h3>1. Через інтерфейс Odoo</h3>
+    <p>Налаштування → Fleet Monitor → Підключення до БД</p>
+    
+    <h3>2. Через конфігураційний файл odoo.conf</h3>
+    <pre>[options]
+auto_monitoring_db_host = 192.168.1.100
+auto_monitoring_db_port = 5432
+auto_monitoring_db_name = monitoring
+auto_monitoring_db_user = lynx
+auto_monitoring_db_password = your_password</pre>
+
+    <h2>Технічні вимоги</h2>
+    <div>
+        <span class="badge">Odoo 17.0</span>
+        <span class="badge">Python 3.10+</span>
+        <span class="badge">psycopg2</span>
+        <span class="badge">PostgreSQL</span>
+    </div>
+
+    <h2>Встановлення</h2>
+    <ol>
+        <li>Скопіюйте модуль <code>auto_monitoring</code> в папку addons</li>
+        <li>Встановіть залежність: <code>pip install psycopg2-binary</code></li>
+        <li>Оновіть список модулів в Odoo</li>
+        <li>Встановіть модуль "Fleet Monitoring System"</li>
+        <li>Налаштуйте підключення до зовнішньої БД</li>
+        <li>Натисніть "Синхронізувати ТЗ" для імпорту транспортних засобів</li>
+    </ol>
+
+    <h2>Групи доступу</h2>
+    <ul>
+        <li><strong>User</strong> — перегляд даних</li>
+        <li><strong>Manager</strong> — керування ТЗ та звіти</li>
+        <li><strong>Administrator</strong> — повний доступ включно з налаштуванням БД</li>
+    </ul>
+
+    <h2>Автор</h2>
+    <p>Khatrus Zakhar<br>
+    Ліцензія: LGPL-3</p>
+</body>
+</html>
