@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Vehicle Tree View -->
         <record id="auto_monitoring_vehicle_view_tree" model="ir.ui.view">
             <field name="name">auto.monitoring.vehicle.tree</field>
             <field name="model">auto.monitoring.vehicle</field>
             <field name="arch" type="xml">
-                <tree string="Vehicles" decoration-muted="not active">
+                <tree decoration-muted="not active">
                     <field name="reg_number" string="Держ. номер"/>
                     <field name="vehicle_model" string="Автомобіль"/>
                     <field name="alias" string="Псевдонім"/>
@@ -227,5 +225,4 @@ model.update_last_positions()
 action = {'type': 'ir.actions.client', 'tag': 'reload'}
             </field>
         </record>
-    </data>
 </odoo>

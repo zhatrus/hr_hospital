@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Tracker Data Tree View -->
         <record id="auto_monitoring_tracker_view_tree" model="ir.ui.view">
             <field name="name">auto.monitoring.tracker.data.tree</field>
             <field name="model">auto.monitoring.tracker.data</field>
             <field name="arch" type="xml">
-                <tree string="Tracker Data" create="false" edit="false" delete="false"
+                <tree create="false" edit="false" delete="false"
                       decoration-danger="speed > 130">
                     <field name="timestamp" string="Час"/>
                     <field name="imei" string="IMEI"/>
@@ -121,5 +119,4 @@
             <field name="domain">[('speed', '>', 130)]</field>
             <field name="context">{'search_default_filter_today': 1}</field>
         </record>
-    </data>
 </odoo>

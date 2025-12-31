@@ -1,4 +1,4 @@
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 
 
 class ResConfigSettings(models.TransientModel):
@@ -38,7 +38,7 @@ class ResConfigSettings(models.TransientModel):
     def action_test_db_connection(self):
         """Test the connection to external database."""
         self.ensure_one()
-        
+
         self.env['ir.config_parameter'].sudo().set_param(
             'auto_monitoring.db_host', self.auto_monitoring_db_host or 'localhost')
         self.env['ir.config_parameter'].sudo().set_param(
@@ -49,12 +49,12 @@ class ResConfigSettings(models.TransientModel):
             'auto_monitoring.db_user', self.auto_monitoring_db_user or 'lynx')
         self.env['ir.config_parameter'].sudo().set_param(
             'auto_monitoring.db_password', self.auto_monitoring_db_password or '')
-        
+
         connector = self.env['auto.monitoring.db.connector']
         connector.reset_connection_pool()
-        
+
         success, message = connector.test_connection()
-        
+
         if success:
             return {
                 'type': 'ir.actions.client',

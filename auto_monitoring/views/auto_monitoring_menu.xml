@@ -1,113 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Root Menu -->
-        <menuitem id="auto_monitoring_menu_root"
-                  name="Fleet Monitor"
-                  web_icon="auto_monitoring,static/description/icon.png"
-                  sequence="50"/>
+    <menuitem id="auto_monitoring_menu_root"
+              name="Fleet Monitor"
+              web_icon="auto_monitoring,static/description/icon.png"
+              sequence="50"/>
 
-        <!-- Dashboard Menu -->
-        <menuitem id="auto_monitoring_menu_dashboard"
-                  name="Дашборд"
-                  parent="auto_monitoring_menu_root"
-                  action="auto_monitoring_vehicle_action"
-                  sequence="10"/>
+    <menuitem id="auto_monitoring_menu_dashboard"
+              name="Дашборд"
+              parent="auto_monitoring_menu_root"
+              action="auto_monitoring_vehicle_action"
+              sequence="10"/>
 
-        <!-- Monitoring Menu -->
-        <menuitem id="auto_monitoring_menu_monitoring"
-                  name="Моніторинг"
-                  parent="auto_monitoring_menu_root"
-                  sequence="20"/>
+    <menuitem id="auto_monitoring_menu_monitoring"
+              name="Моніторинг"
+              parent="auto_monitoring_menu_root"
+              sequence="20"/>
 
-        <menuitem id="auto_monitoring_menu_vehicles"
-                  name="Транспортні засоби"
-                  parent="auto_monitoring_menu_monitoring"
-                  action="auto_monitoring_vehicle_action"
-                  sequence="10"/>
+    <menuitem id="auto_monitoring_menu_vehicles"
+              name="Транспортні засоби"
+              parent="auto_monitoring_menu_monitoring"
+              action="auto_monitoring_vehicle_action"
+              sequence="10"/>
 
-        <menuitem id="auto_monitoring_menu_tracker"
-                  name="GPS дані"
-                  parent="auto_monitoring_menu_monitoring"
-                  action="auto_monitoring_tracker_action"
-                  sequence="20"/>
+    <menuitem id="auto_monitoring_menu_tracker"
+              name="GPS дані"
+              parent="auto_monitoring_menu_monitoring"
+              action="auto_monitoring_tracker_action"
+              sequence="20"/>
 
-        <menuitem id="auto_monitoring_menu_violations"
-                  name="Порушення швидкості"
-                  parent="auto_monitoring_menu_monitoring"
-                  action="auto_monitoring_violations_action"
-                  sequence="30"/>
+    <menuitem id="auto_monitoring_menu_violations"
+              name="Порушення швидкості"
+              parent="auto_monitoring_menu_monitoring"
+              action="auto_monitoring_violations_action"
+              sequence="30"/>
 
-        <!-- Trips Menu -->
-        <menuitem id="auto_monitoring_menu_trips"
-                  name="Поїздки"
-                  parent="auto_monitoring_menu_root"
-                  action="auto_monitoring_trip_action"
-                  sequence="30"/>
+    <menuitem id="auto_monitoring_menu_trips"
+              name="Поїздки"
+              parent="auto_monitoring_menu_root"
+              action="auto_monitoring_trip_action"
+              sequence="30"/>
 
-        <!-- Fuel Menu -->
-        <menuitem id="auto_monitoring_menu_fuel"
-                  name="Паливо"
-                  parent="auto_monitoring_menu_root"
-                  sequence="40"/>
+    <menuitem id="auto_monitoring_menu_fuel"
+              name="Паливо"
+              parent="auto_monitoring_menu_root"
+              sequence="40"/>
 
-        <menuitem id="auto_monitoring_menu_fuel_transactions"
-                  name="Заправки"
-                  parent="auto_monitoring_menu_fuel"
-                  action="auto_monitoring_fuel_action"
-                  sequence="10"/>
+    <menuitem id="auto_monitoring_menu_fuel_transactions"
+              name="Заправки"
+              parent="auto_monitoring_menu_fuel"
+              action="auto_monitoring_fuel_action"
+              sequence="10"/>
 
-        <menuitem id="auto_monitoring_menu_fuel_analytics"
-                  name="Аналітика"
-                  parent="auto_monitoring_menu_fuel"
-                  action="auto_monitoring_fuel_analytics_action"
-                  sequence="20"/>
+    <menuitem id="auto_monitoring_menu_fuel_analytics"
+              name="Аналітика"
+              parent="auto_monitoring_menu_fuel"
+              action="auto_monitoring_fuel_analytics_action"
+              sequence="20"/>
 
-        <!-- Reports Menu -->
-        <menuitem id="auto_monitoring_menu_reports"
-                  name="Звіти"
-                  parent="auto_monitoring_menu_root"
-                  sequence="50"/>
+    <menuitem id="auto_monitoring_menu_reports"
+              name="Звіти"
+              parent="auto_monitoring_menu_root"
+              sequence="50"/>
 
-        <menuitem id="auto_monitoring_menu_report_mileage"
-                  name="Пробіг"
-                  parent="auto_monitoring_menu_reports"
-                  action="auto_monitoring_trip_analytics_action"
-                  sequence="10"/>
+    <menuitem id="auto_monitoring_menu_report_mileage"
+              name="Пробіг"
+              parent="auto_monitoring_menu_reports"
+              action="auto_monitoring_trip_analytics_action"
+              sequence="10"/>
 
-        <menuitem id="auto_monitoring_menu_report_fuel"
-                  name="Паливо"
-                  parent="auto_monitoring_menu_reports"
-                  action="auto_monitoring_fuel_analytics_action"
-                  sequence="20"/>
+    <menuitem id="auto_monitoring_menu_report_fuel"
+              name="Паливо"
+              parent="auto_monitoring_menu_reports"
+              action="auto_monitoring_fuel_analytics_action"
+              sequence="20"/>
 
-        <!-- Settings Menu -->
-        <menuitem id="auto_monitoring_menu_settings"
-                  name="Налаштування"
-                  parent="auto_monitoring_menu_root"
-                  groups="auto_monitoring.group_auto_monitoring_manager"
-                  sequence="100"/>
+    <menuitem id="auto_monitoring_menu_settings"
+              name="Налаштування"
+              parent="auto_monitoring_menu_root"
+              groups="auto_monitoring.group_auto_monitoring_manager"
+              sequence="100"/>
 
-        <menuitem id="auto_monitoring_menu_settings_vehicles"
-                  name="Транспортні засоби"
-                  parent="auto_monitoring_menu_settings"
-                  action="auto_monitoring_vehicle_action"
-                  sequence="10"/>
+    <menuitem id="auto_monitoring_menu_settings_vehicles"
+              name="Транспортні засоби"
+              parent="auto_monitoring_menu_settings"
+              action="auto_monitoring_vehicle_action"
+              sequence="10"/>
 
-        <!-- Configuration link in general settings -->
-        <record id="auto_monitoring_config_action" model="ir.actions.act_window">
-            <field name="name">Налаштування Fleet Monitor</field>
-            <field name="res_model">res.config.settings</field>
-            <field name="view_mode">form</field>
-            <field name="target">inline</field>
-            <field name="context">{'module': 'auto_monitoring'}</field>
-        </record>
+    <record id="auto_monitoring_config_action" model="ir.actions.act_window">
+        <field name="name">Налаштування Fleet Monitor</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'auto_monitoring'}</field>
+    </record>
 
-        <menuitem id="auto_monitoring_menu_config"
-                  name="Підключення до БД"
-                  parent="auto_monitoring_menu_settings"
-                  action="auto_monitoring_config_action"
-                  groups="auto_monitoring.group_auto_monitoring_admin"
-                  sequence="100"/>
-    </data>
+    <menuitem id="auto_monitoring_menu_config"
+              name="Підключення до БД"
+              parent="auto_monitoring_menu_settings"
+              action="auto_monitoring_config_action"
+              groups="auto_monitoring.group_auto_monitoring_admin"
+              sequence="100"/>
 </odoo>

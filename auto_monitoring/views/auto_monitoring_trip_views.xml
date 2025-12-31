@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Trip Tree View -->
         <record id="auto_monitoring_trip_view_tree" model="ir.ui.view">
             <field name="name">auto.monitoring.trip.tree</field>
             <field name="model">auto.monitoring.trip</field>
             <field name="arch" type="xml">
-                <tree string="Trips" decoration-info="status == 'in_progress'"
+                <tree decoration-info="status == 'in_progress'"
                       decoration-danger="speed_violation">
                     <field name="vehicle_id" string="ТЗ"/>
                     <field name="start_time" string="Початок"/>
@@ -172,5 +170,4 @@ model.sync_all_trips()
 action = {'type': 'ir.actions.client', 'tag': 'reload'}
             </field>
         </record>
-    </data>
 </odoo>

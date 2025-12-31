@@ -1,15 +1,15 @@
 import logging
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
 
 class AutoMonitoringFuelTransaction(models.Model):
     """Fuel Transaction model - refueling data from external DB.
-    
-    Fetches and displays fuel card transactions from external 'fuel_transactions' table.
+
+    Fetches fuel card transactions from external 'fuel_transactions' table.
     """
     _name = 'auto.monitoring.fuel.transaction'
     _description = 'Fuel Transaction'
@@ -99,10 +99,10 @@ class AutoMonitoringFuelTransaction(models.Model):
     def _fetch_fuel_data(self, domain=None, limit=100, offset=0):
         """Fetch fuel transactions from external database."""
         connector = self.env['auto.monitoring.db.connector']
-        
+
         where_clauses = ["1=1"]
         params = []
-        
+
         if domain:
             for condition in domain:
                 field, operator, value = condition
@@ -115,7 +115,7 @@ class AutoMonitoringFuelTransaction(models.Model):
                 elif field == 'trans_date' and operator == '<=':
                     where_clauses.append("trans_date <= %s")
                     params.append(value)
-        
+
         query = f"""
             SELECT trans_id as id, trans_id, card_num, trans_date,
                    volume, price, amnt_trans as amount,
@@ -126,7 +126,7 @@ class AutoMonitoringFuelTransaction(models.Model):
             LIMIT %s OFFSET %s
         """
         params.extend([limit, offset])
-        
+
         return connector.execute_query(query, tuple(params))
 
     @api.model
@@ -134,22 +134,25 @@ class AutoMonitoringFuelTransaction(models.Model):
         """Override to fetch data from external DB."""
         limit = limit or 100
         data = self._fetch_fuel_data(domain, limit, offset)
-        
+
         if fields:
-            return [{k: v for k, v in row.items() if k in fields or k == 'id'} for row in data]
+            return [
+                {k: v for k, v in row.items() if k in fields or k == 'id'}
+                for row in data
+            ]
         return data
 
     @api.model
     def get_monthly_stats(self, year=None, month=None):
         """Get monthly fuel statistics."""
         connector = self.env['auto.monitoring.db.connector']
-        
+
         now = fields.Datetime.now()
         if year is None:
             year = now.year
         if month is None:
             month = now.month
-        
+
         query = """
             SELECT 
                 COUNT(*) as transaction_count,
@@ -160,7 +163,7 @@ class AutoMonitoringFuelTransaction(models.Model):
             WHERE EXTRACT(YEAR FROM trans_date) = %s
               AND EXTRACT(MONTH FROM trans_date) = %s
         """
-        
+
         result = connector.execute_query(query, (year, month), fetchall=False)
         return result or {
             'transaction_count': 0,
@@ -175,10 +178,10 @@ class AutoMonitoringFuelTransaction(models.Model):
         vehicle = self.env['auto.monitoring.vehicle'].browse(vehicle_id)
         if not vehicle or not vehicle.fuel_card_number:
             return None
-        
+
         connector = self.env['auto.monitoring.db.connector']
         since = fields.Datetime.now() - timedelta(days=days)
-        
+
         query_fuel = """
             SELECT COALESCE(SUM(volume), 0) as total_fuel
             FROM fuel_transactions
@@ -188,7 +191,7 @@ class AutoMonitoringFuelTransaction(models.Model):
             query_fuel, (vehicle.fuel_card_number, since), fetchall=False
         )
         total_fuel = fuel_result.get('total_fuel', 0) if fuel_result else 0
-        
+
         query_mileage = """
             SELECT 
                 (MAX(odometer) - MIN(odometer)) / 1000.0 as mileage
@@ -199,10 +202,13 @@ class AutoMonitoringFuelTransaction(models.Model):
             query_mileage, (vehicle.imei, since), fetchall=False
         )
         mileage = mileage_result.get('mileage', 0) if mileage_result else 0
-        
+
         consumption = (total_fuel / mileage * 100) if mileage > 0 else 0
-        deviation = ((consumption - vehicle.fuel_norm) / vehicle.fuel_norm * 100) if vehicle.fuel_norm else 0
-        
+        if vehicle.fuel_norm:
+            deviation = (consumption - vehicle.fuel_norm) / vehicle.fuel_norm * 100
+        else:
+            deviation = 0
+
         return {
             'vehicle_id': vehicle.id,
             'vehicle_name': vehicle.display_name,
@@ -211,5 +217,8 @@ class AutoMonitoringFuelTransaction(models.Model):
             'consumption': round(consumption, 2),
             'norm': vehicle.fuel_norm,
             'deviation': round(deviation, 1),
-            'status': 'ok' if deviation <= 5 else ('warning' if deviation <= 15 else 'danger'),
+            'status': (
+                'ok' if deviation <= 5
+                else ('warning' if deviation <= 15 else 'danger')
+            ),
         }

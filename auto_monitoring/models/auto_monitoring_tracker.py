@@ -1,15 +1,15 @@
 import logging
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
 
 class AutoMonitoringTrackerData(models.Model):
     """Tracker Data model - GPS tracking points from external DB.
-    
-    This is a read-only model that fetches data from external 'tracker_light' table.
+
+    Read-only model that fetches data from external 'tracker_light' table.
     Data is not stored in Odoo DB, only displayed.
     """
     _name = 'auto.monitoring.tracker.data'
@@ -43,7 +43,7 @@ class AutoMonitoringTrackerData(models.Model):
     battery = fields.Integer(readonly=True)
     timestamp = fields.Datetime(readonly=True)
     created_at = fields.Datetime(readonly=True)
-    
+
     address_place = fields.Char(readonly=True)
     address_city = fields.Char(readonly=True)
     address_road = fields.Char(readonly=True)
@@ -76,20 +76,20 @@ class AutoMonitoringTrackerData(models.Model):
     @api.model
     def _fetch_tracker_data(self, domain=None, limit=100, offset=0):
         """Fetch tracker data from external database.
-        
+
         Args:
             domain: List of filter conditions
             limit: Max number of records
             offset: Offset for pagination
-            
+
         Returns:
             List of tracker data dicts
         """
         connector = self.env['auto.monitoring.db.connector']
-        
+
         where_clauses = ["1=1"]
         params = []
-        
+
         if domain:
             for condition in domain:
                 field, operator, value = condition
@@ -105,10 +105,10 @@ class AutoMonitoringTrackerData(models.Model):
                 elif field == 'speed' and operator == '>':
                     where_clauses.append("speed > %s")
                     params.append(value)
-        
+
         query = f"""
             SELECT id, imei, latitude, longitude, speed, satellites, angle,
-                   odometer / 1000.0 as odometer, 
+                   odometer / 1000.0 as odometer,
                    CASE WHEN ignition = 1 THEN true ELSE false END as ignition,
                    fuel, rpm, device_battery, temperature, battery,
                    timestamp, created_at,
@@ -119,7 +119,7 @@ class AutoMonitoringTrackerData(models.Model):
             LIMIT %s OFFSET %s
         """
         params.extend([limit, offset])
-        
+
         return connector.execute_query(query, tuple(params))
 
     @api.model
@@ -127,9 +127,12 @@ class AutoMonitoringTrackerData(models.Model):
         """Override to fetch data from external DB."""
         limit = limit or 100
         data = self._fetch_tracker_data(domain, limit, offset)
-        
+
         if fields:
-            return [{k: v for k, v in row.items() if k in fields or k == 'id'} for row in data]
+            return [
+                {k: v for k, v in row.items() if k in fields or k == 'id'}
+                for row in data
+            ]
         return data
 
     @api.model
@@ -138,7 +141,7 @@ class AutoMonitoringTrackerData(models.Model):
         vehicle = self.env['auto.monitoring.vehicle'].browse(vehicle_id)
         if not vehicle or not vehicle.imei:
             return None
-        
+
         data = self._fetch_tracker_data([('imei', '=', vehicle.imei)], limit=1)
         return data[0] if data else None
 
@@ -146,9 +149,9 @@ class AutoMonitoringTrackerData(models.Model):
     def get_speed_violations(self, speed_limit=130, hours=24):
         """Get speed violations above specified limit in last N hours."""
         connector = self.env['auto.monitoring.db.connector']
-        
+
         since = fields.Datetime.now() - timedelta(hours=hours)
-        
+
         query = """
             SELECT t.id, t.imei, t.speed, t.timestamp, t.address_display_name,
                    v.reg_number
@@ -158,7 +161,7 @@ class AutoMonitoringTrackerData(models.Model):
             ORDER BY t.timestamp DESC
             LIMIT 100
         """
-        
+
         return connector.execute_query(query, (speed_limit, since))
 
     @api.model
@@ -166,12 +169,12 @@ class AutoMonitoringTrackerData(models.Model):
         """Get statistics for dashboard."""
         connector = self.env['auto.monitoring.db.connector']
         Vehicle = self.env['auto.monitoring.vehicle']
-        
+
         total_vehicles = Vehicle.search_count([('active', '=', True)])
-        
+
         now = fields.Datetime.now()
         one_hour_ago = now - timedelta(hours=1)
-        
+
         query_moving = """
             SELECT COUNT(DISTINCT imei) as cnt
             FROM tracker_light
@@ -179,9 +182,9 @@ class AutoMonitoringTrackerData(models.Model):
         """
         result = connector.execute_query(query_moving, (one_hour_ago,), fetchall=False)
         moving_count = result.get('cnt', 0) if result else 0
-        
+
         today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        
+
         query_violations = """
             SELECT COUNT(*) as cnt
             FROM tracker_light
@@ -189,11 +192,11 @@ class AutoMonitoringTrackerData(models.Model):
         """
         result = connector.execute_query(query_violations, (today_start,), fetchall=False)
         violations_count = result.get('cnt', 0) if result else 0
-        
+
         query_mileage = """
             SELECT SUM(daily_mileage) as total_km
             FROM (
-                SELECT imei, 
+                SELECT imei,
                        (MAX(odometer) - MIN(odometer)) / 1000.0 as daily_mileage
                 FROM tracker_light
                 WHERE timestamp >= %s
@@ -201,8 +204,11 @@ class AutoMonitoringTrackerData(models.Model):
             ) sub
         """
         result = connector.execute_query(query_mileage, (today_start,), fetchall=False)
-        today_mileage = round(result.get('total_km', 0) or 0, 1) if result else 0
-        
+        if result:
+            today_mileage = round(result.get('total_km', 0) or 0, 1)
+        else:
+            today_mileage = 0
+
         return {
             'total_vehicles': total_vehicles,
             'moving_count': moving_count,

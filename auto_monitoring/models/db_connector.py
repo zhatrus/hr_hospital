@@ -7,15 +7,14 @@ _logger = logging.getLogger(__name__)
 
 try:
     import psycopg2
-    from psycopg2 import pool
 except ImportError:
     psycopg2 = None
-    _logger.warning("psycopg2 not installed. External DB features will not work.")
+    _logger.warning("psycopg2 not installed. External DB features won't work.")
 
 
 class AutoMonitoringDBConnector(models.AbstractModel):
     """Abstract model for connecting to external PostgreSQL database.
-    
+
     Provides connection pooling and helper methods for executing queries
     against the external monitoring database.
     """
@@ -28,7 +27,7 @@ class AutoMonitoringDBConnector(models.AbstractModel):
     def _get_db_config(self):
         """Get database connection parameters from system parameters or config."""
         ICP = self.env['ir.config_parameter'].sudo()
-        
+
         config = {
             'host': ICP.get_param('auto_monitoring.db_host', 'localhost'),
             'port': int(ICP.get_param('auto_monitoring.db_port', '5432')),
@@ -36,7 +35,7 @@ class AutoMonitoringDBConnector(models.AbstractModel):
             'user': ICP.get_param('auto_monitoring.db_user', 'lynx'),
             'password': ICP.get_param('auto_monitoring.db_password', ''),
         }
-        
+
         odoo_config = tools.config
         if odoo_config.get('auto_monitoring_db_host'):
             config['host'] = odoo_config.get('auto_monitoring_db_host')
@@ -48,7 +47,7 @@ class AutoMonitoringDBConnector(models.AbstractModel):
             config['user'] = odoo_config.get('auto_monitoring_db_user')
         if odoo_config.get('auto_monitoring_db_password'):
             config['password'] = odoo_config.get('auto_monitoring_db_password')
-        
+
         return config
 
     @api.model
@@ -57,7 +56,7 @@ class AutoMonitoringDBConnector(models.AbstractModel):
         if not psycopg2:
             _logger.error("psycopg2 is not installed")
             return None
-            
+
         if AutoMonitoringDBConnector._connection_pool is None:
             try:
                 config = self._get_db_config()
@@ -70,8 +69,10 @@ class AutoMonitoringDBConnector(models.AbstractModel):
                     user=config['user'],
                     password=config['password'],
                 )
-                _logger.info("Created connection pool for external DB: %s@%s:%s/%s",
-                             config['user'], config['host'], config['port'], config['database'])
+                _logger.info(
+                    "Created pool for external DB: %s@%s:%s/%s",
+                    config['user'], config['host'],
+                    config['port'], config['database'])
             except Exception as e:
                 _logger.error("Failed to create connection pool: %s", e)
                 return None
@@ -84,7 +85,7 @@ class AutoMonitoringDBConnector(models.AbstractModel):
         if pool_obj is None:
             yield None
             return
-            
+
         conn = None
         try:
             conn = pool_obj.getconn()
@@ -99,12 +100,12 @@ class AutoMonitoringDBConnector(models.AbstractModel):
     @api.model
     def execute_query(self, query, params=None, fetchall=True):
         """Execute a query on the external database.
-        
+
         Args:
             query: SQL query string
             params: Query parameters (tuple or dict)
             fetchall: If True, return all rows; if False, return one row
-            
+
         Returns:
             List of dicts (fetchall=True) or single dict (fetchall=False) or None on error
         """
@@ -112,18 +113,18 @@ class AutoMonitoringDBConnector(models.AbstractModel):
             if conn is None:
                 _logger.warning("No connection available for query")
                 return [] if fetchall else None
-                
+
             try:
                 with conn.cursor() as cur:
                     cur.execute(query, params)
-                    columns = [desc[0] for desc in cur.description] if cur.description else []
-                    
+                    cols = [d[0] for d in cur.description] if cur.description else []
+
                     if fetchall:
                         rows = cur.fetchall()
-                        return [dict(zip(columns, row)) for row in rows]
+                        return [dict(zip(cols, row)) for row in rows]
                     else:
                         row = cur.fetchone()
-                        return dict(zip(columns, row)) if row else None
+                        return dict(zip(cols, row)) if row else None
             except Exception as e:
                 _logger.error("Query execution error: %s\nQuery: %s", e, query)
                 return [] if fetchall else None

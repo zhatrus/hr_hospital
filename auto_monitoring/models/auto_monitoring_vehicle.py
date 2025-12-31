@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class AutoMonitoringVehicle(models.Model):
     """Vehicle model - represents transport vehicles from external DB.
-    
+
     Syncs data from external 'vehicles' table and stores locally in Odoo
     for relationship management and extended functionality.
     """
@@ -138,7 +138,8 @@ class AutoMonitoringVehicle(models.Model):
 
     _sql_constraints = [
         ('imei_unique', 'UNIQUE(imei)', 'IMEI must be unique!'),
-        ('external_id_unique', 'UNIQUE(external_id)', 'External ID must be unique!'),
+        ('external_id_unique', 'UNIQUE(external_id)',
+         'External ID must be unique!'),
     ]
 
     @api.depends('reg_number', 'alias', 'vehicle_model')
@@ -170,19 +171,19 @@ class AutoMonitoringVehicle(models.Model):
     def sync_from_external_db(self):
         """Sync vehicles from external database."""
         connector = self.env['auto.monitoring.db.connector']
-        
+
         query = """
-            SELECT id, imei, s_n, reg_number, vehicle_model, 
+            SELECT id, imei, s_n, reg_number, vehicle_model,
                    fuel_card_number, fuel_norm_l_100km, sim_number, alias
             FROM vehicles
             ORDER BY id
         """
-        
+
         rows = connector.execute_query(query)
         if not rows:
             _logger.warning("No vehicles found in external DB or connection error")
             return
-        
+
         synced = 0
         for row in rows:
             vals = {
@@ -196,14 +197,14 @@ class AutoMonitoringVehicle(models.Model):
                 'sim_number': row.get('sim_number'),
                 'alias': row.get('alias'),
             }
-            
+
             existing = self.search([('external_id', '=', row.get('id'))], limit=1)
             if existing:
                 existing.write(vals)
             else:
                 self.create(vals)
             synced += 1
-        
+
         _logger.info("Synced %d vehicles from external DB", synced)
         return synced
 
@@ -211,20 +212,20 @@ class AutoMonitoringVehicle(models.Model):
     def update_last_positions(self):
         """Update last known positions for all vehicles from tracker_light."""
         connector = self.env['auto.monitoring.db.connector']
-        
+
         query = """
-            SELECT DISTINCT ON (imei) 
+            SELECT DISTINCT ON (imei)
                 imei, latitude, longitude, speed, fuel, odometer,
                 timestamp, address_display_name
             FROM tracker_light
             WHERE imei IS NOT NULL
             ORDER BY imei, timestamp DESC
         """
-        
+
         rows = connector.execute_query(query)
         if not rows:
             return
-        
+
         for row in rows:
             vehicle = self.search([('imei', '=', row.get('imei'))], limit=1)
             if vehicle:
@@ -256,6 +257,8 @@ class AutoMonitoringVehicle(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_url',
-            'url': f'https://www.openstreetmap.org/?mlat={self.last_latitude}&mlon={self.last_longitude}&zoom=15',
+            'url': (f'https://www.openstreetmap.org/'
+                    f'?mlat={self.last_latitude}&mlon={self.last_longitude}'
+                    f'&zoom=15'),
             'target': 'new',
         }

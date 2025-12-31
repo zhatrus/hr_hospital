@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Fuel Transaction Tree View -->
         <record id="auto_monitoring_fuel_view_tree" model="ir.ui.view">
             <field name="name">auto.monitoring.fuel.transaction.tree</field>
             <field name="model">auto.monitoring.fuel.transaction</field>
             <field name="arch" type="xml">
-                <tree string="Fuel Transactions" create="false" edit="false" delete="false">
+                <tree create="false" edit="false" delete="false">
                     <field name="trans_date" string="Дата/Час"/>
                     <field name="vehicle_id" string="ТЗ"/>
                     <field name="azs_name" string="АЗС"/>
@@ -135,5 +133,4 @@
             <field name="search_view_id" ref="auto_monitoring_fuel_view_search"/>
             <field name="context">{'search_default_filter_this_month': 1}</field>
         </record>
-    </data>
 </odoo>
