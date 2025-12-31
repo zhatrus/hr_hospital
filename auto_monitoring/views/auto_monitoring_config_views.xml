@@ -55,9 +55,4 @@
                 </xpath>
             </field>
         </record>
-
-        <!-- Extend res.config.settings model -->
-        <record id="auto_monitoring_config_settings" model="ir.model">
-            <field name="name">auto_monitoring.config.settings</field>
-        </record>
 </odoo>
