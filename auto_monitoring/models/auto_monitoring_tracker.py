@@ -6,7 +6,7 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class AutoMonitoringTrackerData(models.Model):
+class AutoMonitoringTrackerData(models.TransientModel):
     """Tracker Data model - GPS tracking points from external DB.
 
     Read-only model that fetches data from external 'tracker_light' table.
@@ -15,7 +15,6 @@ class AutoMonitoringTrackerData(models.Model):
     _name = 'auto.monitoring.tracker.data'
     _description = 'Tracker Data'
     _order = 'timestamp desc'
-    _auto = False
 
     id = fields.Integer(readonly=True)
     vehicle_id = fields.Many2one(

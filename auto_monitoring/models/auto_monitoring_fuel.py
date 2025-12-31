@@ -6,7 +6,7 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class AutoMonitoringFuelTransaction(models.Model):
+class AutoMonitoringFuelTransaction(models.TransientModel):
     """Fuel Transaction model - refueling data from external DB.
 
     Fetches fuel card transactions from external 'fuel_transactions' table.
@@ -14,7 +14,6 @@ class AutoMonitoringFuelTransaction(models.Model):
     _name = 'auto.monitoring.fuel.transaction'
     _description = 'Fuel Transaction'
     _order = 'trans_date desc'
-    _auto = False
 
     id = fields.Integer(readonly=True)
     trans_id = fields.Integer(
