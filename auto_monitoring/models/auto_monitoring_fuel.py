@@ -90,7 +90,9 @@ class AutoMonitoringFuelTransaction(models.Model):
         Vehicle = self.env['auto.monitoring.vehicle']
         for rec in self:
             if rec.card_num:
-                vehicle = Vehicle.search([('fuel_card_number', '=', rec.card_num)], limit=1)
+                vehicle = Vehicle.search(
+                    [('fuel_card_number', '=', rec.card_num)], limit=1
+                )
                 rec.vehicle_id = vehicle.id if vehicle else False
             else:
                 rec.vehicle_id = False
@@ -130,7 +132,8 @@ class AutoMonitoringFuelTransaction(models.Model):
         return connector.execute_query(query, tuple(params))
 
     @api.model
-    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+    def search_read(self, domain=None, fields=None, offset=0,
+                    limit=None, order=None):
         """Override to fetch data from external DB."""
         limit = limit or 100
         data = self._fetch_fuel_data(domain, limit, offset)
@@ -154,7 +157,7 @@ class AutoMonitoringFuelTransaction(models.Model):
             month = now.month
 
         query = """
-            SELECT 
+            SELECT
                 COUNT(*) as transaction_count,
                 COALESCE(SUM(volume), 0) as total_volume,
                 COALESCE(SUM(amnt_trans), 0) as total_amount,
@@ -205,7 +208,9 @@ class AutoMonitoringFuelTransaction(models.Model):
 
         consumption = (total_fuel / mileage * 100) if mileage > 0 else 0
         if vehicle.fuel_norm:
-            deviation = (consumption - vehicle.fuel_norm) / vehicle.fuel_norm * 100
+            deviation = (
+                (consumption - vehicle.fuel_norm) / vehicle.fuel_norm * 100
+            )
         else:
             deviation = 0
 

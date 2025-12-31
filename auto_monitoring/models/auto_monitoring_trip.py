@@ -122,7 +122,8 @@ class AutoMonitoringTrip(models.Model):
             rec.speed_violation = rec.max_speed and rec.max_speed > 130
 
     @api.model
-    def calculate_trips_for_vehicle(self, vehicle_id, date_from=None, date_to=None):
+    def calculate_trips_for_vehicle(self, vehicle_id, date_from=None,
+                                     date_to=None):
         """Calculate trips for a vehicle based on tracker data.
 
         A trip starts when ignition turns on OR speed > 0 after stopped.
@@ -147,7 +148,9 @@ class AutoMonitoringTrip(models.Model):
             ORDER BY timestamp ASC
         """
 
-        data = connector.execute_query(query, (vehicle.imei, date_from, date_to))
+        data = connector.execute_query(
+            query, (vehicle.imei, date_from, date_to)
+        )
         if not data:
             return []
 
@@ -189,14 +192,24 @@ class AutoMonitoringTrip(models.Model):
                     if stop_start is None:
                         stop_start = timestamp
                     else:
-                        stop_duration = (timestamp - stop_start).total_seconds() / 60
+                        stop_duration = (
+                            (timestamp - stop_start).total_seconds() / 60
+                        )
                         if stop_duration >= STOP_THRESHOLD_MINUTES:
                             current_trip['end_time'] = stop_start
                             if last_moving_point:
-                                current_trip['end_latitude'] = last_moving_point.get('latitude')
-                                current_trip['end_longitude'] = last_moving_point.get('longitude')
-                                current_trip['end_address'] = last_moving_point.get('address_display_name')
-                                end_odometer = last_moving_point.get('odometer', 0) / 1000.0
+                                current_trip['end_latitude'] = (
+                                    last_moving_point.get('latitude')
+                                )
+                                current_trip['end_longitude'] = (
+                                    last_moving_point.get('longitude')
+                                )
+                                current_trip['end_address'] = (
+                                    last_moving_point.get('address_display_name')
+                                )
+                                end_odometer = (
+                                    last_moving_point.get('odometer', 0) / 1000.0
+                                )
                             else:
                                 current_trip['end_latitude'] = None
                                 current_trip['end_longitude'] = None
@@ -216,7 +229,9 @@ class AutoMonitoringTrip(models.Model):
             current_trip['end_time'] = last_moving_point.get('timestamp')
             current_trip['end_latitude'] = last_moving_point.get('latitude')
             current_trip['end_longitude'] = last_moving_point.get('longitude')
-            current_trip['end_address'] = last_moving_point.get('address_display_name')
+            current_trip['end_address'] = (
+                last_moving_point.get('address_display_name')
+            )
             end_odometer = last_moving_point.get('odometer', 0) / 1000.0
             start_odo = current_trip.get('start_odometer', 0)
             current_trip['distance'] = end_odometer - start_odo
@@ -227,9 +242,12 @@ class AutoMonitoringTrip(models.Model):
         return trips
 
     @api.model
-    def sync_trips_for_vehicle(self, vehicle_id, date_from=None, date_to=None):
+    def sync_trips_for_vehicle(self, vehicle_id, date_from=None,
+                                date_to=None):
         """Calculate and save trips for a vehicle."""
-        trips_data = self.calculate_trips_for_vehicle(vehicle_id, date_from, date_to)
+        trips_data = self.calculate_trips_for_vehicle(
+            vehicle_id, date_from, date_to
+        )
 
         created_trips = []
         for trip_vals in trips_data:
@@ -249,12 +267,16 @@ class AutoMonitoringTrip(models.Model):
     @api.model
     def sync_all_trips(self, date_from=None, date_to=None):
         """Sync trips for all active vehicles."""
-        vehicles = self.env['auto.monitoring.vehicle'].search([('active', '=', True)])
+        vehicles = self.env['auto.monitoring.vehicle'].search(
+            [('active', '=', True)]
+        )
         total_trips = 0
 
         for vehicle in vehicles:
             trips = self.sync_trips_for_vehicle(vehicle.id, date_from, date_to)
             total_trips += len(trips)
 
-        _logger.info("Synced %d trips for %d vehicles", total_trips, len(vehicles))
+        _logger.info(
+            "Synced %d trips for %d vehicles", total_trips, len(vehicles)
+        )
         return total_trips

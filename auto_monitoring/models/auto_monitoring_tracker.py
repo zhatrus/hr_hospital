@@ -112,7 +112,8 @@ class AutoMonitoringTrackerData(models.Model):
                    CASE WHEN ignition = 1 THEN true ELSE false END as ignition,
                    fuel, rpm, device_battery, temperature, battery,
                    timestamp, created_at,
-                   address_place, address_city, address_road, address_display_name
+                   address_place, address_city, address_road,
+                   address_display_name
             FROM tracker_light
             WHERE {' AND '.join(where_clauses)}
             ORDER BY timestamp DESC
@@ -123,7 +124,8 @@ class AutoMonitoringTrackerData(models.Model):
         return connector.execute_query(query, tuple(params))
 
     @api.model
-    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+    def search_read(self, domain=None, fields=None, offset=0,
+                    limit=None, order=None):
         """Override to fetch data from external DB."""
         limit = limit or 100
         data = self._fetch_tracker_data(domain, limit, offset)
@@ -180,7 +182,9 @@ class AutoMonitoringTrackerData(models.Model):
             FROM tracker_light
             WHERE timestamp >= %s AND speed > 3
         """
-        result = connector.execute_query(query_moving, (one_hour_ago,), fetchall=False)
+        result = connector.execute_query(
+            query_moving, (one_hour_ago,), fetchall=False
+        )
         moving_count = result.get('cnt', 0) if result else 0
 
         today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -190,20 +194,25 @@ class AutoMonitoringTrackerData(models.Model):
             FROM tracker_light
             WHERE timestamp >= %s AND speed > 130
         """
-        result = connector.execute_query(query_violations, (today_start,), fetchall=False)
+        result = connector.execute_query(
+            query_violations, (today_start,), fetchall=False
+        )
         violations_count = result.get('cnt', 0) if result else 0
 
         query_mileage = """
             SELECT SUM(daily_mileage) as total_km
             FROM (
                 SELECT imei,
-                       (MAX(odometer) - MIN(odometer)) / 1000.0 as daily_mileage
+                       (MAX(odometer) - MIN(odometer)) / 1000.0
+                           as daily_mileage
                 FROM tracker_light
                 WHERE timestamp >= %s
                 GROUP BY imei
             ) sub
         """
-        result = connector.execute_query(query_mileage, (today_start,), fetchall=False)
+        result = connector.execute_query(
+            query_mileage, (today_start,), fetchall=False
+        )
         if result:
             today_mileage = round(result.get('total_km', 0) or 0, 1)
         else:

@@ -181,7 +181,9 @@ class AutoMonitoringVehicle(models.Model):
 
         rows = connector.execute_query(query)
         if not rows:
-            _logger.warning("No vehicles found in external DB or connection error")
+            _logger.warning(
+                "No vehicles found in external DB or connection error"
+            )
             return
 
         synced = 0
@@ -190,7 +192,9 @@ class AutoMonitoringVehicle(models.Model):
                 'external_id': row.get('id'),
                 'imei': row.get('imei'),
                 'serial_number': row.get('s_n'),
-                'reg_number': row.get('reg_number') or f"UNKNOWN-{row.get('id')}",
+                'reg_number': (
+                    row.get('reg_number') or f"UNKNOWN-{row.get('id')}"
+                ),
                 'vehicle_model': row.get('vehicle_model'),
                 'fuel_card_number': row.get('fuel_card_number'),
                 'fuel_norm': row.get('fuel_norm_l_100km') or 10.0,
@@ -198,7 +202,9 @@ class AutoMonitoringVehicle(models.Model):
                 'alias': row.get('alias'),
             }
 
-            existing = self.search([('external_id', '=', row.get('id'))], limit=1)
+            existing = self.search(
+                [('external_id', '=', row.get('id'))], limit=1
+            )
             if existing:
                 existing.write(vals)
             else:

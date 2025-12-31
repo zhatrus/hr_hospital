@@ -25,7 +25,7 @@ class AutoMonitoringDBConnector(models.AbstractModel):
 
     @api.model
     def _get_db_config(self):
-        """Get database connection parameters from system parameters or config."""
+        """Get database connection parameters from system parameters."""
         ICP = self.env['ir.config_parameter'].sudo()
 
         config = {
@@ -60,7 +60,7 @@ class AutoMonitoringDBConnector(models.AbstractModel):
         if AutoMonitoringDBConnector._connection_pool is None:
             try:
                 config = self._get_db_config()
-                AutoMonitoringDBConnector._connection_pool = psycopg2.pool.ThreadedConnectionPool(
+                pool_obj = psycopg2.pool.ThreadedConnectionPool(
                     minconn=1,
                     maxconn=10,
                     host=config['host'],
@@ -72,7 +72,9 @@ class AutoMonitoringDBConnector(models.AbstractModel):
                 _logger.info(
                     "Created pool for external DB: %s@%s:%s/%s",
                     config['user'], config['host'],
-                    config['port'], config['database'])
+                    config['port'], config['database']
+                )
+                AutoMonitoringDBConnector._connection_pool = pool_obj
             except Exception as e:
                 _logger.error("Failed to create connection pool: %s", e)
                 return None
@@ -104,10 +106,10 @@ class AutoMonitoringDBConnector(models.AbstractModel):
         Args:
             query: SQL query string
             params: Query parameters (tuple or dict)
-            fetchall: If True, return all rows; if False, return one row
+            fetchall: If True, return all rows; else return one row
 
         Returns:
-            List of dicts (fetchall=True) or single dict (fetchall=False) or None on error
+            List of dicts (fetchall=True) or dict or None on error
         """
         with self._get_connection() as conn:
             if conn is None:
@@ -117,7 +119,10 @@ class AutoMonitoringDBConnector(models.AbstractModel):
             try:
                 with conn.cursor() as cur:
                     cur.execute(query, params)
-                    cols = [d[0] for d in cur.description] if cur.description else []
+                    cols = (
+                        [d[0] for d in cur.description]
+                        if cur.description else []
+                    )
 
                     if fetchall:
                         rows = cur.fetchall()
