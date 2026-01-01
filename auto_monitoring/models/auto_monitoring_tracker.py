@@ -123,6 +123,44 @@ class AutoMonitoringTrackerData(models.TransientModel):
         return connector.execute_query(query, tuple(params))
 
     @api.model
+    def search(self, domain=None, offset=0, limit=None, order=None):
+        """Override search to return fake IDs from external DB."""
+        data = self._fetch_tracker_data(domain, limit or 100, offset)
+        return [row.get('id') for row in data]
+
+    @api.model
+    def read(self, fields=None):
+        """Override read to fetch from external DB."""
+        if isinstance(self.ids, (list, tuple)) and self.ids:
+            ids = self.ids
+        else:
+            ids = [self.id] if self.id else []
+        
+        if not ids:
+            return []
+        
+        connector = self.env['auto.monitoring.db.connector']
+        query = f"""
+            SELECT id, imei, latitude, longitude, speed, satellites, angle,
+                   odometer / 1000.0 as odometer,
+                   CASE WHEN ignition = 1 THEN true ELSE false END as ignition,
+                   fuel, rpm, device_battery, temperature, battery,
+                   timestamp, created_at,
+                   address_place, address_city, address_road,
+                   address_display_name
+            FROM tracker_light
+            WHERE id = ANY(%s)
+        """
+        data = connector.execute_query(query, (ids,))
+        
+        if fields:
+            return [
+                {k: v for k, v in row.items() if k in fields or k == 'id'}
+                for row in data
+            ]
+        return data
+
+    @api.model
     def search_read(self, domain=None, fields=None, offset=0,
                     limit=None, order=None):
         """Override to fetch data from external DB."""
