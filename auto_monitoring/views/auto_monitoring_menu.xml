@@ -86,6 +86,14 @@
               action="auto_monitoring_vehicle_action"
               sequence="10"/>
 
+    <!-- Direct sync entry so managers can trigger without list/kanban buttons -->
+    <menuitem id="auto_monitoring_menu_settings_sync_vehicles"
+              name="Синхронізувати ТЗ"
+              parent="auto_monitoring_menu_settings"
+              action="auto_monitoring_vehicle_sync_action"
+              groups="auto_monitoring.group_auto_monitoring_manager"
+              sequence="20"/>
+
     <record id="auto_monitoring_config_action" model="ir.actions.act_window">
         <field name="name">Налаштування Fleet Monitor</field>
         <field name="res_model">res.config.settings</field>
