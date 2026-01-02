@@ -7,6 +7,7 @@ _logger = logging.getLogger(__name__)
 
 try:
     import psycopg2
+    import psycopg2.pool
 except ImportError:
     psycopg2 = None
     _logger.warning("psycopg2 not installed. External DB features won't work.")

@@ -128,8 +128,7 @@ class AutoMonitoringTrackerData(models.TransientModel):
         data = self._fetch_tracker_data(domain, limit or 100, offset)
         return [row.get('id') for row in data]
 
-    @api.model
-    def read(self, fields=None):
+    def read(self, fields=None, load='_classic_read'):
         """Override read to fetch from external DB."""
         if isinstance(self.ids, (list, tuple)) and self.ids:
             ids = self.ids
