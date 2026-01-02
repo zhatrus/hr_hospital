@@ -205,7 +205,8 @@
             <field name="name">Синхронізувати ТЗ</field>
             <field name="model_id" ref="model_auto_monitoring_vehicle"/>
             <field name="binding_model_id" ref="model_auto_monitoring_vehicle"/>
-            <field name="binding_view_types">list</field>
+            <field name="binding_view_types">list,kanban</field>
+            <field name="binding_type">action</field>
             <field name="state">code</field>
             <field name="code">
 model.sync_from_external_db()
