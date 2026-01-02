@@ -142,19 +142,19 @@ class AutoMonitoringFuelTransaction(models.TransientModel):
             ids = self.ids
         else:
             ids = [self.id] if self.id else []
-        
+
         if not ids:
             return []
-        
+
         connector = self.env['auto.monitoring.db.connector']
-        query = f"""
+        query = """
             SELECT trans_id as id, trans_id, card_num, trans_date,
                    volume, price, amnt_trans, station_name
             FROM fuel_transactions
             WHERE trans_id = ANY(%s)
         """
         data = connector.execute_query(query, (ids,))
-        
+
         if fields:
             return [
                 {k: v for k, v in row.items() if k in fields or k == 'id'}

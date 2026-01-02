@@ -135,12 +135,12 @@ class AutoMonitoringTrackerData(models.TransientModel):
             ids = self.ids
         else:
             ids = [self.id] if self.id else []
-        
+
         if not ids:
             return []
-        
+
         connector = self.env['auto.monitoring.db.connector']
-        query = f"""
+        query = """
             SELECT id, imei, latitude, longitude, speed, satellites, angle,
                    odometer / 1000.0 as odometer,
                    CASE WHEN ignition = 1 THEN true ELSE false END as ignition,
@@ -152,7 +152,7 @@ class AutoMonitoringTrackerData(models.TransientModel):
             WHERE id = ANY(%s)
         """
         data = connector.execute_query(query, (ids,))
-        
+
         if fields:
             return [
                 {k: v for k, v in row.items() if k in fields or k == 'id'}
