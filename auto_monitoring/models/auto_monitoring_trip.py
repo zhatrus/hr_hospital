@@ -1,5 +1,4 @@
 import logging
-from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -190,7 +189,7 @@ class AutoMonitoringTrip(models.TransientModel):
     @api.depends('trip_date')
     def _compute_is_editable(self):
         """Check if trip can be edited based on deadline.
-        
+
         Deadline: end of trip month + 5 days of next month.
         After deadline, only manager/admin can edit.
         """
@@ -201,20 +200,22 @@ class AutoMonitoringTrip(models.TransientModel):
 
             # Calculate deadline
             from dateutil.relativedelta import relativedelta
-            deadline = rec.trip_date.replace(day=1) + relativedelta(months=1, days=5)
-            
+            deadline = rec.trip_date.replace(
+                day=1
+            ) + relativedelta(months=1, days=5)
+
             today = fields.Date.today()
             rec.is_editable = today <= deadline
 
     @api.model
     def _fetch_trips_data(self, domain=None, limit=100, offset=0):
         """Fetch trips from external tracker_trips table.
-        
+
         Args:
             domain: List of filter conditions
             limit: Max number of records
             offset: Offset for pagination
-            
+
         Returns:
             List of trip data dicts
         """
@@ -246,13 +247,13 @@ class AutoMonitoringTrip(models.TransientModel):
                     params.append(value)
 
         query = f"""
-            SELECT 
+            SELECT
                 id, imei, trip_date, route_description,
                 in_city_km, outside_city_km, total_km,
                 city_coefficient, outside_coefficient, fuel_liters,
                 project_name, payment_type, driver_name,
                 trip_purpose_id, trip_purpose_other, user_comment,
-                is_editable, start_time, end_time, 
+                is_editable, start_time, end_time,
                 start_address, end_address,
                 processed_at, updated_at
             FROM tracker_trips
@@ -282,7 +283,7 @@ class AutoMonitoringTrip(models.TransientModel):
 
         connector = self.env['auto.monitoring.db.connector']
         query = """
-            SELECT 
+            SELECT
                 id, imei, trip_date, route_description,
                 in_city_km, outside_city_km, total_km,
                 city_coefficient, outside_coefficient, fuel_liters,
@@ -319,17 +320,17 @@ class AutoMonitoringTrip(models.TransientModel):
 
     def write(self, vals):
         """Override write to update external DB.
-        
-        Only trip_purpose_id, trip_purpose_other, and user_comment 
+
+        Only trip_purpose_id, trip_purpose_other, and user_comment
         can be updated by users.
         """
         self.ensure_one()
-        
+
         # Check if user can edit
         is_manager = self.env.user.has_group(
             'auto_monitoring.group_auto_monitoring_manager'
         )
-        
+
         if not is_manager and not self.is_editable:
             raise UserError(_(
                 'This trip cannot be edited. '
@@ -337,7 +338,9 @@ class AutoMonitoringTrip(models.TransientModel):
             ))
 
         # Only allow editing specific fields
-        allowed_fields = {'trip_purpose_id', 'trip_purpose_other', 'user_comment'}
+        allowed_fields = {
+            'trip_purpose_id', 'trip_purpose_other', 'user_comment'
+        }
         if not is_manager:
             invalid_fields = set(vals.keys()) - allowed_fields
             if invalid_fields:
@@ -346,35 +349,35 @@ class AutoMonitoringTrip(models.TransientModel):
                 ))
 
         connector = self.env['auto.monitoring.db.connector']
-        
+
         # Prepare update query
         update_parts = []
         params = []
-        
+
         if 'trip_purpose_id' in vals:
             update_parts.append("trip_purpose_id = %s")
             params.append(vals['trip_purpose_id'])
-        
+
         if 'trip_purpose_other' in vals:
             update_parts.append("trip_purpose_other = %s")
             params.append(vals['trip_purpose_other'])
-        
+
         if 'user_comment' in vals:
             update_parts.append("user_comment = %s")
             params.append(vals['user_comment'])
-        
+
         if not update_parts:
             return True
-        
+
         update_parts.append("updated_at = CURRENT_TIMESTAMP")
         params.append(self.id)
-        
+
         query = f"""
             UPDATE tracker_trips
             SET {', '.join(update_parts)}
             WHERE id = %s
         """
-        
+
         connector.execute_query(query, tuple(params), fetchall=False)
-        
+
         return True
