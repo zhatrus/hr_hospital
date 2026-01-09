@@ -31,11 +31,6 @@
             <field name="model">auto.monitoring.trip</field>
             <field name="arch" type="xml">
                 <form string="Trip" create="false" delete="false">
-                    <header>
-                        <button name="%(auto_monitoring_trip_action)d" type="action"
-                                string="Повернутись до списку" class="btn-secondary"/>
-                        <field name="status" widget="statusbar"/>
-                    </header>
                     <sheet>
                         <widget name="web_ribbon" title="Редагування заблоковано" 
                                 bg_color="bg-danger" 
