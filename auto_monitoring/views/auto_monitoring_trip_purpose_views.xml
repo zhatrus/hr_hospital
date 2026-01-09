@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Trip Purpose Tree View -->
+    <record id="auto_monitoring_trip_purpose_view_tree" model="ir.ui.view">
+        <field name="name">auto.monitoring.trip.purpose.tree</field>
+        <field name="model">auto.monitoring.trip.purpose</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sort_order" string="№"/>
+                <field name="name_uk" string="Назва"/>
+                <field name="code" string="Код"/>
+                <field name="description" string="Опис"/>
+                <field name="is_active" string="Активна" widget="boolean"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Trip Purpose Form View -->
+    <record id="auto_monitoring_trip_purpose_view_form" model="ir.ui.view">
+        <field name="name">auto.monitoring.trip.purpose.form</field>
+        <field name="model">auto.monitoring.trip.purpose</field>
+        <field name="arch" type="xml">
+            <form string="Trip Purpose">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name_uk" string="Назва"/>
+                            <field name="code" string="Код"/>
+                            <field name="sort_order" string="Порядок сортування"/>
+                        </group>
+                        <group>
+                            <field name="is_active" string="Активна"/>
+                            <field name="external_id" string="ID з БД" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" string="Опис"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Trip Purpose Action -->
+    <record id="auto_monitoring_trip_purpose_action" model="ir.actions.act_window">
+        <field name="name">Мети поїздок</field>
+        <field name="res_model">auto.monitoring.trip.purpose</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Довідник мет поїздок
+            </p>
+            <p>
+                Мети поїздок синхронізуються з зовнішньої бази даних.
+            </p>
+        </field>
+    </record>
+
+    <!-- Sync Trip Purposes Server Action -->
+    <record id="auto_monitoring_trip_purpose_sync_action" model="ir.actions.server">
+        <field name="name">Синхронізувати мети поїздок</field>
+        <field name="model_id" ref="model_auto_monitoring_trip_purpose"/>
+        <field name="binding_model_id" ref="model_auto_monitoring_trip_purpose"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+model.sync_from_external_db()
+action = {'type': 'ir.actions.client', 'tag': 'reload'}
+        </field>
+    </record>
+</odoo>

@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+        <!-- Trip Tree View -->
         <record id="auto_monitoring_trip_view_tree" model="ir.ui.view">
             <field name="name">auto.monitoring.trip.tree</field>
             <field name="model">auto.monitoring.trip</field>
             <field name="arch" type="xml">
-                <tree decoration-info="status == 'in_progress'"
-                      decoration-danger="speed_violation">
+                <tree decoration-muted="not is_editable" 
+                      decoration-warning="not trip_purpose_id"
+                      create="false" delete="false">
+                    <field name="trip_date" string="Дата"/>
                     <field name="vehicle_id" string="ТЗ"/>
-                    <field name="start_time" string="Початок"/>
-                    <field name="end_time" string="Завершення"/>
-                    <field name="start_address" string="Звідки" optional="show"/>
-                    <field name="end_address" string="Куди" optional="show"/>
-                    <field name="distance" string="Пробіг (км)" sum="Всього"/>
-                    <field name="duration_display" string="Час в дорозі"/>
-                    <field name="max_speed" string="Макс. швидкість"/>
-                    <field name="avg_speed" string="Середня швидкість" optional="hide"/>
-                    <field name="status" string="Статус" widget="badge"
-                           decoration-info="status == 'in_progress'"
-                           decoration-success="status == 'completed'"/>
-                    <field name="speed_violation" column_invisible="1"/>
+                    <field name="route_description" string="Маршрут" optional="show"/>
+                    <field name="trip_purpose_id" string="Мета поїздки"/>
+                    <field name="user_comment" string="Коментар" optional="hide"/>
+                    <field name="total_km" string="Пробіг (км)" sum="Всього"/>
+                    <field name="in_city_km" string="По місту (км)" optional="hide"/>
+                    <field name="outside_city_km" string="За містом (км)" optional="hide"/>
+                    <field name="fuel_liters" string="Паливо (л)" sum="Всього" optional="show"/>
+                    <field name="project_name" string="Проєкт" optional="hide"/>
+                    <field name="driver_name" string="Водій" optional="hide"/>
+                    <field name="is_editable" string="Можна редагувати" widget="boolean" optional="show"/>
+                    <field name="status" column_invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -28,43 +30,85 @@
             <field name="name">auto.monitoring.trip.form</field>
             <field name="model">auto.monitoring.trip</field>
             <field name="arch" type="xml">
-                <form string="Trip">
+                <form string="Trip" create="false" delete="false">
                     <header>
+                        <button name="%(auto_monitoring_trip_action)d" type="action"
+                                string="Повернутись до списку" class="btn-secondary"/>
                         <field name="status" widget="statusbar"/>
                     </header>
                     <sheet>
-                        <widget name="web_ribbon" title="Перевищення швидкості" 
-                                bg_color="bg-danger" invisible="not speed_violation"/>
+                        <widget name="web_ribbon" title="Редагування заблоковано" 
+                                bg_color="bg-danger" 
+                                invisible="is_editable or context.get('uid') in [1] or user_has_groups('auto_monitoring.group_auto_monitoring_manager')"/>
+                        <widget name="web_ribbon" title="Заповніть мету поїздки" 
+                                bg_color="bg-warning" 
+                                invisible="trip_purpose_id or not is_editable"/>
                         <div class="oe_title">
                             <h1>
                                 <field name="vehicle_id" readonly="1"/>
                             </h1>
+                            <h3>
+                                <field name="trip_date" readonly="1"/>
+                            </h3>
                         </div>
+                        
                         <group>
+                            <group string="Основна інформація">
+                                <field name="imei" readonly="1"/>
+                                <field name="driver_name" string="Водій" readonly="1"/>
+                                <field name="project_name" string="Проєкт" readonly="1"/>
+                                <field name="payment_type" string="Тип оплати" readonly="1"/>
+                            </group>
                             <group string="Час">
-                                <field name="start_time" string="Початок"/>
-                                <field name="end_time" string="Завершення"/>
-                                <field name="duration_display" string="Тривалість"/>
-                            </group>
-                            <group string="Маршрут">
-                                <field name="start_address" string="Звідки"/>
-                                <field name="end_address" string="Куди"/>
+                                <field name="start_time" string="Початок" readonly="1"/>
+                                <field name="end_time" string="Завершення" readonly="1"/>
+                                <field name="updated_at" string="Оновлено" readonly="1"/>
                             </group>
                         </group>
+                        
+                        <group string="Маршрут">
+                            <field name="route_description" string="Опис маршруту" readonly="1" colspan="2"/>
+                            <field name="start_address" string="Звідки" readonly="1"/>
+                            <field name="end_address" string="Куди" readonly="1"/>
+                        </group>
+                        
                         <group>
-                            <group string="Статистика">
-                                <field name="distance" string="Пробіг (км)"/>
-                                <field name="avg_speed" string="Середня швидкість (км/год)"/>
-                                <field name="max_speed" string="Максимальна швидкість (км/год)"/>
+                            <group string="Пробіг">
+                                <field name="in_city_km" string="По місту (км)" readonly="1"/>
+                                <field name="outside_city_km" string="За містом (км)" readonly="1"/>
+                                <field name="total_km" string="Загальний (км)" readonly="1"/>
                             </group>
-                            <group string="Координати">
-                                <field name="start_latitude" string="Широта (початок)"/>
-                                <field name="start_longitude" string="Довгота (початок)"/>
-                                <field name="end_latitude" string="Широта (кінець)"/>
-                                <field name="end_longitude" string="Довгота (кінець)"/>
+                            <group string="Коефіцієнти та паливо">
+                                <field name="city_coefficient" string="Коеф. по місту" readonly="1"/>
+                                <field name="outside_coefficient" string="Коеф. за містом" readonly="1"/>
+                                <field name="fuel_liters" string="Паливо (л)" readonly="1"/>
                             </group>
                         </group>
-                        <field name="speed_violation" invisible="1"/>
+                        
+                        <separator string="Редаговані поля"/>
+                        <group>
+                            <group string="Мета поїздки">
+                                <field name="trip_purpose_id" 
+                                       string="Оберіть мету"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       readonly="not is_editable and not user_has_groups('auto_monitoring.group_auto_monitoring_manager')"
+                                       required="1"/>
+                                <field name="trip_purpose_other" 
+                                       string="Інша мета (якщо обрано 'Інше')"
+                                       readonly="not is_editable and not user_has_groups('auto_monitoring.group_auto_monitoring_manager')"
+                                       invisible="not trip_purpose_id or trip_purpose_id.code != 'other'"/>
+                            </group>
+                            <group string="Коментар">
+                                <field name="user_comment" 
+                                       string="Ваш коментар"
+                                       placeholder="Додайте коментар до поїздки..."
+                                       readonly="not is_editable and not user_has_groups('auto_monitoring.group_auto_monitoring_manager')"
+                                       colspan="2" nolabel="1"/>
+                            </group>
+                        </group>
+                        
+                        <field name="is_editable" invisible="1"/>
+                        <field name="external_id" invisible="1"/>
                     </sheet>
                 </form>
             </field>
@@ -77,30 +121,34 @@
             <field name="arch" type="xml">
                 <search string="Search Trips">
                     <field name="vehicle_id" string="ТЗ"/>
-                    <field name="start_address" string="Звідки"/>
-                    <field name="end_address" string="Куди"/>
+                    <field name="trip_purpose_id" string="Мета поїздки"/>
+                    <field name="route_description" string="Маршрут"/>
+                    <field name="driver_name" string="Водій"/>
+                    <field name="project_name" string="Проєкт"/>
                     <separator/>
                     <filter name="filter_today" string="Сьогодні"
-                            domain="[('start_time', '>=', (context_today()).strftime('%Y-%m-%d'))]"/>
+                            domain="[('trip_date', '=', (context_today()).strftime('%Y-%m-%d'))]"/>
                     <filter name="filter_this_week" string="Цей тиждень"
-                            domain="[('start_time', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                            domain="[('trip_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
                     <filter name="filter_this_month" string="Цей місяць"
-                            domain="[('start_time', '>=', (context_today()).strftime('%Y-%m-01'))]"/>
+                            domain="[('trip_date', '>=', (context_today()).strftime('%Y-%m-01'))]"/>
                     <separator/>
-                    <filter name="filter_in_progress" string="В русі"
-                            domain="[('status', '=', 'in_progress')]"/>
-                    <filter name="filter_completed" string="Завершені"
-                            domain="[('status', '=', 'completed')]"/>
-                    <filter name="filter_violations" string="З порушеннями"
-                            domain="[('speed_violation', '=', True)]"/>
+                    <filter name="filter_editable" string="Можна редагувати"
+                            domain="[('is_editable', '=', True)]"/>
+                    <filter name="filter_no_purpose" string="Без мети"
+                            domain="[('trip_purpose_id', '=', False)]"/>
+                    <filter name="filter_no_comment" string="Без коментаря"
+                            domain="[('user_comment', '=', False)]"/>
                     <separator/>
                     <group expand="0" string="Групувати по...">
                         <filter name="group_vehicle" string="ТЗ"
                                 context="{'group_by': 'vehicle_id'}"/>
-                        <filter name="group_status" string="Статус"
-                                context="{'group_by': 'status'}"/>
+                        <filter name="group_purpose" string="Мета поїздки"
+                                context="{'group_by': 'trip_purpose_id'}"/>
                         <filter name="group_date" string="Дата"
-                                context="{'group_by': 'start_time:day'}"/>
+                                context="{'group_by': 'trip_date'}"/>
+                        <filter name="group_driver" string="Водій"
+                                context="{'group_by': 'driver_name'}"/>
                     </group>
                 </search>
             </field>
@@ -113,9 +161,9 @@
             <field name="arch" type="xml">
                 <pivot string="Trip Analysis">
                     <field name="vehicle_id" type="row"/>
-                    <field name="start_time" type="col" interval="week"/>
-                    <field name="distance" type="measure"/>
-                    <field name="duration" type="measure"/>
+                    <field name="trip_date" type="col" interval="month"/>
+                    <field name="total_km" type="measure"/>
+                    <field name="fuel_liters" type="measure"/>
                 </pivot>
             </field>
         </record>
@@ -127,7 +175,7 @@
             <field name="arch" type="xml">
                 <graph string="Mileage by Vehicle" type="bar">
                     <field name="vehicle_id" type="row"/>
-                    <field name="distance" type="measure"/>
+                    <field name="total_km" type="measure"/>
                 </graph>
             </field>
         </record>
@@ -138,13 +186,14 @@
             <field name="res_model">auto.monitoring.trip</field>
             <field name="view_mode">tree,pivot,graph,form</field>
             <field name="search_view_id" ref="auto_monitoring_trip_view_search"/>
-            <field name="context">{'search_default_filter_this_week': 1}</field>
+            <field name="context">{'search_default_filter_this_month': 1}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Поїздки
                 </p>
                 <p>
-                    Поїздки розраховуються автоматично на основі даних GPS-трекерів.
+                    Поїздки завантажуються з зовнішньої бази даних.
+                    Оберіть авто та дату для перегляду.
                 </p>
             </field>
         </record>
@@ -156,18 +205,5 @@
             <field name="view_mode">pivot,graph,tree</field>
             <field name="search_view_id" ref="auto_monitoring_trip_view_search"/>
             <field name="context">{'search_default_filter_this_month': 1}</field>
-        </record>
-
-        <!-- Sync Trips Server Action -->
-        <record id="auto_monitoring_trip_sync_action" model="ir.actions.server">
-            <field name="name">Синхронізувати поїздки</field>
-            <field name="model_id" ref="model_auto_monitoring_trip"/>
-            <field name="binding_model_id" ref="model_auto_monitoring_trip"/>
-            <field name="binding_view_types">list</field>
-            <field name="state">code</field>
-            <field name="code">
-model.sync_all_trips()
-action = {'type': 'ir.actions.client', 'tag': 'reload'}
-            </field>
         </record>
 </odoo>

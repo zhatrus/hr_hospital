@@ -94,6 +94,13 @@
               groups="auto_monitoring.group_auto_monitoring_manager"
               sequence="20"/>
 
+    <menuitem id="auto_monitoring_menu_settings_trip_purposes"
+              name="Мети поїздок"
+              parent="auto_monitoring_menu_settings"
+              action="auto_monitoring_trip_purpose_action"
+              groups="auto_monitoring.group_auto_monitoring_manager"
+              sequence="30"/>
+
     <record id="auto_monitoring_config_action" model="ir.actions.act_window">
         <field name="name">Налаштування Fleet Monitor</field>
         <field name="res_model">res.config.settings</field>

@@ -48,6 +48,7 @@ Fleet Monitoring System - Система моніторингу автопарк
 
         'data/ir_config_parameter_data.xml',
 
+        'views/auto_monitoring_trip_purpose_views.xml',
         'views/auto_monitoring_trip_views.xml',
         'views/auto_monitoring_tracker_views.xml',
         'views/auto_monitoring_fuel_views.xml',

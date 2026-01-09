@@ -6,6 +6,8 @@ access_tracker_user,auto.monitoring.tracker.data.user,model_auto_monitoring_trac
 access_tracker_manager,auto.monitoring.tracker.data.manager,model_auto_monitoring_tracker_data,group_auto_monitoring_manager,1,0,0,0
 access_fuel_user,auto.monitoring.fuel.transaction.user,model_auto_monitoring_fuel_transaction,group_auto_monitoring_user,1,0,0,0
 access_fuel_manager,auto.monitoring.fuel.transaction.manager,model_auto_monitoring_fuel_transaction,group_auto_monitoring_manager,1,0,0,0
-access_trip_user,auto.monitoring.trip.user,model_auto_monitoring_trip,group_auto_monitoring_user,1,0,0,0
-access_trip_manager,auto.monitoring.trip.manager,model_auto_monitoring_trip,group_auto_monitoring_manager,1,1,1,0
-access_trip_admin,auto.monitoring.trip.admin,model_auto_monitoring_trip,group_auto_monitoring_admin,1,1,1,1
+access_trip_purpose_user,auto.monitoring.trip.purpose.user,model_auto_monitoring_trip_purpose,group_auto_monitoring_user,1,0,0,0
+access_trip_purpose_manager,auto.monitoring.trip.purpose.manager,model_auto_monitoring_trip_purpose,group_auto_monitoring_manager,1,0,0,0
+access_trip_user,auto.monitoring.trip.user,model_auto_monitoring_trip,group_auto_monitoring_user,1,1,0,0
+access_trip_manager,auto.monitoring.trip.manager,model_auto_monitoring_trip,group_auto_monitoring_manager,1,1,0,0
+access_trip_admin,auto.monitoring.trip.admin,model_auto_monitoring_trip,group_auto_monitoring_admin,1,1,0,0
