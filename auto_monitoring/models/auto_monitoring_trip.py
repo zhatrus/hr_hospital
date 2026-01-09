@@ -6,15 +6,17 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class AutoMonitoringTrip(models.TransientModel):
+class AutoMonitoringTrip(models.Model):
     """Trip model - trips from external tracker_trips table.
 
-    Read-only model that fetches data from external 'tracker_trips' table.
+    Model that fetches data from external 'tracker_trips' table.
     Users can edit trip_purpose_id and user_comment fields.
+    Data is stored in external DB, not in Odoo.
     """
     _name = 'auto.monitoring.trip'
     _description = 'Trip'
     _order = 'trip_date desc, id desc'
+    _auto = False  # Don't create table in Odoo DB
 
     id = fields.Integer(readonly=True)
     external_id = fields.Integer(
