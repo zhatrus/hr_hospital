@@ -160,10 +160,10 @@
             <field name="model">auto.monitoring.trip</field>
             <field name="arch" type="xml">
                 <pivot string="Trip Analysis">
-                    <field name="vehicle_id" type="row"/>
                     <field name="trip_date" type="col" interval="month"/>
-                    <field name="total_km" type="measure"/>
-                    <field name="fuel_liters" type="measure"/>
+                    <field name="in_city_km" string="По місту (км)" type="measure"/>
+                    <field name="outside_city_km" string="За містом (км)" type="measure"/>
+                    <field name="total_km" string="Загальний пробіг (км)" type="measure"/>
                 </pivot>
             </field>
         </record>
@@ -174,8 +174,8 @@
             <field name="model">auto.monitoring.trip</field>
             <field name="arch" type="xml">
                 <graph string="Mileage by Vehicle" type="bar">
-                    <field name="vehicle_id" type="row"/>
-                    <field name="total_km" type="measure"/>
+                    <field name="trip_date" type="row" interval="month"/>
+                    <field name="total_km" string="Загальний пробіг (км)" type="measure"/>
                 </graph>
             </field>
         </record>
