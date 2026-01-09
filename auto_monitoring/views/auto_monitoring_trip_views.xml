@@ -34,7 +34,7 @@
                     <sheet>
                         <widget name="web_ribbon" title="Редагування заблоковано" 
                                 bg_color="bg-danger" 
-                                invisible="is_editable or context.get('uid') in [1] or user_has_groups('auto_monitoring.group_auto_monitoring_manager')"/>
+                                invisible="is_editable or is_manager"/>
                         <widget name="web_ribbon" title="Заповніть мету поїздки" 
                                 bg_color="bg-warning" 
                                 invisible="trip_purpose_id or not is_editable"/>
@@ -86,23 +86,24 @@
                                 <field name="trip_purpose_id" 
                                        string="Оберіть мету"
                                        options="{'no_create': True, 'no_open': True}"
-                                       readonly="not is_editable and not user_has_groups('auto_monitoring.group_auto_monitoring_manager')"
+                                       readonly="not is_editable and not is_manager"
                                        required="1"/>
                                 <field name="trip_purpose_other" 
                                        string="Інша мета (якщо обрано 'Інше')"
-                                       readonly="not is_editable and not user_has_groups('auto_monitoring.group_auto_monitoring_manager')"
+                                       readonly="not is_editable and not is_manager"
                                        invisible="not trip_purpose_id or trip_purpose_id.code != 'other'"/>
                             </group>
                             <group string="Коментар">
                                 <field name="user_comment" 
                                        string="Ваш коментар"
                                        placeholder="Додайте коментар до поїздки..."
-                                       readonly="not is_editable and not user_has_groups('auto_monitoring.group_auto_monitoring_manager')"
+                                       readonly="not is_editable and not is_manager"
                                        colspan="2" nolabel="1"/>
                             </group>
                         </group>
                         
                         <field name="is_editable" invisible="1"/>
+                        <field name="is_manager" invisible="1"/>
                         <field name="external_id" invisible="1"/>
                     </sheet>
                 </form>

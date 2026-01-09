@@ -142,10 +142,16 @@ class AutoMonitoringTrip(models.Model):
 
     # Computed/Status fields
     is_editable = fields.Boolean(
-        string='Editable',
+        string='Is Editable',
         compute='_compute_is_editable',
         store=False,
-        help='Can be edited until deadline',
+        help='Can this trip be edited (deadline check)',
+    )
+    is_manager = fields.Boolean(
+        string='Is Manager',
+        compute='_compute_is_manager',
+        store=False,
+        help='Current user is manager or admin',
     )
     status = fields.Selection(
         selection=[
@@ -208,6 +214,14 @@ class AutoMonitoringTrip(models.Model):
 
             today = fields.Date.today()
             rec.is_editable = today <= deadline
+
+    def _compute_is_manager(self):
+        """Check if current user is manager or admin."""
+        is_manager = self.env.user.has_group(
+            'auto_monitoring.group_auto_monitoring_manager'
+        )
+        for rec in self:
+            rec.is_manager = is_manager
 
     @api.model
     def _fetch_trips_data(self, domain=None, limit=100, offset=0):
