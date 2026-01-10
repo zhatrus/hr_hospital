@@ -316,13 +316,13 @@ class AutoMonitoringTrip(models.Model):
         """Override search to return recordset from external DB."""
         data = self._fetch_trips_data(domain, limit or 100, offset)
         ids = [row.get('id') for row in data]
-        
+
         if count:
             return len(ids)
-        
+
         # Create recordset and populate cache with data
         records = self.browse(ids)
-        
+
         # Populate cache to avoid SQL queries
         for row in data:
             record = self.browse([row['id']])
@@ -330,7 +330,7 @@ class AutoMonitoringTrip(models.Model):
             for field_name, value in row.items():
                 if field_name in self._fields:
                     record._cache[field_name] = value
-        
+
         return records
 
     def read(self, fields=None, load='_classic_read'):

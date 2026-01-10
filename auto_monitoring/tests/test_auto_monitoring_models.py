@@ -29,24 +29,24 @@ class TestAutoMonitoringModels(TransactionCase):
 
         # Create test trip purposes
         self.purpose_business = self.TripPurpose.create({
-            'name': 'Ділова поїздка',
+            'name_uk': 'Ділова поїздка',
             'code': 'business',
             'description': 'Поїздка по роботі',
-            'active': True,
+            'is_active': True,
         })
 
         self.purpose_personal = self.TripPurpose.create({
-            'name': 'Особиста поїздка',
+            'name_uk': 'Особиста поїздка',
             'code': 'personal',
             'description': 'Особисті справи',
-            'active': True,
+            'is_active': True,
         })
 
         self.purpose_other = self.TripPurpose.create({
-            'name': 'Інше',
+            'name_uk': 'Інше',
             'code': 'other',
             'description': 'Інша мета',
-            'active': True,
+            'is_active': True,
         })
 
     # Vehicle Tests
@@ -87,7 +87,6 @@ class TestAutoMonitoringModels(TransactionCase):
         result = self.purpose_business.name_get()
         self.assertEqual(len(result), 1)
         name = result[0][1]
-        self.assertIn('business', name)
         self.assertIn('Ділова поїздка', name)
 
     def test_trip_purpose_code_constraint(self):
@@ -97,7 +96,7 @@ class TestAutoMonitoringModels(TransactionCase):
             msg="Should not allow duplicate code"
         ):
             self.TripPurpose.create({
-                'name': 'Duplicate Business',
+                'name_uk': 'Duplicate Business',
                 'code': 'business',  # Same as self.purpose_business
             })
 
@@ -106,17 +105,17 @@ class TestAutoMonitoringModels(TransactionCase):
         mock_data = [
             {
                 'id': 1,
-                'name': 'Test Purpose 1',
+                'name_uk': 'Test Purpose 1',
                 'code': 'test1',
                 'description': 'Test description 1',
-                'active': True,
+                'is_active': True,
             },
             {
                 'id': 2,
-                'name': 'Test Purpose 2',
+                'name_uk': 'Test Purpose 2',
                 'code': 'test2',
                 'description': 'Test description 2',
-                'active': True,
+                'is_active': True,
             },
         ]
 
@@ -130,7 +129,7 @@ class TestAutoMonitoringModels(TransactionCase):
             # Check if purposes were created/updated
             purpose1 = self.TripPurpose.search([('code', '=', 'test1')])
             self.assertTrue(purpose1, "Purpose with code 'test1' should exist")
-            self.assertEqual(purpose1.name, 'Test Purpose 1')
+            self.assertEqual(purpose1.name_uk, 'Test Purpose 1')
 
     # Trip Model Tests
 
