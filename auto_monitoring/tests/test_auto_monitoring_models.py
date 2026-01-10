@@ -21,8 +21,8 @@ class TestAutoMonitoringModels(TransactionCase):
         # Create test vehicle
         self.vehicle = self.Vehicle.create({
             'imei': '123456789012345',
-            'registration_number': 'AA1234BB',
-            'model': 'Toyota Camry',
+            'reg_number': 'AA1234BB',
+            'vehicle_model': 'Toyota Camry',
             'fuel_card_number': 'CARD-001',
             'fuel_norm': 8.5,
         })
@@ -167,8 +167,6 @@ class TestAutoMonitoringModels(TransactionCase):
 
     def test_trip_compute_is_editable(self):
         """Test trip editability based on deadline."""
-        from dateutil.relativedelta import relativedelta
-
         # Create trip with date within deadline
         recent_date = date.today() - timedelta(days=10)
         mock_trip_recent = [{
