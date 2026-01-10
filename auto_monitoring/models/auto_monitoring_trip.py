@@ -144,6 +144,7 @@ class AutoMonitoringTrip(models.Model):
     is_editable = fields.Boolean(
         string='Is Editable',
         compute='_compute_is_editable',
+        search='_search_is_editable',
         store=False,
         help='Can this trip be edited (deadline check)',
     )
@@ -222,6 +223,34 @@ class AutoMonitoringTrip(models.Model):
         )
         for rec in self:
             rec.is_manager = is_manager
+
+    def _search_is_editable(self, operator, value):
+        """Search method for is_editable computed field.
+
+        Returns domain that filters trips based on deadline.
+        """
+        from dateutil.relativedelta import relativedelta
+
+        today = fields.Date.today()
+
+        # Calculate the earliest date that is still editable
+        # (end of previous month + 5 days)
+        cutoff_date = today.replace(day=1) - relativedelta(days=5)
+
+        if operator == '=' and value:
+            # Return trips that are still editable (after cutoff)
+            return [('trip_date', '>=', cutoff_date)]
+        elif operator == '=' and not value:
+            # Return trips that are not editable (before cutoff)
+            return [('trip_date', '<', cutoff_date)]
+        elif operator == '!=' and value:
+            # Return trips that are not editable
+            return [('trip_date', '<', cutoff_date)]
+        elif operator == '!=' and not value:
+            # Return trips that are editable
+            return [('trip_date', '>=', cutoff_date)]
+        else:
+            return []
 
     @api.model
     def _fetch_trips_data(self, domain=None, limit=100, offset=0):

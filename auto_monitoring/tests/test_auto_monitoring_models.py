@@ -2,7 +2,6 @@
 from datetime import date, timedelta
 from unittest.mock import MagicMock, patch
 
-from odoo import fields
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
 
@@ -178,19 +177,6 @@ class TestAutoMonitoringModels(TransactionCase):
             'trip_date': recent_date,
             'total_km': 100,
             'is_editable': True,
-        }]
-
-        # Create trip with date past deadline
-        old_date = date.today() - timedelta(days=60)
-        deadline = old_date.replace(day=1) + relativedelta(months=1, days=5)
-        is_past_deadline = date.today() > deadline
-
-        mock_trip_old = [{
-            'id': 2,
-            'imei': '123456789012345',
-            'trip_date': old_date,
-            'total_km': 100,
-            'is_editable': not is_past_deadline,
         }]
 
         with patch.object(
