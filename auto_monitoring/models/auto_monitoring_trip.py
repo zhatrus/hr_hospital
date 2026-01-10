@@ -363,6 +363,77 @@ class AutoMonitoringTrip(models.Model):
             ]
         return data
 
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None,
+                   orderby=False, lazy=True):
+        """Override read_group to work with external DB.
+
+        This is needed for pivot and graph views.
+        """
+        connector = self.env['auto.monitoring.db.connector']
+
+        # Parse groupby
+        if not groupby:
+            return []
+
+        groupby_field = groupby[0].split(':')[0] if ':' in groupby[0] \
+            else groupby[0]
+
+        # Build aggregation query
+        select_parts = [f'"{groupby_field}"']
+        group_parts = [f'"{groupby_field}"']
+
+        # Parse measure fields
+        for field_spec in fields:
+            if ':' in field_spec:
+                field_name, agg = field_spec.split(':')
+                if agg in ('sum', 'avg', 'count', 'min', 'max'):
+                    select_parts.append(
+                        f'{agg.upper()}("{field_name}") as "{field_name}"'
+                    )
+            else:
+                # Default aggregation is count
+                select_parts.append(f'COUNT(*) as "{field_spec}_count"')
+
+        # Add __count for Odoo
+        select_parts.append('COUNT(*) as "__count"')
+
+        query = f"""
+            SELECT {', '.join(select_parts)}
+            FROM tracker_trips
+            GROUP BY {', '.join(group_parts)}
+            ORDER BY "{groupby_field}"
+        """
+
+        try:
+            result = connector.execute_query(query, fetchall=True)
+
+            # Format result for Odoo
+            formatted_result = []
+            for row in result:
+                record = {
+                    groupby_field: row.get(groupby_field),
+                    '__domain': [(groupby_field, '=', row.get(groupby_field))],
+                }
+
+                # Add aggregated values
+                for field_spec in fields:
+                    if ':' in field_spec:
+                        field_name = field_spec.split(':')[0]
+                        record[field_name] = row.get(field_name, 0)
+                    else:
+                        record[f'{field_spec}_count'] = \
+                            row.get(f'{field_spec}_count', 0)
+
+                record['__count'] = row.get('__count', 0)
+                formatted_result.append(record)
+
+            return formatted_result
+
+        except Exception as e:
+            _logger.error(f"Error in read_group: {e}")
+            return []
+
     def write(self, vals):
         """Override write to update external DB.
 
