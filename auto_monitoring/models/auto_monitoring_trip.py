@@ -310,23 +310,25 @@ class AutoMonitoringTrip(models.Model):
 
         return connector.execute_query(query, tuple(params))
 
-    def _search(self, domain, offset=0, limit=None, order=None,
-                access_rights_uid=None):
-        """Override low-level _search to prevent SQL queries to non-existent table."""
+    @api.model
+    def search_fetch(self, domain, field_names, offset=0, limit=None,
+                     order=None):
+        """Override search_fetch to fetch data from external DB."""
         # Fetch data from external DB
         data = self._fetch_trips_data(domain, limit or 100, offset)
-        ids = [row.get('id') for row in data]
 
-        # Populate cache to avoid later SQL queries
+        # Create recordset with IDs
+        ids = [row.get('id') for row in data]
+        records = self.browse(ids)
+
+        # Populate cache for all fields
         for row in data:
             record = self.browse([row['id']])
-            # Set cache for all fields
             for field_name, value in row.items():
                 if field_name in self._fields:
                     record._cache[field_name] = value
 
-        # Return IDs as expected by _search
-        return ids
+        return records
 
     @api.model
     def search(self, domain=None, offset=0, limit=None, order=None,
@@ -336,8 +338,19 @@ class AutoMonitoringTrip(models.Model):
             data = self._fetch_trips_data(domain, limit or 100, offset)
             return len(data)
 
-        # Call parent search which will use our _search method
-        return super().search(domain, offset=offset, limit=limit, order=order)
+        # Fetch data and create recordset
+        data = self._fetch_trips_data(domain, limit or 100, offset)
+        ids = [row.get('id') for row in data]
+
+        # Create recordset and populate cache
+        records = self.browse(ids)
+        for row in data:
+            record = self.browse([row['id']])
+            for field_name, value in row.items():
+                if field_name in self._fields:
+                    record._cache[field_name] = value
+
+        return records
 
     def read(self, fields=None, load='_classic_read'):
         """Override read to fetch from external DB."""
