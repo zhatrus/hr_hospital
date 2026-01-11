@@ -2,7 +2,8 @@
 from datetime import date, timedelta
 from unittest.mock import MagicMock, patch
 
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
+from psycopg2 import IntegrityError
 from odoo.tests import TransactionCase, tagged
 
 
@@ -52,10 +53,8 @@ class TestAutoMonitoringModels(TransactionCase):
     # Vehicle Tests
 
     def test_vehicle_name_get(self):
-        """Test vehicle name_get displays registration and model."""
-        result = self.vehicle.name_get()
-        self.assertEqual(len(result), 1)
-        name = result[0][1]
+        """Test vehicle display_name shows registration and model."""
+        name = self.vehicle.display_name
         self.assertIn('AA1234BB', name)
         self.assertIn('Toyota Camry', name)
 
@@ -69,30 +68,28 @@ class TestAutoMonitoringModels(TransactionCase):
         self.assertEqual(self.vehicle.last_longitude, 30.5234)
 
     def test_vehicle_imei_constraint(self):
-        """Test IMEI uniqueness constraint."""
+        """Test vehicle IMEI uniqueness."""
         with self.assertRaises(
-            ValidationError,
+            IntegrityError,
             msg="Should not allow duplicate IMEI"
         ):
             self.Vehicle.create({
                 'imei': '123456789012345',  # Same as self.vehicle
-                'registration_number': 'BB5678CC',
-                'model': 'Honda Accord',
+                'reg_number': 'BB5678CC',
+                'vehicle_model': 'Honda Accord',
             })
 
     # Trip Purpose Tests
 
     def test_trip_purpose_name_get(self):
-        """Test trip purpose name_get displays name and code."""
-        result = self.purpose_business.name_get()
-        self.assertEqual(len(result), 1)
-        name = result[0][1]
+        """Test trip purpose display_name shows name."""
+        name = self.purpose_business.display_name
         self.assertIn('Ділова поїздка', name)
 
     def test_trip_purpose_code_constraint(self):
         """Test trip purpose code uniqueness."""
         with self.assertRaises(
-            ValidationError,
+            IntegrityError,
             msg="Should not allow duplicate code"
         ):
             self.TripPurpose.create({
