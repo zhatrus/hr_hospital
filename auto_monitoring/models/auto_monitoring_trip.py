@@ -1,3 +1,4 @@
+"""Auto Monitoring Trip model - synced from external database."""
 import logging
 
 from odoo import _, api, fields, models
@@ -7,18 +8,16 @@ _logger = logging.getLogger(__name__)
 
 
 class AutoMonitoringTrip(models.Model):
-    """Trip model - trips from external tracker_trips table.
+    """Trip model - synced from external tracker_trips table.
 
-    Model that fetches data from external 'tracker_trips' table.
-    Users can edit trip_purpose_id and user_comment fields.
-    Data is stored in external DB, not in Odoo.
+    Data is synchronized from external 'tracker_trips' table to local Odoo DB.
+    This approach ensures full compatibility with Odoo's ORM and web client.
     """
     _name = 'auto.monitoring.trip'
     _description = 'Trip'
     _order = 'trip_date desc, id desc'
-    _auto = False  # Don't create table in Odoo DB
+    # _auto = True (default) - creates table in Odoo DB
 
-    id = fields.Integer(readonly=True)
     external_id = fields.Integer(
         string='External ID',
         readonly=True,
@@ -30,12 +29,14 @@ class AutoMonitoringTrip(models.Model):
         comodel_name='auto.monitoring.vehicle',
         string='Vehicle',
         compute='_compute_vehicle_id',
-        store=False,
+        store=True,
+        index=True,
     )
     imei = fields.Char(
         string='IMEI',
         size=20,
         readonly=True,
+        index=True,
     )
 
     trip_date = fields.Date(
@@ -81,7 +82,7 @@ class AutoMonitoringTrip(models.Model):
     distance = fields.Float(
         string='Distance (km)',
         compute='_compute_distance',
-        store=False,
+        store=True,
     )
 
     # Coefficients
@@ -105,10 +106,10 @@ class AutoMonitoringTrip(models.Model):
     fuel_consumed = fields.Float(
         string='Fuel Consumed (L)',
         compute='_compute_fuel_consumed',
-        store=False,
+        store=True,
     )
 
-    # Project
+    # Trip details
     project_name = fields.Char(
         string='Project',
         size=255,
@@ -125,44 +126,34 @@ class AutoMonitoringTrip(models.Model):
         readonly=True,
     )
 
-    # EDITABLE FIELDS
+    # Editable fields
     trip_purpose_id = fields.Many2one(
         comodel_name='auto.monitoring.trip.purpose',
         string='Trip Purpose',
-        help='Select trip purpose from list',
+        ondelete='set null',
     )
     trip_purpose_other = fields.Text(
-        string='Other Purpose',
-        help='Specify if "Other" is selected',
+        string='Purpose (Other)',
+        help='Description when purpose is "Other"',
     )
     user_comment = fields.Text(
         string='User Comment',
-        help='Additional comments about the trip',
     )
 
-    # Computed/Status fields
+    # Status fields
     is_editable = fields.Boolean(
         string='Is Editable',
         compute='_compute_is_editable',
-        search='_search_is_editable',
         store=False,
-        help='Can this trip be edited (deadline check)',
+        help='Whether the trip can be edited by regular users',
     )
     is_manager = fields.Boolean(
         string='Is Manager',
         compute='_compute_is_manager',
         store=False,
-        help='Current user is manager or admin',
-    )
-    status = fields.Selection(
-        selection=[
-            ('draft', 'Draft'),
-            ('completed', 'Completed'),
-        ],
-        default='completed',
-        readonly=True,
     )
 
+    # Timestamps
     processed_at = fields.Datetime(
         string='Processed At',
         readonly=True,
@@ -171,6 +162,16 @@ class AutoMonitoringTrip(models.Model):
         string='Updated At',
         readonly=True,
     )
+    last_sync = fields.Datetime(
+        string='Last Sync',
+        readonly=True,
+        help='When this record was last synced from external DB',
+    )
+
+    _sql_constraints = [
+        ('external_id_unique', 'UNIQUE(external_id)',
+         'External ID must be unique!'),
+    ]
 
     @api.depends('imei')
     def _compute_vehicle_id(self):
@@ -183,15 +184,15 @@ class AutoMonitoringTrip(models.Model):
             else:
                 rec.vehicle_id = False
 
-    @api.depends('total_km')
+    @api.depends('in_city_km', 'outside_city_km')
     def _compute_distance(self):
-        """Convert total_km to float distance."""
+        """Compute total distance."""
         for rec in self:
-            rec.distance = float(rec.total_km) if rec.total_km else 0.0
+            rec.distance = (rec.in_city_km or 0) + (rec.outside_city_km or 0)
 
     @api.depends('fuel_liters')
     def _compute_fuel_consumed(self):
-        """Alias for fuel_liters."""
+        """Compute fuel consumed."""
         for rec in self:
             rec.fuel_consumed = rec.fuel_liters or 0.0
 
@@ -202,18 +203,18 @@ class AutoMonitoringTrip(models.Model):
         Deadline: end of trip month + 5 days of next month.
         After deadline, only manager/admin can edit.
         """
+        from dateutil.relativedelta import relativedelta
+        today = fields.Date.today()
+
         for rec in self:
             if not rec.trip_date:
                 rec.is_editable = False
                 continue
 
             # Calculate deadline
-            from dateutil.relativedelta import relativedelta
-            deadline = rec.trip_date.replace(
-                day=1
-            ) + relativedelta(months=1, days=5)
-
-            today = fields.Date.today()
+            deadline = rec.trip_date.replace(day=1) + relativedelta(
+                months=1, days=5
+            )
             rec.is_editable = today <= deadline
 
     def _compute_is_manager(self):
@@ -224,172 +225,87 @@ class AutoMonitoringTrip(models.Model):
         for rec in self:
             rec.is_manager = is_manager
 
-    def _search_is_editable(self, operator, value):
-        """Search method for is_editable computed field.
+    def write(self, vals):
+        """Override write to sync changes back to external DB."""
+        # Check which fields can be edited
+        editable_fields = {'trip_purpose_id', 'trip_purpose_other',
+                          'user_comment'}
+        updating_fields = set(vals.keys())
 
-        Returns domain that filters trips based on deadline.
-        """
-        from dateutil.relativedelta import relativedelta
+        # Check if trying to update non-editable fields
+        non_editable = updating_fields - editable_fields
+        if non_editable:
+            raise UserError(_(
+                "Cannot modify fields: %s. "
+                "Only trip purpose and comments can be edited."
+            ) % ', '.join(non_editable))
 
-        today = fields.Date.today()
+        # Check editability for non-managers
+        for rec in self:
+            if not rec.is_editable and not rec.is_manager:
+                raise UserError(_(
+                    "Trip from %s cannot be edited. "
+                    "Editing deadline has passed."
+                ) % rec.trip_date)
 
-        # Calculate the earliest date that is still editable
-        # (end of previous month + 5 days)
-        cutoff_date = today.replace(day=1) - relativedelta(days=5)
+        # Write to Odoo DB
+        result = super().write(vals)
 
-        if operator == '=' and value:
-            # Return trips that are still editable (after cutoff)
-            return [('trip_date', '>=', cutoff_date)]
-        elif operator == '=' and not value:
-            # Return trips that are not editable (before cutoff)
-            return [('trip_date', '<', cutoff_date)]
-        elif operator == '!=' and value:
-            # Return trips that are not editable
-            return [('trip_date', '<', cutoff_date)]
-        elif operator == '!=' and not value:
-            # Return trips that are editable
-            return [('trip_date', '>=', cutoff_date)]
-        else:
-            return []
+        # Sync changes to external DB
+        self._sync_to_external_db(vals)
+
+        return result
+
+    def _sync_to_external_db(self, vals):
+        """Sync changes to external database."""
+        connector = self.env['auto.monitoring.db.connector']
+
+        for rec in self:
+            if not rec.external_id:
+                continue
+
+            update_parts = []
+            params = []
+
+            if 'trip_purpose_id' in vals:
+                update_parts.append("trip_purpose_id = %s")
+                params.append(vals['trip_purpose_id'] or None)
+
+            if 'trip_purpose_other' in vals:
+                update_parts.append("trip_purpose_other = %s")
+                params.append(vals['trip_purpose_other'] or None)
+
+            if 'user_comment' in vals:
+                update_parts.append("user_comment = %s")
+                params.append(vals['user_comment'] or None)
+
+            if not update_parts:
+                continue
+
+            update_parts.append("updated_at = CURRENT_TIMESTAMP")
+            params.append(rec.external_id)
+
+            query = f"""
+                UPDATE tracker_trips
+                SET {', '.join(update_parts)}
+                WHERE id = %s
+            """
+
+            try:
+                connector.execute_query(query, tuple(params), fetchall=False)
+            except Exception as e:
+                _logger.error("Failed to sync trip %s to external DB: %s",
+                             rec.external_id, e)
 
     @api.model
-    def _fetch_trips_data(self, domain=None, limit=100, offset=0):
-        """Fetch trips from external tracker_trips table.
+    def sync_from_external_db(self):
+        """Sync trips from external database to Odoo.
 
-        Args:
-            domain: List of filter conditions
-            limit: Max number of records
-            offset: Offset for pagination
-
-        Returns:
-            List of trip data dicts
+        This method fetches all trips from external DB and creates/updates
+        them in Odoo's local database.
         """
         connector = self.env['auto.monitoring.db.connector']
 
-        where_clauses = ["1=1"]
-        params = []
-
-        if domain:
-            for condition in domain:
-                field, operator, value = condition
-                if field == 'imei' and operator == '=':
-                    where_clauses.append("imei = %s")
-                    params.append(value)
-                elif field == 'vehicle_id' and operator == '=':
-                    # Get vehicle IMEI
-                    vehicle = self.env['auto.monitoring.vehicle'].browse(value)
-                    if vehicle and vehicle.imei:
-                        where_clauses.append("imei = %s")
-                        params.append(vehicle.imei)
-                elif field == 'trip_date' and operator == '=':
-                    where_clauses.append("trip_date = %s")
-                    params.append(value)
-                elif field == 'trip_date' and operator == '>=':
-                    where_clauses.append("trip_date >= %s")
-                    params.append(value)
-                elif field == 'trip_date' and operator == '<=':
-                    where_clauses.append("trip_date <= %s")
-                    params.append(value)
-
-        query = f"""
-            SELECT
-                id, imei, trip_date, route_description,
-                in_city_km, outside_city_km, total_km,
-                city_coefficient, outside_coefficient, fuel_liters,
-                project_name, payment_type, driver_name,
-                trip_purpose_id, trip_purpose_other, user_comment,
-                is_editable, start_time, end_time,
-                start_address, end_address,
-                processed_at, updated_at
-            FROM tracker_trips
-            WHERE {' AND '.join(where_clauses)}
-            ORDER BY trip_date DESC, id DESC
-            LIMIT %s OFFSET %s
-        """
-        params.extend([limit, offset])
-
-        data = connector.execute_query(query, tuple(params))
-
-        # Convert None to False for Many2one and other fields
-        # Odoo expects False instead of None for empty values
-        many2one_fields = ['trip_purpose_id', 'vehicle_id']
-        for row in data:
-            for key, value in row.items():
-                if value is None:
-                    if key in many2one_fields:
-                        row[key] = False
-                    elif key in ['route_description', 'project_name',
-                                 'payment_type', 'driver_name',
-                                 'trip_purpose_other', 'user_comment',
-                                 'start_address', 'end_address']:
-                        row[key] = ''
-                    else:
-                        row[key] = False
-
-        return data
-
-    @api.model
-    def search_fetch(self, domain, field_names, offset=0, limit=None,
-                     order=None):
-        """Override search_fetch to fetch data from external DB."""
-        # Fetch data from external DB
-        data = self._fetch_trips_data(domain, limit or 100, offset)
-
-        # Create recordset with IDs
-        ids = [row.get('id') for row in data]
-        records = self.browse(ids)
-
-        # Populate cache for all fields from external DB
-        for row in data:
-            record = self.browse([row['id']])
-            for field_name, value in row.items():
-                if field_name in self._fields:
-                    record._cache[field_name] = value
-
-        # Compute all computed fields that are requested
-        if field_names:
-            for field_name in field_names:
-                if field_name in self._fields:
-                    field = self._fields[field_name]
-                    if field.compute and not field.store:
-                        # Trigger compute for this field
-                        records.mapped(field_name)
-
-        return records
-
-    @api.model
-    def search(self, domain=None, offset=0, limit=None, order=None,
-               count=False):
-        """Override search to return recordset from external DB."""
-        if count:
-            data = self._fetch_trips_data(domain, limit or 100, offset)
-            return len(data)
-
-        # Fetch data and create recordset
-        data = self._fetch_trips_data(domain, limit or 100, offset)
-        ids = [row.get('id') for row in data]
-
-        # Create recordset and populate cache
-        records = self.browse(ids)
-        for row in data:
-            record = self.browse([row['id']])
-            for field_name, value in row.items():
-                if field_name in self._fields:
-                    record._cache[field_name] = value
-
-        return records
-
-    def read(self, fields=None, load='_classic_read'):
-        """Override read to fetch from external DB and compute fields."""
-        if isinstance(self.ids, (list, tuple)) and self.ids:
-            ids = self.ids
-        else:
-            ids = [self.id] if self.id else []
-
-        if not ids:
-            return []
-
-        connector = self.env['auto.monitoring.db.connector']
         query = """
             SELECT
                 id, imei, trip_date, route_description,
@@ -397,256 +313,85 @@ class AutoMonitoringTrip(models.Model):
                 city_coefficient, outside_coefficient, fuel_liters,
                 project_name, payment_type, driver_name,
                 trip_purpose_id, trip_purpose_other, user_comment,
-                is_editable, start_time, end_time,
-                start_address, end_address,
+                start_time, end_time, start_address, end_address,
                 processed_at, updated_at
             FROM tracker_trips
-            WHERE id = ANY(%s)
+            ORDER BY trip_date DESC, id DESC
         """
-        data = connector.execute_query(query, (ids,))
 
-        # Convert None to False for Many2one and other fields
-        many2one_fields = ['trip_purpose_id', 'vehicle_id']
-        text_fields = ['route_description', 'project_name', 'payment_type',
-                       'driver_name', 'trip_purpose_other', 'user_comment',
-                       'start_address', 'end_address']
-        for row in data:
-            for key, value in row.items():
-                if value is None:
-                    if key in many2one_fields:
-                        row[key] = False
-                    elif key in text_fields:
-                        row[key] = ''
-                    else:
-                        row[key] = False
+        rows = connector.execute_query(query)
+        if not rows:
+            _logger.warning("No trips found in external DB")
+            return 0
 
-        # Populate cache for records
-        for row in data:
-            record = self.browse([row['id']])
-            for field_name, value in row.items():
-                if field_name in self._fields:
-                    record._cache[field_name] = value
+        synced = 0
+        now = fields.Datetime.now()
 
-        # Add computed fields to result
-        result = []
-        for row in data:
-            record_data = dict(row)
+        for row in rows:
+            vals = {
+                'external_id': row.get('id'),
+                'imei': row.get('imei') or '',
+                'trip_date': row.get('trip_date'),
+                'route_description': row.get('route_description') or '',
+                'in_city_km': row.get('in_city_km') or 0,
+                'outside_city_km': row.get('outside_city_km') or 0,
+                'total_km': row.get('total_km') or 0,
+                'city_coefficient': row.get('city_coefficient') or 0.0,
+                'outside_coefficient': row.get('outside_coefficient') or 0.0,
+                'fuel_liters': row.get('fuel_liters') or 0.0,
+                'project_name': row.get('project_name') or '',
+                'payment_type': row.get('payment_type') or '',
+                'driver_name': row.get('driver_name') or '',
+                'trip_purpose_other': row.get('trip_purpose_other') or '',
+                'user_comment': row.get('user_comment') or '',
+                'start_time': row.get('start_time'),
+                'end_time': row.get('end_time'),
+                'start_address': row.get('start_address') or '',
+                'end_address': row.get('end_address') or '',
+                'processed_at': row.get('processed_at'),
+                'updated_at': row.get('updated_at'),
+                'last_sync': now,
+            }
 
-            # Compute vehicle_id from imei
-            if not fields or 'vehicle_id' in fields:
-                imei = row.get('imei')
-                if imei:
-                    vehicle = self.env['auto.monitoring.vehicle'].search(
-                        [('imei', '=', imei)], limit=1
-                    )
-                    record_data['vehicle_id'] = vehicle.id if vehicle else False
-                else:
-                    record_data['vehicle_id'] = False
-
-            # Compute distance
-            if not fields or 'distance' in fields:
-                in_city = row.get('in_city_km') or 0
-                outside = row.get('outside_city_km') or 0
-                record_data['distance'] = in_city + outside
-
-            # Compute fuel_consumed
-            if not fields or 'fuel_consumed' in fields:
-                record_data['fuel_consumed'] = row.get('fuel_liters') or 0.0
-
-            # Compute is_manager
-            if not fields or 'is_manager' in fields:
-                record_data['is_manager'] = self.env.user.has_group(
-                    'auto_monitoring.group_auto_monitoring_manager'
+            # Handle trip_purpose_id - find by external_id
+            ext_purpose_id = row.get('trip_purpose_id')
+            if ext_purpose_id:
+                purpose = self.env['auto.monitoring.trip.purpose'].search(
+                    [('external_id', '=', ext_purpose_id)], limit=1
                 )
-
-            result.append(record_data)
-
-        if fields:
-            return [
-                {k: v for k, v in row.items() if k in fields or k == 'id'}
-                for row in result
-            ]
-        return result
-
-    @api.model
-    def search_read(self, domain=None, fields=None, offset=0,
-                    limit=None, order=None):
-        """Override to fetch data from external DB."""
-        limit = limit or 100
-        data = self._fetch_trips_data(domain, limit, offset)
-
-        # Add computed fields to each row
-        result = []
-        for row in data:
-            record_data = dict(row)
-
-            # Compute vehicle_id from imei
-            if not fields or 'vehicle_id' in fields:
-                imei = row.get('imei')
-                if imei:
-                    vehicle = self.env['auto.monitoring.vehicle'].search(
-                        [('imei', '=', imei)], limit=1
-                    )
-                    record_data['vehicle_id'] = vehicle.id if vehicle else False
-                else:
-                    record_data['vehicle_id'] = False
-
-            # Compute distance
-            if not fields or 'distance' in fields:
-                in_city = row.get('in_city_km') or 0
-                outside = row.get('outside_city_km') or 0
-                record_data['distance'] = in_city + outside
-
-            # Compute fuel_consumed
-            if not fields or 'fuel_consumed' in fields:
-                record_data['fuel_consumed'] = row.get('fuel_liters') or 0.0
-
-            # Compute is_manager
-            if not fields or 'is_manager' in fields:
-                record_data['is_manager'] = self.env.user.has_group(
-                    'auto_monitoring.group_auto_monitoring_manager'
-                )
-
-            result.append(record_data)
-
-        if fields:
-            return [
-                {k: v for k, v in row.items() if k in fields or k == 'id'}
-                for row in result
-            ]
-        return result
-
-    @api.model
-    def read_group(self, domain, fields, groupby, offset=0, limit=None,
-                   orderby=False, lazy=True):
-        """Override read_group to work with external DB.
-
-        This is needed for pivot and graph views.
-        """
-        connector = self.env['auto.monitoring.db.connector']
-
-        # Parse groupby
-        if not groupby:
-            return []
-
-        groupby_field = groupby[0].split(':')[0] if ':' in groupby[0] \
-            else groupby[0]
-
-        # Build aggregation query
-        select_parts = [f'"{groupby_field}"']
-        group_parts = [f'"{groupby_field}"']
-
-        # Parse measure fields
-        for field_spec in fields:
-            if ':' in field_spec:
-                field_name, agg = field_spec.split(':')
-                if agg in ('sum', 'avg', 'count', 'min', 'max'):
-                    select_parts.append(
-                        f'{agg.upper()}("{field_name}") as "{field_name}"'
-                    )
+                vals['trip_purpose_id'] = purpose.id if purpose else False
             else:
-                # Default aggregation is count
-                select_parts.append(f'COUNT(*) as "{field_spec}_count"')
+                vals['trip_purpose_id'] = False
 
-        # Add __count for Odoo
-        select_parts.append('COUNT(*) as "__count"')
+            # Find existing record by external_id
+            existing = self.search(
+                [('external_id', '=', row.get('id'))], limit=1
+            )
 
-        query = f"""
-            SELECT {', '.join(select_parts)}
-            FROM tracker_trips
-            GROUP BY {', '.join(group_parts)}
-            ORDER BY "{groupby_field}"
-        """
+            if existing:
+                # Update only sync fields, preserve user edits
+                sync_vals = {k: v for k, v in vals.items()
+                           if k not in ('trip_purpose_id', 'trip_purpose_other',
+                                       'user_comment')}
+                existing.with_context(sync_mode=True).write(sync_vals)
+            else:
+                self.with_context(sync_mode=True).create(vals)
 
-        try:
-            result = connector.execute_query(query, fetchall=True)
+            synced += 1
 
-            # Format result for Odoo
-            formatted_result = []
-            for row in result:
-                record = {
-                    groupby_field: row.get(groupby_field),
-                    '__domain': [(groupby_field, '=', row.get(groupby_field))],
-                }
+        _logger.info("Synced %d trips from external DB", synced)
+        return synced
 
-                # Add aggregated values
-                for field_spec in fields:
-                    if ':' in field_spec:
-                        field_name = field_spec.split(':')[0]
-                        record[field_name] = row.get(field_name, 0)
-                    else:
-                        record[f'{field_spec}_count'] = \
-                            row.get(f'{field_spec}_count', 0)
-
-                record['__count'] = row.get('__count', 0)
-                formatted_result.append(record)
-
-            return formatted_result
-
-        except Exception as e:
-            _logger.error(f"Error in read_group: {e}")
-            return []
-
-    def write(self, vals):
-        """Override write to update external DB.
-
-        Only trip_purpose_id, trip_purpose_other, and user_comment
-        can be updated by users.
-        """
-        self.ensure_one()
-
-        # Check if user can edit
-        is_manager = self.env.user.has_group(
-            'auto_monitoring.group_auto_monitoring_manager'
-        )
-
-        if not is_manager and not self.is_editable:
-            raise UserError(_(
-                'This trip cannot be edited. '
-                'Deadline has passed (end of month + 5 days).'
-            ))
-
-        # Only allow editing specific fields
-        allowed_fields = {
-            'trip_purpose_id', 'trip_purpose_other', 'user_comment'
+    def action_sync_trips(self):
+        """Action to sync trips from external DB."""
+        synced = self.sync_from_external_db()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Sync Complete'),
+                'message': _('Synced %d trips from external database.') % synced,
+                'type': 'success',
+                'sticky': False,
+            }
         }
-        if not is_manager:
-            invalid_fields = set(vals.keys()) - allowed_fields
-            if invalid_fields:
-                raise UserError(_(
-                    'You can only edit: Trip Purpose and User Comment'
-                ))
-
-        connector = self.env['auto.monitoring.db.connector']
-
-        # Prepare update query
-        update_parts = []
-        params = []
-
-        if 'trip_purpose_id' in vals:
-            update_parts.append("trip_purpose_id = %s")
-            params.append(vals['trip_purpose_id'])
-
-        if 'trip_purpose_other' in vals:
-            update_parts.append("trip_purpose_other = %s")
-            params.append(vals['trip_purpose_other'])
-
-        if 'user_comment' in vals:
-            update_parts.append("user_comment = %s")
-            params.append(vals['user_comment'])
-
-        if not update_parts:
-            return True
-
-        update_parts.append("updated_at = CURRENT_TIMESTAMP")
-        params.append(self.id)
-
-        query = f"""
-            UPDATE tracker_trips
-            SET {', '.join(update_parts)}
-            WHERE id = %s
-        """
-
-        connector.execute_query(query, tuple(params), fetchall=False)
-
-        return True

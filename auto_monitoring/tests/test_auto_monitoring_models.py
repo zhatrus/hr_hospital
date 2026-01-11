@@ -1,6 +1,6 @@
 """Tests for auto_monitoring models."""
 from datetime import date, timedelta
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from odoo.exceptions import UserError
 from psycopg2 import IntegrityError
@@ -128,12 +128,12 @@ class TestAutoMonitoringModels(TransactionCase):
             self.assertTrue(purpose1, "Purpose with code 'test1' should exist")
             self.assertEqual(purpose1.name_uk, 'Test Purpose 1')
 
-    # Trip Model Tests
+    # Trip Model Tests (now with _auto=True, records created directly)
 
-    def test_trip_compute_vehicle_id(self):
-        """Test vehicle computation from IMEI."""
-        mock_trip_data = [{
-            'id': 1,
+    def _create_test_trip(self, **kwargs):
+        """Helper to create test trip with defaults."""
+        defaults = {
+            'external_id': 1,
             'imei': '123456789012345',
             'trip_date': date.today(),
             'route_description': 'Test route',
@@ -141,53 +141,31 @@ class TestAutoMonitoringModels(TransactionCase):
             'in_city_km': 60,
             'outside_city_km': 40,
             'fuel_liters': 8.5,
-            'is_editable': True,
-            'trip_purpose_id': None,
-            'user_comment': None,
-        }]
+        }
+        defaults.update(kwargs)
+        return self.Trip.with_context(sync_mode=True).create(defaults)
 
-        with patch.object(
-            self.DBConnector.__class__,
-            'execute_query',
-            return_value=mock_trip_data
-        ):
-            trips = self.Trip.search([])
-            if trips:
-                trip = trips[0]
-                # Vehicle should be computed from IMEI
-                self.assertEqual(
-                    trip.vehicle_id.id,
-                    self.vehicle.id,
-                    "Vehicle should be computed from IMEI"
-                )
+    def test_trip_compute_vehicle_id(self):
+        """Test vehicle computation from IMEI."""
+        trip = self._create_test_trip()
+        self.assertEqual(
+            trip.vehicle_id.id,
+            self.vehicle.id,
+            "Vehicle should be computed from IMEI"
+        )
 
     def test_trip_compute_is_editable(self):
         """Test trip editability based on deadline."""
-        # Create trip with date within deadline
+        # Create trip with recent date (should be editable)
         recent_date = date.today() - timedelta(days=10)
-        mock_trip_recent = [{
-            'id': 1,
-            'imei': '123456789012345',
-            'trip_date': recent_date,
-            'total_km': 100,
-            'is_editable': True,
-        }]
-
-        with patch.object(
-            self.DBConnector.__class__,
-            'execute_query',
-            return_value=mock_trip_recent
-        ):
-            trips = self.Trip.search([])
-            if trips:
-                self.assertTrue(
-                    trips[0].is_editable,
-                    "Recent trip should be editable"
-                )
+        trip = self._create_test_trip(trip_date=recent_date)
+        self.assertTrue(
+            trip.is_editable,
+            "Recent trip should be editable"
+        )
 
     def test_trip_compute_is_manager(self):
         """Test is_manager computation."""
-        # Create manager user
         manager_group = self.env.ref(
             'auto_monitoring.group_auto_monitoring_manager'
         )
@@ -197,122 +175,55 @@ class TestAutoMonitoringModels(TransactionCase):
             'groups_id': [(4, manager_group.id)],
         })
 
-        mock_trip_data = [{
-            'id': 1,
-            'imei': '123456789012345',
-            'trip_date': date.today(),
-            'total_km': 100,
-            'is_editable': True,
-        }]
-
-        with patch.object(
-            self.DBConnector.__class__,
-            'execute_query',
-            return_value=mock_trip_data
-        ):
-            trips = self.Trip.with_user(manager_user).search([])
-            if trips:
-                self.assertTrue(
-                    trips[0].is_manager,
-                    "Manager user should have is_manager=True"
-                )
+        trip = self._create_test_trip()
+        trip_as_manager = trip.with_user(manager_user)
+        self.assertTrue(
+            trip_as_manager.is_manager,
+            "Manager user should have is_manager=True"
+        )
 
     def test_trip_write_editable_fields(self):
         """Test writing editable fields (trip_purpose, comment)."""
-        mock_trip_data = [{
-            'id': 1,
-            'imei': '123456789012345',
-            'trip_date': date.today(),
-            'total_km': 100,
-            'is_editable': True,
-            'trip_purpose_id': None,
-            'user_comment': None,
-        }]
+        trip = self._create_test_trip()
 
-        mock_execute = MagicMock(return_value=mock_trip_data)
-
+        # Mock external DB sync
         with patch.object(
             self.DBConnector.__class__,
             'execute_query',
-            mock_execute
+            return_value=None
         ):
-            trips = self.Trip.search([])
-            if trips:
-                trip = trips[0]
+            trip.write({
+                'trip_purpose_id': self.purpose_business.id,
+                'user_comment': 'Test comment',
+            })
 
-                # Mock write operation
-                with patch.object(
-                    self.DBConnector.__class__,
-                    'execute_query',
-                    return_value=None
-                ):
-                    trip.write({
-                        'trip_purpose_id': self.purpose_business.id,
-                        'user_comment': 'Test comment',
-                    })
-
-                    # Verify execute_query was called for UPDATE
-                    self.assertTrue(
-                        mock_execute.called,
-                        "execute_query should be called for write"
-                    )
+        self.assertEqual(trip.trip_purpose_id.id, self.purpose_business.id)
+        self.assertEqual(trip.user_comment, 'Test comment')
 
     def test_trip_write_non_editable_raises_error(self):
         """Test that writing to non-editable trip raises error."""
-        # Create trip past deadline
         old_date = date.today() - timedelta(days=60)
+        trip = self._create_test_trip(trip_date=old_date)
 
-        mock_trip_data = [{
-            'id': 1,
-            'imei': '123456789012345',
-            'trip_date': old_date,
-            'total_km': 100,
-            'is_editable': False,
-        }]
-
-        with patch.object(
-            self.DBConnector.__class__,
-            'execute_query',
-            return_value=mock_trip_data
+        with self.assertRaises(
+            UserError,
+            msg="Should not allow editing past deadline"
         ):
-            trips = self.Trip.search([])
-            if trips:
-                trip = trips[0]
-
-                with self.assertRaises(
-                    UserError,
-                    msg="Should not allow editing past deadline"
-                ):
-                    trip.write({
-                        'trip_purpose_id': self.purpose_business.id,
-                    })
+            trip.write({
+                'trip_purpose_id': self.purpose_business.id,
+            })
 
     def test_trip_write_invalid_fields_raises_error(self):
         """Test that writing to non-editable fields raises error."""
-        mock_trip_data = [{
-            'id': 1,
-            'imei': '123456789012345',
-            'trip_date': date.today(),
-            'total_km': 100,
-            'is_editable': True,
-        }]
+        trip = self._create_test_trip()
 
-        with patch.object(
-            self.DBConnector.__class__,
-            'execute_query',
-            return_value=mock_trip_data
+        with self.assertRaises(
+            UserError,
+            msg="Should not allow editing read-only fields"
         ):
-            trips = self.Trip.search([])
-            if trips:
-                trip = trips[0]
-
-                with self.assertRaises(
-                    UserError,
-                    msg="Should not allow editing read-only fields"
-                ):
-                    trip.write({
-                        'total_km': 200,  # Read-only field
-                    })
+            trip.write({
+                'total_km': 200,  # Read-only field
+            })
 
     def test_trip_manager_can_edit_past_deadline(self):
         """Test that manager can edit trip past deadline."""
@@ -326,77 +237,74 @@ class TestAutoMonitoringModels(TransactionCase):
         })
 
         old_date = date.today() - timedelta(days=60)
-        mock_trip_data = [{
-            'id': 1,
-            'imei': '123456789012345',
-            'trip_date': old_date,
-            'total_km': 100,
-            'is_editable': False,
-        }]
+        trip = self._create_test_trip(trip_date=old_date)
+        trip_as_manager = trip.with_user(manager_user)
 
+        # Manager should be able to write even if not editable
         with patch.object(
             self.DBConnector.__class__,
             'execute_query',
-            return_value=mock_trip_data
+            return_value=None
         ):
-            trips = self.Trip.with_user(manager_user).search([])
-            if trips:
-                trip = trips[0]
-
-                # Manager should be able to write even if not editable
-                with patch.object(
-                    self.DBConnector.__class__,
-                    'execute_query',
-                    return_value=None
-                ):
-                    # Should not raise error
-                    trip.write({
-                        'trip_purpose_id': self.purpose_business.id,
-                    })
+            trip_as_manager.write({
+                'trip_purpose_id': self.purpose_business.id,
+            })
 
     def test_trip_compute_distance(self):
-        """Test distance computation from total_km."""
-        mock_trip_data = [{
-            'id': 1,
-            'imei': '123456789012345',
-            'trip_date': date.today(),
-            'total_km': 150,
-            'is_editable': True,
-        }]
-
-        with patch.object(
-            self.DBConnector.__class__,
-            'execute_query',
-            return_value=mock_trip_data
-        ):
-            trips = self.Trip.search([])
-            if trips:
-                self.assertEqual(
-                    trips[0].distance,
-                    150.0,
-                    "Distance should equal total_km as float"
-                )
+        """Test distance computation from in_city + outside_city."""
+        trip = self._create_test_trip(in_city_km=60, outside_city_km=40)
+        self.assertEqual(
+            trip.distance,
+            100.0,
+            "Distance should equal in_city_km + outside_city_km"
+        )
 
     def test_trip_compute_fuel_consumed(self):
         """Test fuel_consumed computation from fuel_liters."""
-        mock_trip_data = [{
-            'id': 1,
-            'imei': '123456789012345',
-            'trip_date': date.today(),
-            'total_km': 100,
-            'fuel_liters': 12.5,
-            'is_editable': True,
-        }]
+        trip = self._create_test_trip(fuel_liters=12.5)
+        self.assertEqual(
+            trip.fuel_consumed,
+            12.5,
+            "Fuel consumed should equal fuel_liters"
+        )
+
+    def test_trip_sync_from_external_db(self):
+        """Test syncing trips from external DB."""
+        mock_data = [
+            {
+                'id': 100,
+                'imei': '123456789012345',
+                'trip_date': date.today(),
+                'route_description': 'Synced route',
+                'in_city_km': 50,
+                'outside_city_km': 30,
+                'total_km': 80,
+                'city_coefficient': 1.0,
+                'outside_coefficient': 1.0,
+                'fuel_liters': 7.0,
+                'project_name': 'Test Project',
+                'payment_type': 'cash',
+                'driver_name': 'Test Driver',
+                'trip_purpose_id': None,
+                'trip_purpose_other': '',
+                'user_comment': '',
+                'start_time': None,
+                'end_time': None,
+                'start_address': 'Start',
+                'end_address': 'End',
+                'processed_at': None,
+                'updated_at': None,
+            },
+        ]
 
         with patch.object(
             self.DBConnector.__class__,
             'execute_query',
-            return_value=mock_trip_data
+            return_value=mock_data
         ):
-            trips = self.Trip.search([])
-            if trips:
-                self.assertEqual(
-                    trips[0].fuel_consumed,
-                    12.5,
-                    "Fuel consumed should equal fuel_liters"
-                )
+            synced = self.Trip.sync_from_external_db()
+            self.assertEqual(synced, 1, "Should sync 1 trip")
+
+            trip = self.Trip.search([('external_id', '=', 100)])
+            self.assertTrue(trip, "Trip should exist after sync")
+            self.assertEqual(trip.route_description, 'Synced route')

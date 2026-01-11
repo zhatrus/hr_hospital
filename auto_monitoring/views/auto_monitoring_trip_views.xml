@@ -20,7 +20,7 @@
                     <field name="project_name" string="Проєкт" optional="hide"/>
                     <field name="driver_name" string="Водій" optional="hide"/>
                     <field name="is_editable" string="Можна редагувати" widget="boolean" optional="show"/>
-                    <field name="status" column_invisible="1"/>
+                    <field name="last_sync" string="Остання синхр." optional="hide"/>
                 </tree>
             </field>
         </record>
@@ -176,6 +176,18 @@
             </field>
         </record>
 
+        <!-- Server Action: Sync Trips -->
+        <record id="action_sync_trips" model="ir.actions.server">
+            <field name="name">Синхронізувати поїздки</field>
+            <field name="model_id" ref="model_auto_monitoring_trip"/>
+            <field name="binding_model_id" ref="model_auto_monitoring_trip"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+action = model.sync_from_external_db()
+            </field>
+        </record>
+
         <!-- Trip Action -->
         <record id="auto_monitoring_trip_action" model="ir.actions.act_window">
             <field name="name">Поїздки</field>
@@ -185,11 +197,10 @@
             <field name="context">{'search_default_filter_this_month': 1}</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-                    Поїздки
+                    Немає поїздок
                 </p>
                 <p>
-                    Поїздки завантажуються з зовнішньої бази даних.
-                    Оберіть авто та дату для перегляду.
+                    Натисніть "Синхронізувати поїздки" в меню Дії для завантаження даних.
                 </p>
             </field>
         </record>
