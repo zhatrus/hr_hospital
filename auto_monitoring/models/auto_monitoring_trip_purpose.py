@@ -13,6 +13,7 @@ class AutoMonitoringTripPurpose(models.Model):
     _name = 'auto.monitoring.trip.purpose'
     _description = 'Trip Purpose'
     _order = 'sort_order, name_uk'
+    _rec_name = 'name_uk'
 
     external_id = fields.Integer(
         string='External ID',
@@ -93,10 +94,3 @@ class AutoMonitoringTripPurpose(models.Model):
 
         _logger.info("Synced %d trip purposes from external DB", synced)
         return synced
-
-    def name_get(self):
-        """Display name_uk as the name."""
-        result = []
-        for rec in self:
-            result.append((rec.id, rec.name_uk))
-        return result

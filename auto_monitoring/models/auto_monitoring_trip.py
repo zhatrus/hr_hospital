@@ -399,17 +399,18 @@ class AutoMonitoringTrip(models.Model):
         for row in data:
             record = self.browse([row['id']])
             record_data = dict(row)
-            
+
             # Add computed fields if requested or if fields is None
             if not fields or 'vehicle_id' in fields:
-                record_data['vehicle_id'] = record.vehicle_id.id if record.vehicle_id else False
+                vehicle = record.vehicle_id
+                record_data['vehicle_id'] = vehicle.id if vehicle else False
             if not fields or 'distance' in fields:
                 record_data['distance'] = record.distance
             if not fields or 'fuel_consumed' in fields:
                 record_data['fuel_consumed'] = record.fuel_consumed
             if not fields or 'is_manager' in fields:
                 record_data['is_manager'] = record.is_manager
-            
+
             result.append(record_data)
 
         if fields:
