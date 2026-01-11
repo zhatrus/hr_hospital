@@ -321,12 +321,21 @@ class AutoMonitoringTrip(models.Model):
         ids = [row.get('id') for row in data]
         records = self.browse(ids)
 
-        # Populate cache for all fields
+        # Populate cache for all fields from external DB
         for row in data:
             record = self.browse([row['id']])
             for field_name, value in row.items():
                 if field_name in self._fields:
                     record._cache[field_name] = value
+
+        # Compute all computed fields that are requested
+        if field_names:
+            for field_name in field_names:
+                if field_name in self._fields:
+                    field = self._fields[field_name]
+                    if field.compute and not field.store:
+                        # Trigger compute for this field
+                        records.mapped(field_name)
 
         return records
 
