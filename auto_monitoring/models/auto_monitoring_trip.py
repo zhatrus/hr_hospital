@@ -362,7 +362,7 @@ class AutoMonitoringTrip(models.Model):
         return records
 
     def read(self, fields=None, load='_classic_read'):
-        """Override read to fetch from external DB."""
+        """Override read to fetch from external DB and compute fields."""
         if isinstance(self.ids, (list, tuple)) and self.ids:
             ids = self.ids
         else:
@@ -387,12 +387,37 @@ class AutoMonitoringTrip(models.Model):
         """
         data = connector.execute_query(query, (ids,))
 
+        # Populate cache for records
+        for row in data:
+            record = self.browse([row['id']])
+            for field_name, value in row.items():
+                if field_name in self._fields:
+                    record._cache[field_name] = value
+
+        # Add computed fields to result
+        result = []
+        for row in data:
+            record = self.browse([row['id']])
+            record_data = dict(row)
+            
+            # Add computed fields if requested or if fields is None
+            if not fields or 'vehicle_id' in fields:
+                record_data['vehicle_id'] = record.vehicle_id.id if record.vehicle_id else False
+            if not fields or 'distance' in fields:
+                record_data['distance'] = record.distance
+            if not fields or 'fuel_consumed' in fields:
+                record_data['fuel_consumed'] = record.fuel_consumed
+            if not fields or 'is_manager' in fields:
+                record_data['is_manager'] = record.is_manager
+            
+            result.append(record_data)
+
         if fields:
             return [
                 {k: v for k, v in row.items() if k in fields or k == 'id'}
-                for row in data
+                for row in result
             ]
-        return data
+        return result
 
     @api.model
     def search_read(self, domain=None, fields=None, offset=0,
