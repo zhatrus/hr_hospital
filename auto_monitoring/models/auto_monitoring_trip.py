@@ -308,7 +308,25 @@ class AutoMonitoringTrip(models.Model):
         """
         params.extend([limit, offset])
 
-        return connector.execute_query(query, tuple(params))
+        data = connector.execute_query(query, tuple(params))
+
+        # Convert None to False for Many2one and other fields
+        # Odoo expects False instead of None for empty values
+        many2one_fields = ['trip_purpose_id', 'vehicle_id']
+        for row in data:
+            for key, value in row.items():
+                if value is None:
+                    if key in many2one_fields:
+                        row[key] = False
+                    elif key in ['route_description', 'project_name',
+                                 'payment_type', 'driver_name',
+                                 'trip_purpose_other', 'user_comment',
+                                 'start_address', 'end_address']:
+                        row[key] = ''
+                    else:
+                        row[key] = False
+
+        return data
 
     @api.model
     def search_fetch(self, domain, field_names, offset=0, limit=None,
@@ -387,6 +405,21 @@ class AutoMonitoringTrip(models.Model):
         """
         data = connector.execute_query(query, (ids,))
 
+        # Convert None to False for Many2one and other fields
+        many2one_fields = ['trip_purpose_id', 'vehicle_id']
+        text_fields = ['route_description', 'project_name', 'payment_type',
+                       'driver_name', 'trip_purpose_other', 'user_comment',
+                       'start_address', 'end_address']
+        for row in data:
+            for key, value in row.items():
+                if value is None:
+                    if key in many2one_fields:
+                        row[key] = False
+                    elif key in text_fields:
+                        row[key] = ''
+                    else:
+                        row[key] = False
+
         # Populate cache for records
         for row in data:
             record = self.browse([row['id']])
@@ -397,19 +430,34 @@ class AutoMonitoringTrip(models.Model):
         # Add computed fields to result
         result = []
         for row in data:
-            record = self.browse([row['id']])
             record_data = dict(row)
 
-            # Add computed fields if requested or if fields is None
+            # Compute vehicle_id from imei
             if not fields or 'vehicle_id' in fields:
-                vehicle = record.vehicle_id
-                record_data['vehicle_id'] = vehicle.id if vehicle else False
+                imei = row.get('imei')
+                if imei:
+                    vehicle = self.env['auto.monitoring.vehicle'].search(
+                        [('imei', '=', imei)], limit=1
+                    )
+                    record_data['vehicle_id'] = vehicle.id if vehicle else False
+                else:
+                    record_data['vehicle_id'] = False
+
+            # Compute distance
             if not fields or 'distance' in fields:
-                record_data['distance'] = record.distance
+                in_city = row.get('in_city_km') or 0
+                outside = row.get('outside_city_km') or 0
+                record_data['distance'] = in_city + outside
+
+            # Compute fuel_consumed
             if not fields or 'fuel_consumed' in fields:
-                record_data['fuel_consumed'] = record.fuel_consumed
+                record_data['fuel_consumed'] = row.get('fuel_liters') or 0.0
+
+            # Compute is_manager
             if not fields or 'is_manager' in fields:
-                record_data['is_manager'] = record.is_manager
+                record_data['is_manager'] = self.env.user.has_group(
+                    'auto_monitoring.group_auto_monitoring_manager'
+                )
 
             result.append(record_data)
 
@@ -427,12 +475,46 @@ class AutoMonitoringTrip(models.Model):
         limit = limit or 100
         data = self._fetch_trips_data(domain, limit, offset)
 
+        # Add computed fields to each row
+        result = []
+        for row in data:
+            record_data = dict(row)
+
+            # Compute vehicle_id from imei
+            if not fields or 'vehicle_id' in fields:
+                imei = row.get('imei')
+                if imei:
+                    vehicle = self.env['auto.monitoring.vehicle'].search(
+                        [('imei', '=', imei)], limit=1
+                    )
+                    record_data['vehicle_id'] = vehicle.id if vehicle else False
+                else:
+                    record_data['vehicle_id'] = False
+
+            # Compute distance
+            if not fields or 'distance' in fields:
+                in_city = row.get('in_city_km') or 0
+                outside = row.get('outside_city_km') or 0
+                record_data['distance'] = in_city + outside
+
+            # Compute fuel_consumed
+            if not fields or 'fuel_consumed' in fields:
+                record_data['fuel_consumed'] = row.get('fuel_liters') or 0.0
+
+            # Compute is_manager
+            if not fields or 'is_manager' in fields:
+                record_data['is_manager'] = self.env.user.has_group(
+                    'auto_monitoring.group_auto_monitoring_manager'
+                )
+
+            result.append(record_data)
+
         if fields:
             return [
                 {k: v for k, v in row.items() if k in fields or k == 'id'}
-                for row in data
+                for row in result
             ]
-        return data
+        return result
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None,
