@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo noupdate="0">
     <record id="config_param_db_host" model="ir.config_parameter">
         <field name="key">auto_monitoring.db_host</field>
-        <field name="value">localhost</field>
+        <field name="value">207.154.235.114</field>
     </record>
 
     <record id="config_param_db_port" model="ir.config_parameter">
         <field name="key">auto_monitoring.db_port</field>
-        <field name="value">5432</field>
+        <field name="value">55432</field>
     </record>
 
     <record id="config_param_db_name" model="ir.config_parameter">
         <field name="key">auto_monitoring.db_name</field>
-        <field name="value">monitoring</field>
+        <field name="value">auto</field>
     </record>
 
     <record id="config_param_db_user" model="ir.config_parameter">
         <field name="key">auto_monitoring.db_user</field>
-        <field name="value">lynx</field>
+        <field name="value">odoo_user</field>
     </record>
 
     <record id="config_param_db_password" model="ir.config_parameter">
         <field name="key">auto_monitoring.db_password</field>
-        <field name="value"></field>
+        <field name="value">V[0ggRQddm2p[!?hGv%;oj8A+Ic</field>
     </record>
 
     <record id="config_param_speed_limit" model="ir.config_parameter">
