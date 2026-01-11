@@ -310,20 +310,14 @@ class AutoMonitoringTrip(models.Model):
 
         return connector.execute_query(query, tuple(params))
 
-    @api.model
-    def search(self, domain=None, offset=0, limit=None, order=None,
-               count=False):
-        """Override search to return recordset from external DB."""
+    def _search(self, domain, offset=0, limit=None, order=None,
+                access_rights_uid=None):
+        """Override low-level _search to prevent SQL queries to non-existent table."""
+        # Fetch data from external DB
         data = self._fetch_trips_data(domain, limit or 100, offset)
         ids = [row.get('id') for row in data]
 
-        if count:
-            return len(ids)
-
-        # Create recordset and populate cache with data
-        records = self.browse(ids)
-
-        # Populate cache to avoid SQL queries
+        # Populate cache to avoid later SQL queries
         for row in data:
             record = self.browse([row['id']])
             # Set cache for all fields
@@ -331,7 +325,19 @@ class AutoMonitoringTrip(models.Model):
                 if field_name in self._fields:
                     record._cache[field_name] = value
 
-        return records
+        # Return IDs as expected by _search
+        return ids
+
+    @api.model
+    def search(self, domain=None, offset=0, limit=None, order=None,
+               count=False):
+        """Override search to return recordset from external DB."""
+        if count:
+            data = self._fetch_trips_data(domain, limit or 100, offset)
+            return len(data)
+
+        # Call parent search which will use our _search method
+        return super().search(domain, offset=offset, limit=limit, order=order)
 
     def read(self, fields=None, load='_classic_read'):
         """Override read to fetch from external DB."""
